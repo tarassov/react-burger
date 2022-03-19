@@ -1,5 +1,9 @@
-.link {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.link,
+.logo,
+.text {
+    display: inline-block;
+}
+
+.text{
+    vertical-align: top;
 }

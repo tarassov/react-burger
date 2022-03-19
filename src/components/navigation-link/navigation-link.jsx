@@ -4,11 +4,10 @@ import styles from './navigation-link.module.css'
 
 export default function NavigationLink(props) {
     return(        
-        <div className={"mt-4 mb-4 pl-5"}>
-           <div className={styles.link}>
-            {props.logo}<p className={"text text_type_main-default ml-2" }>{props.text}</p>
-           </div>
-        </div>
+        <li className={`mt-4 mb-4 pl-5 ${styles.link}`}>
+            {props.logo}
+            <p className={`text text_type_main-default ml-2 ${styles.text}`}>{props.text}</p>
+        </li>
     )
 }
 
