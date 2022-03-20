@@ -11,6 +11,7 @@ export default function BurgerIngredients(props){
     const bunRef = useRef(null)
     const sauceRef = useRef(null)
     const mainRef = useRef(null)
+    const listRef = useRef(null)
 
     const [currentTab, setCurrentTab] = React.useState('bun')
     const [groupedCart, setGroupedCart] = React.useState({})
@@ -34,7 +35,20 @@ export default function BurgerIngredients(props){
         setGroupedCart(groupedCart)
     }, [props.cart])
 
- 
+
+  
+    const handleScroll = e =>{
+        const position =listRef.current.scrollTop +264
+        if (sauceRef.current.offsetTop > position){
+            setCurrentTab('bun')
+        }
+        else if (mainRef.current.offsetTop > position && position >=sauceRef.current.offsetTop){
+            setCurrentTab('sauce')
+        }
+        else{
+            setCurrentTab('main')
+        }
+    }
 
     
 
@@ -55,7 +69,6 @@ export default function BurgerIngredients(props){
 
     }
 
-    console.log(groupedCart)
     return(
         <section className={`mr-5 mt-10 ${styles.container}`}>
             <p className="text text_type_main-large">Соберите бургер</p>
@@ -70,7 +83,7 @@ export default function BurgerIngredients(props){
                     Начинки
                 </Tab>
             </div>
-            <div className={`${styles.list}`}>
+            <div className={`${styles.list}`} onScroll={handleScroll} ref={listRef}>
                 <p className="mt-10 text text_type_main-medium" ref={bunRef}>Булки</p>
                 <IngredientBlock data={props.data} groupedCart={groupedCart} type={'bun'} onAddIngredient={props.onAddIngredient}/>
                 <p className="mt-10 text text_type_main-medium" ref={sauceRef}>Соусы</p>
