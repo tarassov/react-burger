@@ -10,12 +10,17 @@ export default function MainLayout(props){
  
     const onAddIngredient = (ingredient) =>{
         if (ingredient.type=='bun' && ingredients.some(i => i.type =='bun')){
-            //if there is a bun already  - remove it first(I suppose)
-        }    
-        setIngredients([
-           ...ingredients, 
-           ingredient
-         ])
+            setIngredients([
+              ...ingredients.filter(x=>x.type != 'bun'), 
+              ingredient
+          ]) 
+        } 
+        else{   
+          setIngredients([
+            ...ingredients, 
+            ingredient
+          ])
+       }
     }
 
     const onCloseOrder = () =>{
@@ -24,8 +29,8 @@ export default function MainLayout(props){
 
     return(
       <main className={styles.layout}>
-        <BurgerIngredients data ={data} onAddIngredient={onAddIngredient}/>
-        <BurgerConstructor cart={cart} onCloseOrder={onCloseOrder}/>
+        <BurgerIngredients data ={data} cart={ingredients} onAddIngredient={onAddIngredient}/>
+        <BurgerConstructor cart={ingredients} onCloseOrder={onCloseOrder}/>
       </main>
     )
 }

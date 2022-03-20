@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import { Tab  } from '@ya.praktikum/react-developer-burger-ui-components'
 
@@ -13,6 +13,31 @@ export default function BurgerIngredients(props){
     const mainRef = useRef(null)
 
     const [currentTab, setCurrentTab] = React.useState('bun')
+    const [groupedCart, setGroupedCart] = React.useState({})
+
+
+    useEffect(() => {
+        var groupedCart = {}
+        props.cart.forEach(element => {           
+           if  (groupedCart[element._id]===undefined){
+             if (element.type=='bun')  {
+                 groupedCart[element._id] = 2
+             }
+             else{
+                 groupedCart[element._id] = 1
+             }
+           }
+           else{
+            groupedCart[element._id] = groupedCart[element._id] +1
+           }
+        });        
+        setGroupedCart(groupedCart)
+    }, [props.cart])
+
+ 
+
+    
+
     
     const onTabClick =(value) =>{
         setCurrentTab(value);
@@ -30,7 +55,7 @@ export default function BurgerIngredients(props){
 
     }
 
-    
+    console.log(groupedCart)
     return(
         <section className={`mr-5 mt-10 ${styles.container}`}>
             <p className="text text_type_main-large">Соберите бургер</p>
@@ -45,13 +70,13 @@ export default function BurgerIngredients(props){
                     Начинки
                 </Tab>
             </div>
-            <div className={styles.list}>
-                <p className="text text_type_main-medium" ref={bunRef}>Булки</p>
-                <IngredientBlock data={props.data} type={'bun'} onAddIngredient={props.onAddIngredient}/>
-                <p className="text text_type_main-medium" ref={sauceRef}>Соусы</p>
-                <IngredientBlock data={props.data} type={'sauce'} onAddIngredient={props.onAddIngredient}/>
-                <p className="text text_type_main-medium" ref={mainRef}>Начинки</p>
-                <IngredientBlock data={props.data} type={'main'} onAddIngredient={props.onAddIngredient}/>
+            <div className={`${styles.list}`}>
+                <p className="mt-10 text text_type_main-medium" ref={bunRef}>Булки</p>
+                <IngredientBlock data={props.data} groupedCart={groupedCart} type={'bun'} onAddIngredient={props.onAddIngredient}/>
+                <p className="mt-10 text text_type_main-medium" ref={sauceRef}>Соусы</p>
+                <IngredientBlock data={props.data} groupedCart={groupedCart} type={'sauce'} onAddIngredient={props.onAddIngredient}/>
+                <p className="mt-10 text text_type_main-medium" ref={mainRef}>Начинки</p>
+                <IngredientBlock data={props.data} groupedCart={groupedCart} type={'main'} onAddIngredient={props.onAddIngredient}/>
             </div>            
         </section>    
     )
@@ -59,4 +84,5 @@ export default function BurgerIngredients(props){
 
 BurgerIngredients.propTypes = {
     data: PropTypes.arrayOf(ingredientPropTypes.isRequired),
+    cart: PropTypes.arrayOf(ingredientPropTypes),
 };

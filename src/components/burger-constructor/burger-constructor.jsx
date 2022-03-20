@@ -13,7 +13,7 @@ export default function BurgerConstructor({cart}){
     
     return(
         <section className={`pl-4 ml-5 mt-25 ${styles.container}`}>
-            <div classname={`${styles.cart}`}>
+            <div className={`${styles.cart}`}>
                 <div className={`${styles.elements}`}>
                 {bun && 
                 <div className = {`pl-8 ${styles.bun}`}>
