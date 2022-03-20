@@ -9,7 +9,7 @@
     overflow-x: hidden;
 }
 .list::-webkit-scrollbar {
-    width: 5px;
+    width: 10px;
     height: 8px;
     background-color: #2F2F37; 
   }

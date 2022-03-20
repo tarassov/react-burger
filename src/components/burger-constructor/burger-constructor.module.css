@@ -1,25 +1,45 @@
 .container {
-    width: 600px;
+    width: 580px;    
 }
+.cart {
+    margin-top: 0px;
+}
+
+.ingredient {
+    display: inline;
+}
+
+
+.list,
 .elements {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px;    
+    --background-element: #1C1C21;
 }
 .list{
-    height: -webkit-calc(100vh - 300px);
-    height: -moz-calc(100vh - 300px);
-    height: calc(100vh - 300px); 
+    height: -webkit-calc(100vh - 600px);
+    height: -moz-calc(100vh - 600px);
+    height: calc(100vh - 600px); 
     overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-x: hidden;        
 }
 .list::-webkit-scrollbar {
-    width: 5px;
+    width: 10px;
     height: 8px;
     background-color: #2F2F37; 
   }
   
  .list::-webkit-scrollbar-thumb {
     background: #8585AD;
+ }
+
+ .total {
+    float: right;
+    margin-right: 16px;
+    vertical-align: middle;
+ }
+ .price {
+     display: inline;
  }
 
