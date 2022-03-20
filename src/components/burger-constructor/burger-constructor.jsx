@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {ingredientPropTypes} from '../../utils/prop-types'
 import {ConstructorElement,DragIcon,CurrencyIcon,Button} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -8,8 +8,17 @@ import Price from '../price/price';
 
 
 export default function BurgerConstructor({cart}){
+    const [bun, setBun] = useState()
+    const [total, setTotal] = useState(0)
 
-    const bun = cart.find(x=>x.type=='bun')
+     useEffect(() => {   
+        setBun(cart.find(x=>x.type=='bun'))
+    }, [cart])
+
+    useEffect(() => {   
+        setTotal(cart.reduce( (prev,curr)=>prev+curr.price, 0))
+    }, [cart])
+
     
     return(
         <section className={`pl-4 ml-5 mt-25 ${styles.container}`}>
@@ -34,7 +43,7 @@ export default function BurgerConstructor({cart}){
                         <DragIcon type="primary"/>   
                         <div className={`pl-1 ${styles.ingredient}`}>        
                             <ConstructorElement
-                                key = {index}
+                                key = {index} //todo: cart element should have it's own id
                                 isLocked={false}
                                 text={ingredient.name}
                                 price={ingredient.price}
@@ -61,7 +70,7 @@ export default function BurgerConstructor({cart}){
                 </div> 
             </div>    
             <div className={`mt-10 ${styles.total}`}>
-                <div className={`mr-10 ${styles.price}`}><Price price={100} large/></div>
+                <div className={`mr-10 ${styles.price}`}><Price price={total} large/></div>
                 <Button type="primary" size="large">Оформить заказ</Button>
              </div>            
         </section>    

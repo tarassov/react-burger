@@ -8,7 +8,7 @@ import {data} from '../../utils/data'//test ingredients data
 export default function MainLayout(props){
     const [ingredients,setIngredients] = useState([])
  
-    const onAddIngredient = (ingredient) =>{
+    const onAddIngredient = (ingredient) =>{        
         if (ingredient.type=='bun' && ingredients.some(i => i.type =='bun')){
             setIngredients([
               ...ingredients.filter(x=>x.type != 'bun'), 
