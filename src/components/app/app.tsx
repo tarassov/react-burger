@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import AppHeader from './components/app-header/app-header';
-import MainLayout from './components/main-layout/main-layout';
+import AppHeader from '../app-header/app-header';
+import MainLayout from '../main-layout/main-layout';
 
 function App() {
   return (

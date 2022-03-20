@@ -18,21 +18,21 @@ export default function BurgerIngredients(props){
 
 
     useEffect(() => {
-        var groupedCart = {}
+        const newGroupedCart = {}
         props.cart.forEach(element => {           
-           if  (groupedCart[element._id]===undefined){
+           if  (newGroupedCart[element._id]===undefined){
              if (element.type=='bun')  {
-                 groupedCart[element._id] = 2
+                newGroupedCart[element._id] = 2
              }
              else{
-                 groupedCart[element._id] = 1
+                newGroupedCart[element._id] = 1
              }
            }
            else{
-            groupedCart[element._id] = groupedCart[element._id] +1
+            newGroupedCart[element._id] = newGroupedCart[element._id] +1
            }
         });        
-        setGroupedCart(groupedCart)
+        setGroupedCart(newGroupedCart)
     }, [props.cart])
 
 
@@ -57,13 +57,13 @@ export default function BurgerIngredients(props){
         setCurrentTab(value);
         switch (value){
             case 'bun':
-                bunRef.current.scrollIntoView();
+                bunRef.current.scrollIntoView({behavior: "smooth"});
                 break;
             case 'sauce':
-                sauceRef.current.scrollIntoView();
+                sauceRef.current.scrollIntoView({behavior: "smooth"});
                 break;
             case 'main':
-                mainRef.current.scrollIntoView();
+                mainRef.current.scrollIntoView({behavior: "smooth"});
                 break;
         }
 
@@ -98,4 +98,5 @@ export default function BurgerIngredients(props){
 BurgerIngredients.propTypes = {
     data: PropTypes.arrayOf(ingredientPropTypes.isRequired),
     cart: PropTypes.arrayOf(ingredientPropTypes),
+    onAddIngredient: PropTypes.func.isRequired
 };

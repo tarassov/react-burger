@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './price.module.css'
 
@@ -13,4 +15,9 @@ export default function Price({price,size}){
 
 Price.defaultProps = {
     size: 'default' 
+}
+
+Price.propTypes = {
+    size: PropTypes.string,
+    price: PropTypes.number.isRequired 
 }

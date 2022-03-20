@@ -11,7 +11,7 @@ export default function BurgerConstructor({cart}){
     const [bun, setBun] = useState()
     const [total, setTotal] = useState(0)
 
-     useEffect(() => {   
+    useEffect(() => {   
         setBun(cart.find(x=>x.type=='bun'))
     }, [cart])
 
@@ -29,7 +29,7 @@ export default function BurgerConstructor({cart}){
                     <ConstructorElement
                         type="top"
                         isLocked={true}
-                        text={bun.name}
+                        text={bun.name + " (верх)"}
                         price={bun.price}
                         thumbnail={bun.image_mobile}                    
                     />
@@ -39,11 +39,10 @@ export default function BurgerConstructor({cart}){
                 {cart.map((ingredient,index) => {
                     if (ingredient.type !='bun'){
                     return(     
-                        <div>           
+                        <div key = {index}>           
                         <DragIcon type="primary"/>   
                         <div className={`pl-1 ${styles.ingredient}`}>        
-                            <ConstructorElement
-                                key = {index} //todo: cart element should have it's own id
+                            <ConstructorElement                              
                                 isLocked={false}
                                 text={ingredient.name}
                                 price={ingredient.price}
@@ -61,7 +60,7 @@ export default function BurgerConstructor({cart}){
                         <ConstructorElement
                             type="bottom"
                             isLocked={true}
-                            text={bun.name}
+                            text={bun.name+ " (низ)"}
                             price={bun.price}
                             thumbnail={bun.image_mobile}
                         />
@@ -78,5 +77,5 @@ export default function BurgerConstructor({cart}){
 }
 
 BurgerConstructor.propTypes = {
-    cart: PropTypes.arrayOf(ingredientPropTypes.isRequired),
+    cart: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
 };
