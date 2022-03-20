@@ -5,10 +5,7 @@ import PropTypes from 'prop-types';
 
 export default function IngredientBlock({data, groupedCart, type, onAddIngredient}){
 
-    const onIngredientClick = (ingredient) => {
-        onAddIngredient(ingredient)    }           
-        
-
+       
     return(
         <div className={styles.grid}> 
                     {data.map(ingredient => {
