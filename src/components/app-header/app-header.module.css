@@ -1,4 +1,7 @@
-.panel{
+a {
+    color: inherit;
+}
+.container{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -7,16 +10,21 @@
     width: 100%;
     background: #1C1C21;
 }
+
 .right,
 .logo,
 .left {
-  flex: 1;
+    flex: 1;
 }
 .right{
-    text-align: end;   
+    justify-content: center;   
 }
-.logo{
+.logo {
     text-align: center;
+}
+
+.left {
+    justify-content: center;
 }
 
 
