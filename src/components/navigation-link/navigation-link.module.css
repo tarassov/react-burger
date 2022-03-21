@@ -1,0 +1,9 @@
+.link,
+.logo,
+.text {
+    display: inline-block;
+}
+
+.text{
+    vertical-align: top;
+}

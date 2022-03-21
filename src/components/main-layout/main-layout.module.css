@@ -1,0 +1,8 @@
+.layout {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: center;  
+    margin: auto;
+    height: calc(100% - 90px); 
+}
