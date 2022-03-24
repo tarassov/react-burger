@@ -1,0 +1,13 @@
+.container {
+    height: 720px;
+    width: 718px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;    
+    align-items: center;
+}
+
+.image {
+    width: 120px;
+    height: 120px;
+}

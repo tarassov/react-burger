@@ -18,9 +18,9 @@
     --background-element: #1C1C21;
 }
 .list{
-    height: -webkit-calc(100vh - 600px);
-    height: -moz-calc(100vh - 600px);
-    height: calc(100vh - 600px); 
+    height: -webkit-calc(100vh - 530px);
+    height: -moz-calc(100vh - 530px);
+    height: calc(100vh - 530px); 
     overflow-y: scroll;
     overflow-x: hidden;        
 }

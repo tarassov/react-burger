@@ -5,6 +5,7 @@ import {CurrencyIcon,Counter} from '@ya.praktikum/react-developer-burger-ui-comp
 import Price from '../price/price'
 
 export default function IngredientCard({ingredient,count, onIngredientClick}){
+
     const onClick =() =>{
         onIngredientClick(ingredient);
     }
