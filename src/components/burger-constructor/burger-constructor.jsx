@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {ingredientPropTypes} from '../../utils/prop-types'
-import {ConstructorElement,DragIcon,CurrencyIcon,Button} from '@ya.praktikum/react-developer-burger-ui-components'
+import {ConstructorElement,DragIcon,Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css' 
 import Price from '../price/price';
 
