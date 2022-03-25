@@ -28,5 +28,6 @@ export default function IngredientCard({ingredient,count, onIngredientClick}){
 
 IngredientCard.propTypes = {
     ingredient: ingredientPropTypes,
-    count: PropTypes.number
+    count: PropTypes.number,
+    onIngredientClick: PropTypes.func.isRequired
 }

@@ -6,7 +6,14 @@
     justify-content: flex-start;    
     align-items: center;
 }
-
+@media screen and (max-height: 720px) {
+    .container {
+        height: 600px;
+    }
+    .title {
+        margin-top: 60px;
+    }
+  }
 .image {
     width: 120px;
     height: 120px;

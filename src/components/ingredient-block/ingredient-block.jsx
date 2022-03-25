@@ -21,6 +21,7 @@ export default function IngredientBlock({data, groupedCart, type, onIngredientCl
 IngredientBlock.propTypes = {
     data: PropTypes.arrayOf(ingredientPropTypes.isRequired),
     type: PropTypes.string.isRequired,
+    groupedCart: PropTypes.object.isRequired,
     onAddIngredient: PropTypes.func.isRequired,
     onIngredientClick: PropTypes.func.isRequired,
 };

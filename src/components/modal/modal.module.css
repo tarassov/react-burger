@@ -11,7 +11,7 @@
 }
 .closeButton {
     position: absolute;  
-    top: 60px;
+    top: 50px;
     right: 40px;
 }
 .closeButton :hover{

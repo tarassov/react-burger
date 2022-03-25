@@ -11,9 +11,10 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const url = 'https://norma.nomoreparties.space/api/ingredients'
 
-export default function MainLayout(props){
+export default function MainLayout(){
     const [ingredients,setIngredients] = useState([])
     const [order,setOrder] = useState({})
+    const [selectedIngredient,setSelectedIngredient] = useState()
     const [data,setData] = useState([])
     const [isOpenOrder,setIsOpenOrder] = useState(false)
     const [isOpenIngredient,setIsOpenIngredien] = useState(false)
@@ -54,7 +55,8 @@ export default function MainLayout(props){
       setIsOpenOrder(false)
     }
     //open IngredientDetails as modal
-    const onIngredientClick = () => {
+    const onIngredientClick = (ingredient) => {
+      setSelectedIngredient(ingredient)
       setIsOpenIngredien(true)
     }
 
@@ -74,7 +76,7 @@ export default function MainLayout(props){
         </Modal>
 
         <Modal open={isOpenIngredient} onClose ={onCloseIngredient}> 
-               <IngredientDetails/>
+               <IngredientDetails ingredient={selectedIngredient}/>
         </Modal>
        
        

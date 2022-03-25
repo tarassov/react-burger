@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
@@ -54,3 +55,7 @@ export default function Modal ({open, children, onClose}) {
 
 } 
 
+Modal.propTypes = {
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func
+}
