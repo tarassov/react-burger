@@ -29,7 +29,7 @@ export default function Modal ({open, children, onClose}) {
 
         const keyHandler = (e) => {
             e.preventDefault()
-            if (isOpen && e.which ==27){
+            if (isOpen && e.key === "Escape"){
                 close()
             }
         }

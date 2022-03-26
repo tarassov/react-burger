@@ -37,7 +37,12 @@ export default function MainLayout(){
     useEffect(()=>{
       //fetching data from server
       window.fetch(url)
-        .then(response=> response.json())
+        .then(response => {
+            if (!response.ok) {                
+                return Promise.reject(response.status);
+            }
+            return response.json();
+        })
         .then(json => setData(json.data))
         .catch(e => console.log(e))
       
