@@ -3,7 +3,7 @@ import IngredientCard from '../ingredient-card/ingredient-card';
 import {ingredientPropTypes} from '../../utils/prop-types'
 import PropTypes from 'prop-types';
 
-export default function IngredientBlock({data, groupedCart, type, onAddIngredient}){
+export default function IngredientBlock({data, groupedCart, type, onIngredientClick,onAddIngredient}){
 
        
     return(
@@ -11,7 +11,7 @@ export default function IngredientBlock({data, groupedCart, type, onAddIngredien
                     {data.map(ingredient => {
                         if(ingredient.type==type){
                             var count = groupedCart[ingredient._id] 
-                            return <IngredientCard key={ingredient._id} count = {count} ingredient={ingredient} onIngredientClick={onAddIngredient}/>
+                            return <IngredientCard key={ingredient._id} count = {count} ingredient={ingredient} onIngredientClick={onIngredientClick}/>
                         }
                     })}
         </div>
@@ -21,5 +21,7 @@ export default function IngredientBlock({data, groupedCart, type, onAddIngredien
 IngredientBlock.propTypes = {
     data: PropTypes.arrayOf(ingredientPropTypes.isRequired),
     type: PropTypes.string.isRequired,
-    onAddIngredient: PropTypes.func.isRequired
+    groupedCart: PropTypes.object.isRequired,
+    onAddIngredient: PropTypes.func.isRequired,
+    onIngredientClick: PropTypes.func.isRequired,
 };

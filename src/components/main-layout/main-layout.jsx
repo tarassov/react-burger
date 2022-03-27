@@ -1,12 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-indredients';
 import styles from './main-layout.module.css'
 import {cart} from '../../utils/cart'//test cart data
-import {data} from '../../utils/data'//test ingredients data
+import {order as orderData} from '../../utils/order'//test order data
+import {data as testData} from '../../utils/data'//test ingredients data
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
-export default function MainLayout(props){
+const url = 'https://norma.nomoreparties.space/api/ingredients'
+
+export default function MainLayout(){
     const [ingredients,setIngredients] = useState([])
+    const [order,setOrder] = useState({})
+    const [selectedIngredient,setSelectedIngredient] = useState()
+    const [data,setData] = useState([])
+    const [isOpenOrder,setIsOpenOrder] = useState(false)
+    const [isOpenIngredient,setIsOpenIngredien] = useState(false)
  
     const onAddIngredient = (ingredient) =>{        
         if (ingredient.type=='bun' && ingredients.some(i => i.type =='bun')){
@@ -23,14 +34,58 @@ export default function MainLayout(props){
        }
     }
 
-    const onCloseOrder = () =>{
+    useEffect(()=>{
+      //fetching data from server
+      window.fetch(url)
+        .then(response => {
+            if (!response.ok) {                
+                return Promise.reject(response.status);
+            }
+            return response.json();
+        })
+        .then(json => setData(json.data))
+        .catch(e => console.log(e))
+      
+        //fetching test data
+      setIngredients(cart)
+      setOrder(orderData)
+    },[])
 
+    //open OrderDetails as modal
+    const onPerformOrder = () => {
+      setIsOpenOrder(true)
     }
+
+    const onCloseModalOrder = () => {
+      setIsOpenOrder(false)
+    }
+    //open IngredientDetails as modal
+    const onIngredientClick = (ingredient) => {
+      setSelectedIngredient(ingredient)
+      setIsOpenIngredien(true)
+    }
+
+    const onCloseIngredient = () => {
+      setIsOpenIngredien(false)
+    }
+
+
 
     return(
       <main className={styles.layout}>
-        <BurgerIngredients data ={data} cart={ingredients} onAddIngredient={onAddIngredient}/>
-        <BurgerConstructor cart={ingredients} onCloseOrder={onCloseOrder}/>
+        {data && <BurgerIngredients data ={data} cart={ingredients} onAddIngredient={onAddIngredient} onIngredientClick={onIngredientClick}/>}
+        <BurgerConstructor cart={ingredients} onPerformOrderClick={onPerformOrder}/>
+        
+        <Modal open={isOpenOrder} onClose ={onCloseModalOrder}> 
+              <OrderDetails order={order}/>
+        </Modal>
+
+        <Modal open={isOpenIngredient} onClose ={onCloseIngredient}> 
+               <IngredientDetails ingredient={selectedIngredient}/>
+        </Modal>
+       
+       
+ 
       </main>
     )
 }

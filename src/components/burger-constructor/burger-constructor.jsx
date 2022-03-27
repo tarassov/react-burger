@@ -1,13 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {ingredientPropTypes} from '../../utils/prop-types'
-import {ConstructorElement,DragIcon,CurrencyIcon,Button} from '@ya.praktikum/react-developer-burger-ui-components'
+import {ConstructorElement,DragIcon,Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css' 
 import Price from '../price/price';
 
 
 
-export default function BurgerConstructor({cart}){
+export default function BurgerConstructor({cart,onPerformOrderClick}){
     const [bun, setBun] = useState()
     const [total, setTotal] = useState(0)
 
@@ -70,7 +70,7 @@ export default function BurgerConstructor({cart}){
             </div>    
             <div className={`mt-10 ${styles.total}`}>
                 <div className={`mr-10 ${styles.price}`}><Price price={total} large/></div>
-                <Button type="primary" size="large">Оформить заказ</Button>
+                <Button type="primary" size="large" onClick={onPerformOrderClick}>Оформить заказ</Button>
              </div>            
         </section>    
     )
@@ -78,4 +78,5 @@ export default function BurgerConstructor({cart}){
 
 BurgerConstructor.propTypes = {
     cart: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+    onPerformOrderClick: PropTypes.func.isRequired
 };

@@ -4,7 +4,7 @@ import MainLayout from '../main-layout/main-layout';
 
 function App() {
   return (
-    <div >
+    <div style={{overflow: 'hidden'}}>
       <AppHeader/>
       <MainLayout/>
     </div>

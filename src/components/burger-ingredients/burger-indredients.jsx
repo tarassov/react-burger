@@ -85,11 +85,28 @@ export default function BurgerIngredients(props){
             </div>
             <div className={`${styles.list}`} onScroll={handleScroll} ref={listRef}>
                 <p className="mt-10 text text_type_main-medium" ref={bunRef}>Булки</p>
-                <IngredientBlock data={props.data} groupedCart={groupedCart} type={'bun'} onAddIngredient={props.onAddIngredient}/>
+                <IngredientBlock 
+                    data={props.data} 
+                    groupedCart={groupedCart} 
+                    type={'bun'} 
+                    onAddIngredient={props.onAddIngredient}
+                    onIngredientClick={props.onIngredientClick}
+                />
                 <p className="mt-10 text text_type_main-medium" ref={sauceRef}>Соусы</p>
-                <IngredientBlock data={props.data} groupedCart={groupedCart} type={'sauce'} onAddIngredient={props.onAddIngredient}/>
+                <IngredientBlock 
+                    data={props.data} 
+                    groupedCart={groupedCart} 
+                    type={'sauce'} 
+                    onAddIngredient={props.onAddIngredient}
+                    onIngredientClick={props.onIngredientClick}
+                />
                 <p className="mt-10 text text_type_main-medium" ref={mainRef}>Начинки</p>
-                <IngredientBlock data={props.data} groupedCart={groupedCart} type={'main'} onAddIngredient={props.onAddIngredient}/>
+                <IngredientBlock 
+                    data={props.data} 
+                    groupedCart={groupedCart} type={'main'} 
+                    onAddIngredient={props.onAddIngredient} 
+                    onIngredientClick={props.onIngredientClick}
+                />
             </div>            
         </section>    
     )
@@ -98,5 +115,6 @@ export default function BurgerIngredients(props){
 BurgerIngredients.propTypes = {
     data: PropTypes.arrayOf(ingredientPropTypes.isRequired),
     cart: PropTypes.arrayOf(ingredientPropTypes),
-    onAddIngredient: PropTypes.func.isRequired
+    onAddIngredient: PropTypes.func.isRequired,
+    onIngredientClick: PropTypes.func.isRequired,
 };
