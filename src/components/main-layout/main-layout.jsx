@@ -54,24 +54,7 @@ export default function MainLayout() {
       ])
     }
   }
-
-  const generateRandomCart = (data) => {
-    const cart = []
-
-    if (!data || data.length === 0) return cart;
-
-    const buns = data.filter(ingredient => ingredient.type === 'bun')
-    const bunIndex = Math.floor(Math.random() * buns.length)
-    cart.push(buns[bunIndex])
-
-    const ingredients = data.filter(ingredient => ingredient.type !== 'bun')
-    const ingredientCount = Math.random() * (10 - 4) + 4;
-    for (let i = 0; i < ingredientCount; i++) {
-      cart.push(ingredients[Math.floor(Math.random() * ingredients.length)])
-    }
-    return cart;
-  }
-
+ 
   useEffect(() => {
     //fetching data from server
     window.fetch(getUrl('ingredients'))
