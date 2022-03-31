@@ -6,7 +6,7 @@ import {CartContext } from '../../context/app-context';
 
 const  initialCartState= {cart:[],totalPrice: 0}
 
-export function totalPriceReducer(state, action){
+export function cartReducer(state, action){
   switch (action.type) {
     case "load":
       return {cart: action.ingredients, totalPrice: action.ingredients.reduce((prev,curr)=>prev+curr.price, 0) };
@@ -23,7 +23,7 @@ export function totalPriceReducer(state, action){
 }
 
 function App() {
-  const [cartState, cartDispatcher] = useReducer(totalPriceReducer, initialCartState, undefined);
+  const [cartState, cartDispatcher] = useReducer(cartReducer, initialCartState, undefined);
 
 
   return (
