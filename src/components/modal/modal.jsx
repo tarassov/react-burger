@@ -10,7 +10,7 @@ const modalRoot = document.getElementById("modal-root");
 
 export default function Modal({ children, onClose }) {
     useEffect(() => {
-        if (true) window.addEventListener("keydown", keyHandler);
+        window.addEventListener("keydown", keyHandler);
         return () => {
             window.removeEventListener("keydown", keyHandler);
         };
