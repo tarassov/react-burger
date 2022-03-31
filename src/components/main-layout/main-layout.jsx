@@ -34,11 +34,12 @@ const generateRandomCart = (data) => {
 export default function MainLayout() {
   const [ingredients, setIngredients] = useState([])
   const [order, setOrder] = useState({})
+  const [isOrderPosting, setIsOrderPosting] = useState(false)
   const [selectedIngredient, setSelectedIngredient] = useState()
   const [data, setData] = useState([])
   const [isOpenOrder, setIsOpenOrder] = useState(false)
   const [isOpenIngredient, setIsOpenIngredien] = useState(false)
-  const { cartDispatcher } = useContext(CartContext);
+  const { cartState, cartDispatcher } = useContext(CartContext);
 
   const onAddIngredient = (ingredient) => {
     if (ingredient.type == 'bun' && ingredients.some(i => i.type == 'bun')) {
@@ -54,9 +55,7 @@ export default function MainLayout() {
       ])
     }
   }
- 
-  useEffect(() => {
-    //fetching data from server
+  const fetchData = () => {
     window.fetch(getUrl('ingredients'))
       .then(response => {
         if (!response.ok) {
@@ -66,6 +65,34 @@ export default function MainLayout() {
       })
       .then(json => setData(json.data))
       .catch(e => console.log(e))
+  }
+
+  const postOrder = () => {
+    setOrder({ number: "" })
+    setIsOrderPosting(true)
+
+    const ids = cartState.cart.map(ingredient => ingredient._id)
+
+    window.fetch(getUrl('orders'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ingredients: ids })
+    })
+      .then(response => {
+        if (!response.ok) {
+          return Promise.reject(response.status);
+        }
+        return response.json();
+      })
+      .then(json => {
+        setOrder(json.order)
+        setIsOrderPosting(false)
+      })
+      .catch(e => console.log(e))
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [])
 
   useEffect(() => {
@@ -75,6 +102,7 @@ export default function MainLayout() {
 
   //open OrderDetails as modal
   const onPerformOrder = () => {
+    postOrder()
     setIsOpenOrder(true)
   }
 
@@ -99,7 +127,7 @@ export default function MainLayout() {
       <BurgerConstructor onPerformOrderClick={onPerformOrder} />
 
       {isOpenOrder && <Modal onClose={onCloseModalOrder}>
-        <OrderDetails order={order} />
+        <OrderDetails order={order} isOrderPosting={isOrderPosting} />
       </Modal>}
 
       {isOpenIngredient && <Modal onClose={onCloseIngredient}>

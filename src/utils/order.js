@@ -1,4 +1,3 @@
-export const order =   {
-       "_id":"034536",
-     
+export const order = {
+       "number": "034536",
 } 
