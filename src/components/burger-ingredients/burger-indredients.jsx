@@ -1,10 +1,10 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef,useContext} from 'react';
 import PropTypes from 'prop-types';
 import { Tab  } from '@ya.praktikum/react-developer-burger-ui-components'
-
 import {ingredientPropTypes} from '../../utils/prop-types'
 import styles from './burger-ingredients.module.css' 
 import IngredientBlock from '../ingredient-block/ingredient-block';
+import {CartContext } from '../../context/app-context';
 
 export default function BurgerIngredients(props){
 
@@ -15,11 +15,12 @@ export default function BurgerIngredients(props){
 
     const [currentTab, setCurrentTab] = React.useState('bun')
     const [groupedCart, setGroupedCart] = React.useState({})
+    const {cartState} = useContext(CartContext);
 
 
     useEffect(() => {
         const newGroupedCart = {}
-        props.cart.forEach(element => {           
+        cartState.cart.forEach(element => {           
            if  (newGroupedCart[element._id]===undefined){
              if (element.type=='bun')  {
                 newGroupedCart[element._id] = 2
@@ -33,7 +34,7 @@ export default function BurgerIngredients(props){
            }
         });        
         setGroupedCart(newGroupedCart)
-    }, [props.cart])
+    }, [cartState.cart])
 
 
   
@@ -114,7 +115,6 @@ export default function BurgerIngredients(props){
 
 BurgerIngredients.propTypes = {
     data: PropTypes.arrayOf(ingredientPropTypes.isRequired),
-    cart: PropTypes.arrayOf(ingredientPropTypes),
     onAddIngredient: PropTypes.func.isRequired,
     onIngredientClick: PropTypes.func.isRequired,
 };
