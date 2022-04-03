@@ -1,61 +1,49 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
-import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './modal.module.css';
 
 const modalRoot = document.getElementById("modal-root");
 
 
-export default function Modal ({open, children, onClose}) {
-        const [isOpen, setIsOpen] = useState(false)
+export default function Modal({ children, onClose }) {
+    useEffect(() => {
+        window.addEventListener("keydown", keyHandler);
+        return () => {
+            window.removeEventListener("keydown", keyHandler);
+        };
+    }, [])
 
-        useEffect(()=>{
-            setIsOpen(open)
-        },[open])
+    const close = () => {
+        onClose()
+    }
 
-        useEffect(()=>{
-            if (isOpen) window.addEventListener("keydown", keyHandler);
-            return () => {
-                window.removeEventListener("keydown", keyHandler);
-            };
-        },[isOpen])
-
-        const close = ()=> {
-           setIsOpen(false)
-           onClose()
+    const keyHandler = (e) => {
+        e.preventDefault()
+        if (e.key === "Escape") {
+            close()
         }
+    }
 
-        const keyHandler = (e) => {
-            e.preventDefault()
-            if (isOpen && e.key === "Escape"){
-                close()
-            }
-        }
-
-        return ReactDOM.createPortal(
-           <>
-           {isOpen && 
-             <>
-                <ModalOverlay onClick={close}/>
-                <div className={styles.modal}>     
-                    <div className={styles.closeButton} onClick={close}>
-                        <CloseIcon type="primary" />
-                    </div> 
-                    <div>
-                        {children}
-                    </div>       
+    return ReactDOM.createPortal(
+        <>
+            <ModalOverlay onClick={close} />
+            <div className={styles.modal}>
+                <div className={styles.closeButton} onClick={close}>
+                    <CloseIcon type="primary" />
                 </div>
-              </>
-            }
-          </> 
-          ,modalRoot
-        );
+                <div>
+                    {children}
+                </div>
+            </div>
+        </>
+        , modalRoot
+    );
 
-} 
+}
 
 Modal.propTypes = {
-    open: PropTypes.bool.isRequired,
     onClose: PropTypes.func
 }

@@ -1,23 +1,19 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import {ingredientPropTypes} from '../../utils/prop-types'
 import {ConstructorElement,DragIcon,Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css' 
 import Price from '../price/price';
+import {CartContext } from '../../context/app-context';
 
 
-
-export default function BurgerConstructor({cart,onPerformOrderClick}){
+export default function BurgerConstructor({onPerformOrderClick}){
     const [bun, setBun] = useState()
-    const [total, setTotal] = useState(0)
+    const {cartState} = useContext(CartContext);
 
     useEffect(() => {   
-        setBun(cart.find(x=>x.type=='bun'))
-    }, [cart])
-
-    useEffect(() => {   
-        setTotal(cart.reduce( (prev,curr)=>prev+curr.price, 0))
-    }, [cart])
+        setBun(cartState.cart.find(x=>x.type=='bun'))
+    }, [cartState.cart])
 
     
     return(
@@ -36,7 +32,7 @@ export default function BurgerConstructor({cart,onPerformOrderClick}){
                  </div>   
                 }
                 <div className={styles.list}>
-                {cart.map((ingredient,index) => {
+                {cartState.cart.map((ingredient,index) => {
                     if (ingredient.type !='bun'){
                     return(     
                         <div key = {index}>           
@@ -69,7 +65,7 @@ export default function BurgerConstructor({cart,onPerformOrderClick}){
                 </div> 
             </div>    
             <div className={`mt-10 ${styles.total}`}>
-                <div className={`mr-10 ${styles.price}`}><Price price={total} large/></div>
+                <div className={`mr-10 ${styles.price}`}><Price price={cartState.totalPrice} large/></div>
                 <Button type="primary" size="large" onClick={onPerformOrderClick}>Оформить заказ</Button>
              </div>            
         </section>    
@@ -77,6 +73,5 @@ export default function BurgerConstructor({cart,onPerformOrderClick}){
 }
 
 BurgerConstructor.propTypes = {
-    cart: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
     onPerformOrderClick: PropTypes.func.isRequired
 };
