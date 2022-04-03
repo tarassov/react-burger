@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
@@ -45,5 +45,6 @@ export default function Modal({ children, onClose }) {
 }
 
 Modal.propTypes = {
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    children: PropTypes.node.isRequired
 }

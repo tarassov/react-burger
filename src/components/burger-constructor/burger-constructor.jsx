@@ -1,10 +1,9 @@
 import React, {useEffect, useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {ingredientPropTypes} from '../../utils/prop-types'
 import {ConstructorElement,DragIcon,Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-constructor.module.css' 
 import Price from '../price/price';
-import {CartContext } from '../../context/app-context';
+import {CartContext } from '../../services/app-context';
 
 
 export default function BurgerConstructor({onPerformOrderClick}){
@@ -12,7 +11,7 @@ export default function BurgerConstructor({onPerformOrderClick}){
     const {cartState} = useContext(CartContext);
 
     useEffect(() => {   
-        setBun(cartState.cart.find(x=>x.type=='bun'))
+        setBun(cartState.cart.find(x=>x.type==='bun'))
     }, [cartState.cart])
 
     
@@ -21,7 +20,7 @@ export default function BurgerConstructor({onPerformOrderClick}){
             <div className={`${styles.cart}`}>
                 <div className={`${styles.elements}`}>
                 {bun && 
-                <div className = {`pl-8 ${styles.bun}`}>
+                <div className = {`pl-8`}>
                     <ConstructorElement
                         type="top"
                         isLocked={true}

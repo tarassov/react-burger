@@ -4,7 +4,7 @@ import { Tab  } from '@ya.praktikum/react-developer-burger-ui-components'
 import {ingredientPropTypes} from '../../utils/prop-types'
 import styles from './burger-ingredients.module.css' 
 import IngredientBlock from '../ingredient-block/ingredient-block';
-import {CartContext } from '../../context/app-context';
+import {CartContext } from '../../services/app-context';
 
 export default function BurgerIngredients(props){
 

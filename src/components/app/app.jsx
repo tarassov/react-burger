@@ -1,7 +1,7 @@
 import React, {useReducer} from 'react';
 import AppHeader from '../app-header/app-header';
 import MainLayout from '../main-layout/main-layout';
-import {CartContext } from '../../context/app-context';
+import {CartContext } from '../../services/app-context';
 
 
 const  initialCartState= {cart:[],totalPrice: 0}
@@ -9,7 +9,7 @@ const  initialCartState= {cart:[],totalPrice: 0}
 export function cartReducer(state, action){
   switch (action.type) {
     case "load":
-      return {cart: action.ingredients, totalPrice: action.ingredients.reduce((prev,curr)=>prev+curr.price, 0) };
+      return {cart: action.ingredients, totalPrice: action.ingredients.reduce((prev,curr)=>prev+(curr.type === "bun" ? curr.price*2 : curr.price), 0) };
     case "add":
        return {
           cart: [...state.cart, action.ingredient], 
