@@ -1,4 +1,5 @@
 module.exports = {
+  parser: "@typescript-eslint/parser",
   env: {
     browser: true,
     es2021: true,
@@ -8,6 +9,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -16,8 +18,10 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react"],
+  plugins: ["react", "@typescript-eslint"],
   rules: {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "react/no-deprecated": "off",
