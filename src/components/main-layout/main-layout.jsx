@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-indredients";
 import styles from "./main-layout.module.css";
@@ -36,11 +36,11 @@ export default function MainLayout() {
   const [selectedIngredient, setSelectedIngredient] = useState();
   const [data, setData] = useState([]);
   const [isOpenOrder, setIsOpenOrder] = useState(false);
-  const [isOpenIngredient, setIsOpenIngredien] = useState(false);
+  const [isOpenIngredient, setIsOpenIngredient] = useState(false);
   const { cartState, cartDispatcher } = useContext(CartContext);
 
-  const onAddIngredient = (ingredient) => {
-    if (ingredient.type == "bun" && ingredients.some((i) => i.type === "bun")) {
+  const onAddIngredient = useCallback((ingredient) => {
+    if (ingredient.type === "bun" && ingredients.some((i) => i.type === "bun")) {
       setIngredients([
         ...ingredients.filter((x) => x.type !== "bun"),
         ingredient,
@@ -48,7 +48,8 @@ export default function MainLayout() {
     } else {
       setIngredients([...ingredients, ingredient]);
     }
-  };
+  },[ingredients]);
+
   const fetchData = () => {
     window
       .fetch(getUrl("ingredients"))
@@ -62,7 +63,7 @@ export default function MainLayout() {
       .catch((e) => console.log(e));
   };
 
-  const postOrder = () => {
+  const postOrder = useCallback(() => {
     setOrder({ number: "" });
     setIsOrderError(false);
     setIsOrderPosting(true);
@@ -88,7 +89,7 @@ export default function MainLayout() {
         setIsOrderPosting(false);
       })
       .catch((e) => console.log(e));
-  };
+  },[cartState.cart]);
 
   useEffect(() => {
     fetchData();
@@ -97,26 +98,27 @@ export default function MainLayout() {
   useEffect(() => {
     const ingredients = generateRandomCart(data);
     cartDispatcher({ type: "load", ingredients: ingredients });
-  }, [data]);
+  }, [data,cartDispatcher]);
 
   //open OrderDetails as modal
-  const onPerformOrder = () => {
+  const onPerformOrder = useCallback(() => {
     postOrder();
     setIsOpenOrder(true);
-  };
+  },[postOrder]);
 
-  const onCloseModalOrder = () => {
+  const onCloseModalOrder = useCallback(() => {
     setIsOpenOrder(false);
-  };
-  //open IngredientDetails as modal
-  const onIngredientClick = (ingredient) => {
-    setSelectedIngredient(ingredient);
-    setIsOpenIngredien(true);
-  };
+  },[]);
 
-  const onCloseIngredient = () => {
-    setIsOpenIngredien(false);
-  };
+  //open IngredientDetails as modal
+  const onIngredientClick = useCallback((ingredient) => {
+    setSelectedIngredient(ingredient);
+    setIsOpenIngredient(true);
+  },[]);
+
+  const onCloseIngredient =  useCallback(() => {
+    setIsOpenIngredient(false);
+  },[]);
 
   return (
     <main className={styles.layout}>
