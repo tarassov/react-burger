@@ -39,16 +39,22 @@ export default function MainLayout() {
   const [isOpenIngredient, setIsOpenIngredient] = useState(false);
   const { cartState, cartDispatcher } = useContext(CartContext);
 
-  const onAddIngredient = useCallback((ingredient) => {
-    if (ingredient.type === "bun" && ingredients.some((i) => i.type === "bun")) {
-      setIngredients([
-        ...ingredients.filter((x) => x.type !== "bun"),
-        ingredient,
-      ]);
-    } else {
-      setIngredients([...ingredients, ingredient]);
-    }
-  },[ingredients]);
+  const onAddIngredient = useCallback(
+    (ingredient) => {
+      if (
+        ingredient.type === "bun" &&
+        ingredients.some((i) => i.type === "bun")
+      ) {
+        setIngredients([
+          ...ingredients.filter((x) => x.type !== "bun"),
+          ingredient,
+        ]);
+      } else {
+        setIngredients([...ingredients, ingredient]);
+      }
+    },
+    [ingredients]
+  );
 
   const fetchData = () => {
     window
@@ -89,7 +95,7 @@ export default function MainLayout() {
         setIsOrderPosting(false);
       })
       .catch((e) => console.log(e));
-  },[cartState.cart]);
+  }, [cartState.cart]);
 
   useEffect(() => {
     fetchData();
@@ -98,27 +104,27 @@ export default function MainLayout() {
   useEffect(() => {
     const ingredients = generateRandomCart(data);
     cartDispatcher({ type: "load", ingredients: ingredients });
-  }, [data,cartDispatcher]);
+  }, [data, cartDispatcher]);
 
   //open OrderDetails as modal
   const onPerformOrder = useCallback(() => {
     postOrder();
     setIsOpenOrder(true);
-  },[postOrder]);
+  }, [postOrder]);
 
   const onCloseModalOrder = useCallback(() => {
     setIsOpenOrder(false);
-  },[]);
+  }, []);
 
   //open IngredientDetails as modal
   const onIngredientClick = useCallback((ingredient) => {
     setSelectedIngredient(ingredient);
     setIsOpenIngredient(true);
-  },[]);
+  }, []);
 
-  const onCloseIngredient =  useCallback(() => {
+  const onCloseIngredient = useCallback(() => {
     setIsOpenIngredient(false);
-  },[]);
+  }, []);
 
   return (
     <main className={styles.layout}>
@@ -133,7 +139,11 @@ export default function MainLayout() {
 
       {isOpenOrder && (
         <Modal onClose={onCloseModalOrder}>
-          <OrderDetails order={order} isOrderPosting={isOrderPosting} isOrderError={isOrderError} />
+          <OrderDetails
+            order={order}
+            isOrderPosting={isOrderPosting}
+            isOrderError={isOrderError}
+          />
         </Modal>
       )}
 

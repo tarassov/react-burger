@@ -1,9 +1,9 @@
 .link,
 .logo,
 .text {
-    display: inline-block;
+  display: inline-block;
 }
 
-.text{
-    vertical-align: top;
+.text {
+  vertical-align: top;
 }

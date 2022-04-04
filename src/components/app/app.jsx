@@ -1,20 +1,26 @@
-import React, {useReducer} from 'react';
-import AppHeader from '../app-header/app-header';
-import MainLayout from '../main-layout/main-layout';
-import {CartContext } from '../../services/app-context';
+import React, { useReducer } from "react";
+import AppHeader from "../app-header/app-header";
+import MainLayout from "../main-layout/main-layout";
+import { CartContext } from "../../services/app-context";
 
+const initialCartState = { cart: [], totalPrice: 0 };
 
-const  initialCartState= {cart:[],totalPrice: 0}
-
-export function cartReducer(state, action){
+export function cartReducer(state, action) {
   switch (action.type) {
     case "load":
-      return {cart: action.ingredients, totalPrice: action.ingredients.reduce((prev,curr)=>prev+(curr.type === "bun" ? curr.price*2 : curr.price), 0) };
+      return {
+        cart: action.ingredients,
+        totalPrice: action.ingredients.reduce(
+          (prev, curr) =>
+            prev + (curr.type === "bun" ? curr.price * 2 : curr.price),
+          0
+        ),
+      };
     case "add":
-       return {
-          cart: [...state.cart, action.ingredient], 
-          totalPrice: state.totalPrice + action.ingredient.price
-        }
+      return {
+        cart: [...state.cart, action.ingredient],
+        totalPrice: state.totalPrice + action.ingredient.price,
+      };
     case "reset":
       return initialCartState;
     default:
@@ -23,14 +29,17 @@ export function cartReducer(state, action){
 }
 
 function App() {
-  const [cartState, cartDispatcher] = useReducer(cartReducer, initialCartState, undefined);
-
+  const [cartState, cartDispatcher] = useReducer(
+    cartReducer,
+    initialCartState,
+    undefined
+  );
 
   return (
-    <div style={{overflow: 'hidden'}}>
-      <CartContext.Provider value={{cartState, cartDispatcher}}>
-          <AppHeader/>
-          <MainLayout/>
+    <div style={{ overflow: "hidden" }}>
+      <CartContext.Provider value={{ cartState, cartDispatcher }}>
+        <AppHeader />
+        <MainLayout />
       </CartContext.Provider>
     </div>
   );
