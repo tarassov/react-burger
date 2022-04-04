@@ -1,6 +1,4 @@
-import PropTypes from "prop-types";
 import { ingredientPropTypes } from "../../utils/prop-types";
-import done from "../../images/done.png";
 import styles from "./ingredient-details.module.css";
 
 function IngredientDetails({ ingredient }) {

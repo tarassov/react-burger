@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  useContext,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useRef, useContext, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientPropTypes } from "../../utils/prop-types";
