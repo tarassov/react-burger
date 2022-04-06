@@ -1,15 +1,19 @@
 const API_URL = "https://norma.nomoreparties.space/api/";
 
+const checkResponse = (response) => {
+	return response.ok
+		? response.json()
+		: response.json().then((e) => Promise.reject(e));
+};
+
 const ingredientsApi = {
-	async fetchAll() {
-		fetch(`${API_URL}/ingredients`, { method: "GET" })
-			.then((response) => {
-				if (!response.ok) {
-					return Promise.reject(response.status);
-				}
-				return response.json();
-			})
-			.catch((e) => console.log(e));
+	fetchAll: () => {
+		return fetch(`${API_URL}ingredients`, { method: "GET" })
+			.then(checkResponse)
+			.then((data) => {
+				if (data?.success) return data.data;
+				return Promise.reject(data);
+			});
 	},
 };
 

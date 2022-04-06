@@ -2,6 +2,8 @@ import React, { useReducer } from "react";
 import AppHeader from "../app-header/app-header";
 import MainLayout from "../main-layout/main-layout";
 import { CartContext } from "../../services/app-context";
+import { Provider } from "react-redux";
+import store from "../../services/store/store";
 
 const initialCartState = { cart: [], totalPrice: 0 };
 
@@ -37,10 +39,12 @@ function App() {
 
 	return (
 		<div style={{ overflow: "hidden" }}>
-			<CartContext.Provider value={{ cartState, cartDispatcher }}>
-				<AppHeader />
-				<MainLayout />
-			</CartContext.Provider>
+			<Provider store={store}>
+				<CartContext.Provider value={{ cartState, cartDispatcher }}>
+					<AppHeader />
+					<MainLayout />
+				</CartContext.Provider>
+			</Provider>
 		</div>
 	);
 }

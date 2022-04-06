@@ -6,6 +6,9 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { CartContext } from "../../services/app-context";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchIngredients } from "../../services/actions/ingredients";
+import { selectAllIngredients } from "../../services/reducers/ingredients";
 
 const URL = "https://norma.nomoreparties.space/api/";
 
@@ -34,10 +37,12 @@ export default function MainLayout() {
 	const [isOrderPosting, setIsOrderPosting] = useState(false);
 	const [isOrderError, setIsOrderError] = useState(false);
 	const [selectedIngredient, setSelectedIngredient] = useState();
-	const [data, setData] = useState([]);
+	const data = useSelector(selectAllIngredients);
 	const [isOpenOrder, setIsOpenOrder] = useState(false);
 	const [isOpenIngredient, setIsOpenIngredient] = useState(false);
 	const { cartState, cartDispatcher } = useContext(CartContext);
+
+	const dispatch = useDispatch();
 
 	const onAddIngredient = useCallback(
 		(ingredient) => {
@@ -55,19 +60,6 @@ export default function MainLayout() {
 		},
 		[ingredients]
 	);
-
-	const fetchData = () => {
-		window
-			.fetch(getUrl("ingredients"))
-			.then((response) => {
-				if (!response.ok) {
-					return Promise.reject(response.status);
-				}
-				return response.json();
-			})
-			.then((json) => setData(json.data))
-			.catch((e) => console.log(e));
-	};
 
 	const postOrder = useCallback(() => {
 		setOrder({ number: "" });
@@ -98,7 +90,7 @@ export default function MainLayout() {
 	}, [cartState.cart]);
 
 	useEffect(() => {
-		fetchData();
+		dispatch(fetchIngredients());
 	}, []);
 
 	useEffect(() => {
