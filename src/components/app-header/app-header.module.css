@@ -1,28 +1,28 @@
 a {
-  color: inherit;
+	color: inherit;
 }
 .container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 88px;
-  width: 100%;
-  background: #1c1c21;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	height: 88px;
+	width: 100%;
+	background: #1c1c21;
 }
 
 .right,
 .logo,
 .left {
-  flex: 1;
+	flex: 1;
 }
 .right {
-  justify-content: center;
+	justify-content: center;
 }
 .logo {
-  text-align: center;
+	text-align: center;
 }
 
 .left {
-  justify-content: center;
+	justify-content: center;
 }

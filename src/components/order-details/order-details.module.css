@@ -1,54 +1,54 @@
 .container {
-  height: 720px;
-  width: 718px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+	height: 720px;
+	width: 718px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
 }
 
 @media screen and (max-height: 720px) {
-  .container {
-    height: 600px;
-  }
+	.container {
+		height: 600px;
+	}
 
-  .title {
-    margin-top: 60px;
-  }
+	.title {
+		margin-top: 60px;
+	}
 }
 
 .image {
-  width: 120px;
-  height: 120px;
+	width: 120px;
+	height: 120px;
 }
 
 .blink {
-  -webkit-animation: blink 3s infinite both;
-  animation: blink 3s infinite both;
+	-webkit-animation: blink 3s infinite both;
+	animation: blink 3s infinite both;
 }
 
 @-webkit-keyframes blink {
-  0%,
-  50%,
-  100% {
-    opacity: 1;
-  }
+	0%,
+	50%,
+	100% {
+		opacity: 1;
+	}
 
-  25%,
-  75% {
-    opacity: 0;
-  }
+	25%,
+	75% {
+		opacity: 0;
+	}
 }
 
 @keyframes blink {
-  0%,
-  50%,
-  100% {
-    opacity: 1;
-  }
+	0%,
+	50%,
+	100% {
+		opacity: 1;
+	}
 
-  25%,
-  75% {
-    opacity: 0;
-  }
+	25%,
+	75% {
+		opacity: 0;
+	}
 }

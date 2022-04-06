@@ -8,39 +8,39 @@ import styles from "./modal.module.css";
 const modalRoot = document.getElementById("modal-root");
 
 export default function Modal({ children, onClose }) {
-  useEffect(() => {
-    window.addEventListener("keydown", keyHandler);
-    return () => {
-      window.removeEventListener("keydown", keyHandler);
-    };
-  }, []);
+	useEffect(() => {
+		window.addEventListener("keydown", keyHandler);
+		return () => {
+			window.removeEventListener("keydown", keyHandler);
+		};
+	}, []);
 
-  const close = () => {
-    onClose();
-  };
+	const close = () => {
+		onClose();
+	};
 
-  const keyHandler = (e) => {
-    e.preventDefault();
-    if (e.key === "Escape") {
-      close();
-    }
-  };
+	const keyHandler = (e) => {
+		e.preventDefault();
+		if (e.key === "Escape") {
+			close();
+		}
+	};
 
-  return ReactDOM.createPortal(
-    <>
-      <ModalOverlay onClick={close} />
-      <div className={styles.modal}>
-        <div className={styles.closeButton} onClick={close}>
-          <CloseIcon type="primary" />
-        </div>
-        <div>{children}</div>
-      </div>
-    </>,
-    modalRoot
-  );
+	return ReactDOM.createPortal(
+		<>
+			<ModalOverlay onClick={close} />
+			<div className={styles.modal}>
+				<div className={styles.closeButton} onClick={close}>
+					<CloseIcon type="primary" />
+				</div>
+				<div>{children}</div>
+			</div>
+		</>,
+		modalRoot
+	);
 }
 
 Modal.propTypes = {
-  onClose: PropTypes.func,
-  children: PropTypes.node.isRequired,
+	onClose: PropTypes.func,
+	children: PropTypes.node.isRequired,
 };

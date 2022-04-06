@@ -1,43 +1,43 @@
 .container {
-  width: 580px;
+	width: 580px;
 }
 .cart {
-  margin-top: 0px;
+	margin-top: 0px;
 }
 
 .ingredient {
-  display: inline;
+	display: inline;
 }
 
 .list,
 .elements {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  --background-element: #1c1c21;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	--background-element: #1c1c21;
 }
 .list {
-  height: -webkit-calc(100vh - 530px);
-  height: -moz-calc(100vh - 530px);
-  height: calc(100vh - 530px);
-  overflow-y: scroll;
-  overflow-x: hidden;
+	height: -webkit-calc(100vh - 530px);
+	height: -moz-calc(100vh - 530px);
+	height: calc(100vh - 530px);
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 .list::-webkit-scrollbar {
-  width: 10px;
-  height: 8px;
-  background-color: #2f2f37;
+	width: 10px;
+	height: 8px;
+	background-color: #2f2f37;
 }
 
 .list::-webkit-scrollbar-thumb {
-  background: #8585ad;
+	background: #8585ad;
 }
 
 .total {
-  float: right;
-  margin-right: 16px;
-  vertical-align: middle;
+	float: right;
+	margin-right: 16px;
+	vertical-align: middle;
 }
 .price {
-  display: inline;
+	display: inline;
 }
