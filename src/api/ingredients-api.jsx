@@ -1,4 +1,4 @@
-const API_URL = "https://norma.nomoreparties.space/api/";
+import { API_URL } from ".";
 
 const checkResponse = (response) => {
 	return response.ok
