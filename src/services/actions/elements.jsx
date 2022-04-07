@@ -6,7 +6,6 @@ export const add = createAction("elements/add", function prepare(ingredient) {
 		payload: {
 			...ingredient,
 			id: ingredient.type === "bun" ? ingredient.type : nanoid(),
-			createdAt: new Date().toISOString(),
 		},
 	};
 });

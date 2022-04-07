@@ -8,25 +8,18 @@ import Element from "../element/element";
 
 export default function BurgerElements({ elements, onSubstitute }) {
 	const moveElement = useCallback(
-		(dragIndex, hoverIndex) => {
-			// Получаем перетаскиваемый ингредиент
-			const fromElement = elements[dragIndex];
-			const toElement = elements[hoverIndex];
+		(fromElement, toElement) => {
 			onSubstitute(fromElement, toElement);
 		},
-		[onSubstitute]
+		[onSubstitute, elements]
 	);
 
 	return (
 		<div className={styles.list}>
-			{elements.map((element, index) => {
+			{elements.map((element) => {
 				return (
 					<div key={element.id}>
-						<Element
-							element={element}
-							index={index}
-							moveElement={moveElement}
-						/>
+						<Element element={element} moveElement={moveElement} />
 					</div>
 				);
 			})}

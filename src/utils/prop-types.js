@@ -29,6 +29,7 @@ export const elementPropTypes = PropTypes.shape({
 	image_large: PropTypes.string.isRequired,
 	__v: PropTypes.number.isRequired,
 	id: PropTypes.string.isRequired,
+	sortIndex: PropTypes.number.isRequired,
 });
 
 export const orderPropTypes = PropTypes.shape({

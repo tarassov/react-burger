@@ -6,13 +6,14 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import Price from "../price/price";
 
-import { add } from "../../services/actions/elements";
+import { add, update } from "../../services/actions/elements";
 import { selectAllElements } from "../../services/reducers/elements";
 import BurgerElements from "../burger-elements/burger-elements";
 import Bun from "../bun/bun";
 
 export default function BurgerConstructor({ onPerformOrderClick }) {
 	const dispatch = useDispatch();
+
 	const elements = useSelector(selectAllElements);
 	const totalPrice = useSelector((store) => store.elements.totalPrice);
 
@@ -22,13 +23,22 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 			isHover: monitor.isOver(),
 		}),
 		drop(ingredient) {
+			console.log("drop");
 			dispatch(add(ingredient));
 		},
 	});
 
 	const onSubstitute = (from, to) => {
-		console.log(from);
-		console.log(to);
+		const fromIndex = from.sortIndex;
+		const toIndex = to.sortIndex;
+		if (fromIndex !== toIndex) {
+			dispatch(
+				update([
+					{ ...from, sortIndex: toIndex },
+					{ ...to, sortIndex: fromIndex },
+				])
+			);
+		}
 	};
 
 	const bun = useMemo(() => {
@@ -36,6 +46,7 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 	}, [elements]);
 
 	const listElements = useMemo(() => {
+		console.log(elements);
 		return elements.filter((x) => x.type !== "bun");
 	}, [elements]);
 

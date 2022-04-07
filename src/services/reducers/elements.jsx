@@ -1,12 +1,15 @@
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { postOrder } from "../actions/elements";
 
-export const elementsAdapter = createEntityAdapter();
+export const elementsAdapter = createEntityAdapter({
+	sortComparer: (a, b) => a.sortIndex - b.sortIndex,
+});
 
 const initialState = elementsAdapter.getInitialState({
 	totalPrice: 0,
 	order: { orderNumber: "", posting: false, error: false },
 	groupedCart: {},
+	maxIndex: 0,
 });
 
 const countTotalPrice = (state) => {
@@ -49,7 +52,11 @@ export const elementsSlice = createSlice({
 			state.groupedCart = generateGroupedCart(state);
 		},
 		add: (state, action) => {
-			elementsAdapter.upsertOne(state, action.payload);
+			state.maxIndex = state.maxIndex + 1;
+			elementsAdapter.upsertOne(state, {
+				...action.payload,
+				sortIndex: state.maxIndex,
+			});
 			state.totalPrice = countTotalPrice(state);
 			state.groupedCart = generateGroupedCart(state);
 		},

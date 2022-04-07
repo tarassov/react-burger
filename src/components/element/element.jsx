@@ -13,7 +13,7 @@ import { remove } from "../../services/actions/elements";
 import { elementPropTypes } from "../../utils/prop-types";
 import { useDrag, useDrop } from "react-dnd";
 
-export default function Element({ element, index, moveElement }) {
+export default function Element({ element, moveElement }) {
 	const dispatch = useDispatch();
 
 	const onRemoveElement = useCallback(
@@ -25,7 +25,7 @@ export default function Element({ element, index, moveElement }) {
 
 	const [{ opacity }, dragRef] = useDrag({
 		type: "element",
-		item: () => ({ id: element.id, index }),
+		item: () => element,
 		collect: (monitor) => ({
 			opacity: monitor.isDragging() ? 0 : 1,
 		}),
@@ -42,20 +42,38 @@ export default function Element({ element, index, moveElement }) {
 			};
 		},
 		hover: (item, monitor) => {
-			const dragIndex = item.index;
-			const hoverIndex = index;
+			if (item.id === element.id) return;
+			if (Math.abs(item.sortIndex - element.sortIndex) > 1) return;
+			const dragIndex = item.sortIndex;
+			const hoverIndex = element.sortIndex;
+			// Определяем границы карточки ингредиента
 			const hoverBoundingRect = ref.current?.getBoundingClientRect();
+			// Определяем середину карточки по оси Y нашего ингредиента
+			// В момент пересечения этой границы, перетаскиваемым ингредиентом
+			// Мы будем менять их местами
 			const hoverMiddleY =
 				(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-			const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
-
-			// if dragging down, continue only when hover is smaller than middle Y
-			if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return;
-			// if dragging up, continue only when hover is bigger than middle Y
-			if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return;
-
-			moveElement(dragIndex, hoverIndex);
-			item.index = hoverIndex;
+			// Получаем текущую позицию курсора,
+			// относительно текущего контейнера
+			const clientOffset = monitor.getClientOffset();
+			// Вычисляем координаты курсора и координаты середины карточки
+			// на которую мы навели наш перетаскиваемый ингредиент
+			const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+			// Условие для перетаскивании элементов сверху вниз
+			// Если перетаскиваемый ингредиент пересекает середину
+			// текущего ингредиента, то мы идем дальше и выполняем moveCard
+			if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+				return;
+			}
+			// Условие для перетаскивании элементов снизу вверх
+			// Происходит тоже самое что и выше, только в обратном порядке
+			if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+				return;
+			}
+			// Выполняем наш коллбэк с перемещением карточек внутри массива
+			moveElement(item, element);
+			//	item.sortIndex = hoverIndex;
+			//	element.sortIndex = dragIndex;
 		},
 	});
 	const ref = useRef(null);
