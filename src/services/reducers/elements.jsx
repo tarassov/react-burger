@@ -50,7 +50,10 @@ const reorder = (state) => {
 			.selectAll(state)
 			.map((element, index) => {
 				state.maxIndex = index;
-				return { ...element, sortIndex: index };
+				return {
+					...element,
+					sortIndex: element.type === "bun" ? 0 : index + 1,
+				};
 			})
 	);
 };
@@ -77,8 +80,6 @@ export const elementsSlice = createSlice({
 		},
 		update: (state, action) => {
 			elementsAdapter.upsertMany(state, action.payload);
-			state.totalPrice = countTotalPrice(state);
-			state.groupedCart = generateGroupedCart(state);
 			reorder(state);
 		},
 	},

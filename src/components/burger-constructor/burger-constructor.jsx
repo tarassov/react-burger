@@ -23,7 +23,6 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 			isHover: monitor.isOver(),
 		}),
 		drop(ingredient) {
-			console.log("drop");
 			dispatch(add(ingredient));
 		},
 	});
@@ -44,7 +43,6 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 	}, [elements]);
 
 	const listElements = useMemo(() => {
-		console.log(elements);
 		return elements.filter((x) => x.type !== "bun");
 	}, [elements]);
 
