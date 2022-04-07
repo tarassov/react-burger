@@ -26,6 +26,11 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 		},
 	});
 
+	const onSubstitute = (from, to) => {
+		console.log(from);
+		console.log(to);
+	};
+
 	const bun = useMemo(() => {
 		return elements.find((x) => x.type === "bun");
 	}, [elements]);
@@ -42,7 +47,7 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 					ref={dropTargerRef}
 				>
 					<Bun bun={bun} type={"top"} />
-					<BurgerElements elements={listElements} />
+					<BurgerElements elements={listElements} onSubstitute={onSubstitute} />
 					<Bun bun={bun} type={"bottom"} />
 				</div>
 			</div>
