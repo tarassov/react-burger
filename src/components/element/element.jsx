@@ -25,16 +25,13 @@ export default function Element({ element, moveElement }) {
 
 	const [{ opacity }, dragRef] = useDrag({
 		type: "element",
-		item: () => element,
+		item: () => ({ element, sortIndex: element.sortIndex }),
 		collect: (monitor) => ({
 			opacity: monitor.isDragging() ? 0 : 1,
 		}),
 	});
 
 	const [{ handlerId }, dropRef] = useDrop({
-		// Указываем тип получаемых элементов, чтобы dnd понимал,
-		// в какой контейнер можно класть перетаскиваемый элемент, а в какой нельзя.
-		// Элементы и контейнеры с разными типами не будут взаимодействовать
 		accept: "element",
 		collect(monitor) {
 			return {
@@ -46,34 +43,23 @@ export default function Element({ element, moveElement }) {
 			if (Math.abs(item.sortIndex - element.sortIndex) > 1) return;
 			const dragIndex = item.sortIndex;
 			const hoverIndex = element.sortIndex;
-			// Определяем границы карточки ингредиента
+
 			const hoverBoundingRect = ref.current?.getBoundingClientRect();
-			// Определяем середину карточки по оси Y нашего ингредиента
-			// В момент пересечения этой границы, перетаскиваемым ингредиентом
-			// Мы будем менять их местами
 			const hoverMiddleY =
 				(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-			// Получаем текущую позицию курсора,
-			// относительно текущего контейнера
 			const clientOffset = monitor.getClientOffset();
-			// Вычисляем координаты курсора и координаты середины карточки
-			// на которую мы навели наш перетаскиваемый ингредиент
 			const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-			// Условие для перетаскивании элементов сверху вниз
-			// Если перетаскиваемый ингредиент пересекает середину
-			// текущего ингредиента, то мы идем дальше и выполняем moveCard
+
 			if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
 				return;
 			}
-			// Условие для перетаскивании элементов снизу вверх
-			// Происходит тоже самое что и выше, только в обратном порядке
+
 			if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
 				return;
 			}
-			// Выполняем наш коллбэк с перемещением карточек внутри массива
-			moveElement(item, element);
-			//	item.sortIndex = hoverIndex;
-			//	element.sortIndex = dragIndex;
+
+			moveElement(item.element, element, hoverIndex, dragIndex);
+			item.sortIndex = hoverIndex;
 		},
 	});
 	const ref = useRef(null);

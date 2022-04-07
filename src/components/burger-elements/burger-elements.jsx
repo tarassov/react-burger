@@ -8,8 +8,8 @@ import Element from "../element/element";
 
 export default function BurgerElements({ elements, onSubstitute }) {
 	const moveElement = useCallback(
-		(fromElement, toElement) => {
-			onSubstitute(fromElement, toElement);
+		(fromElement, toElement, hoverIndex, dragIndex) => {
+			onSubstitute(fromElement, toElement, hoverIndex, dragIndex);
 		},
 		[onSubstitute, elements]
 	);

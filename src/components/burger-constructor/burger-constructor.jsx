@@ -28,14 +28,12 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 		},
 	});
 
-	const onSubstitute = (from, to) => {
-		const fromIndex = from.sortIndex;
-		const toIndex = to.sortIndex;
-		if (fromIndex !== toIndex) {
+	const onSubstitute = (from, to, hoverIndex, dragIndex) => {
+		if (hoverIndex !== dragIndex) {
 			dispatch(
 				update([
-					{ ...from, sortIndex: toIndex },
-					{ ...to, sortIndex: fromIndex },
+					{ ...from, sortIndex: hoverIndex },
+					{ ...to, sortIndex: dragIndex },
 				])
 			);
 		}

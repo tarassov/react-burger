@@ -42,6 +42,19 @@ const generateGroupedCart = (state) => {
 	return newGroupedCart;
 };
 
+const reorder = (state) => {
+	elementsAdapter.setAll(
+		state,
+		elementsAdapter
+			.getSelectors()
+			.selectAll(state)
+			.map((element, index) => {
+				state.maxIndex = index;
+				return { ...element, sortIndex: index };
+			})
+	);
+};
+
 export const elementsSlice = createSlice({
 	name: "elements",
 	initialState,
@@ -50,6 +63,7 @@ export const elementsSlice = createSlice({
 			elementsAdapter.removeOne(state, action.payload);
 			state.totalPrice = countTotalPrice(state);
 			state.groupedCart = generateGroupedCart(state);
+			reorder(state);
 		},
 		add: (state, action) => {
 			state.maxIndex = state.maxIndex + 1;
@@ -59,11 +73,13 @@ export const elementsSlice = createSlice({
 			});
 			state.totalPrice = countTotalPrice(state);
 			state.groupedCart = generateGroupedCart(state);
+			reorder(state);
 		},
 		update: (state, action) => {
 			elementsAdapter.upsertMany(state, action.payload);
 			state.totalPrice = countTotalPrice(state);
 			state.groupedCart = generateGroupedCart(state);
+			reorder(state);
 		},
 	},
 	extraReducers: (builder) => {
