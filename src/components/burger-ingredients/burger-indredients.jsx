@@ -1,10 +1,10 @@
-import React, { useRef, useContext, useCallback, useMemo } from "react";
+import React, { useRef, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientPropTypes } from "../../utils/prop-types";
 import styles from "./burger-ingredients.module.css";
 import IngredientBlock from "../ingredient-block/ingredient-block";
-import { CartContext } from "../../services/app-context";
+import { useSelector } from "react-redux";
+import { selectAllIngredients } from "../../services/reducers/ingredients";
 
 export default function BurgerIngredients(props) {
 	const bunRef = useRef(null);
@@ -13,26 +13,23 @@ export default function BurgerIngredients(props) {
 	const listRef = useRef(null);
 
 	const [currentTab, setCurrentTab] = React.useState("bun");
-	const { cartState } = useContext(CartContext);
 
-	const groupedCart = useMemo(() => {
-		const newGroupedCart = {};
-		cartState.cart.forEach((element) => {
-			if (newGroupedCart[element._id] === undefined) {
-				if (element.type === "bun") {
-					newGroupedCart[element._id] = 2;
-				} else {
-					newGroupedCart[element._id] = 1;
-				}
-			} else {
-				newGroupedCart[element._id] = newGroupedCart[element._id] + 1;
-			}
-		});
-		return newGroupedCart;
-	}, [cartState.cart]);
+	const groupedCart = useSelector((store) => store.elements.groupedCart);
+
+	const ingredients = useSelector(selectAllIngredients);
+
+	const buns = useMemo(() => {
+		return ingredients.filter((i) => i.type === "bun");
+	}, [ingredients]);
+	const mains = useMemo(() => {
+		return ingredients.filter((i) => i.type === "main");
+	}, [ingredients]);
+	const sauces = useMemo(() => {
+		return ingredients.filter((i) => i.type === "sauce");
+	}, [ingredients]);
 
 	const handleScroll = useCallback(() => {
-		const position = listRef.current.scrollTop + 264;
+		const position = listRef.current.scrollTop + listRef.current.offsetTop;
 		if (sauceRef.current.offsetTop > position) {
 			setCurrentTab("bun");
 		} else if (
@@ -82,9 +79,8 @@ export default function BurgerIngredients(props) {
 					Булки
 				</p>
 				<IngredientBlock
-					data={props.data}
+					data={buns}
 					groupedCart={groupedCart}
-					type={"bun"}
 					onAddIngredient={props.onAddIngredient}
 					onIngredientClick={props.onIngredientClick}
 				/>
@@ -92,9 +88,8 @@ export default function BurgerIngredients(props) {
 					Соусы
 				</p>
 				<IngredientBlock
-					data={props.data}
+					data={sauces}
 					groupedCart={groupedCart}
-					type={"sauce"}
 					onAddIngredient={props.onAddIngredient}
 					onIngredientClick={props.onIngredientClick}
 				/>
@@ -102,9 +97,8 @@ export default function BurgerIngredients(props) {
 					Начинки
 				</p>
 				<IngredientBlock
-					data={props.data}
+					data={mains}
 					groupedCart={groupedCart}
-					type={"main"}
 					onAddIngredient={props.onAddIngredient}
 					onIngredientClick={props.onIngredientClick}
 				/>
@@ -114,6 +108,5 @@ export default function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-	data: PropTypes.arrayOf(ingredientPropTypes.isRequired),
 	onIngredientClick: PropTypes.func.isRequired,
 };

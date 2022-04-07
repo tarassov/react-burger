@@ -16,11 +16,14 @@ import { postOrder } from "../../services/actions/elements";
 import { selectAllElements } from "../../services/reducers/elements";
 
 export default function MainLayout() {
+	//state
 	const [selectedIngredient, setSelectedIngredient] = useState();
-	const data = useSelector(selectAllIngredients);
 	const [isOpenOrder, setIsOpenOrder] = useState(false);
 	const [isOpenIngredient, setIsOpenIngredient] = useState(false);
+
+	//selectors
 	const order = useSelector((store) => store.elements.order);
+	const ingredients = useSelector(selectAllIngredients);
 	const elements = useSelector(selectAllElements);
 
 	const dispatch = useDispatch();
@@ -52,11 +55,8 @@ export default function MainLayout() {
 	return (
 		<main className={styles.layout}>
 			<DndProvider backend={HTML5Backend}>
-				{data && (
-					<BurgerIngredients
-						data={data}
-						onIngredientClick={onIngredientClick}
-					/>
+				{ingredients && (
+					<BurgerIngredients onIngredientClick={onIngredientClick} />
 				)}
 				<BurgerConstructor onPerformOrderClick={onPerformOrder} />
 			</DndProvider>
