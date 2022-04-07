@@ -53,6 +53,11 @@ export const elementsSlice = createSlice({
 			state.totalPrice = countTotalPrice(state);
 			state.groupedCart = generateGroupedCart(state);
 		},
+		update: (state, action) => {
+			elementsAdapter.upsertMany(state, action.payload);
+			state.totalPrice = countTotalPrice(state);
+			state.groupedCart = generateGroupedCart(state);
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(postOrder.pending, (state) => {

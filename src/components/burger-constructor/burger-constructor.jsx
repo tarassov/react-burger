@@ -1,21 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import PropTypes from "prop-types";
-import {
-	ConstructorElement,
-	DragIcon,
-	Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import Price from "../price/price";
 
-import { add, remove } from "../../services/actions/elements";
+import { add } from "../../services/actions/elements";
 import { selectAllElements } from "../../services/reducers/elements";
+import BurgerElements from "../burger-elements/burger-elements";
+import Bun from "../bun/bun";
 
 export default function BurgerConstructor({ onPerformOrderClick }) {
-	const [bun, setBun] = useState();
-
 	const dispatch = useDispatch();
 	const elements = useSelector(selectAllElements);
 	const totalPrice = useSelector((store) => store.elements.totalPrice);
@@ -30,15 +26,12 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 		},
 	});
 
-	const onRemoveElement = useCallback(
-		(element) => () => {
-			dispatch(remove(element));
-		},
-		[dispatch]
-	);
+	const bun = useMemo(() => {
+		return elements.find((x) => x.type === "bun");
+	}, [elements]);
 
-	useEffect(() => {
-		setBun(elements.find((x) => x.type === "bun"));
+	const listElements = useMemo(() => {
+		return elements.filter((x) => x.type !== "bun");
 	}, [elements]);
 
 	return (
@@ -48,52 +41,9 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 					className={`${styles.elements} ${isHover && styles.onHover}`}
 					ref={dropTargerRef}
 				>
-					{bun ? (
-						<div className={`pl-8`}>
-							<ConstructorElement
-								type="top"
-								isLocked={true}
-								text={bun.name + " (верх)"}
-								price={bun.price}
-								thumbnail={bun.image_mobile}
-							/>
-						</div>
-					) : (
-						<div className={`${styles.placeholder}`} />
-					)}
-					<div className={styles.list}>
-						{elements.map((ingredient, index) => {
-							if (ingredient.type != "bun") {
-								return (
-									<div key={index}>
-										<DragIcon type="primary" />
-										<div className={`pl-1 ${styles.ingredient}`}>
-											<ConstructorElement
-												isLocked={false}
-												text={ingredient.name}
-												price={ingredient.price}
-												handleClose={onRemoveElement(ingredient)}
-												thumbnail={ingredient.image_mobile}
-											/>
-										</div>
-									</div>
-								);
-							}
-						})}
-					</div>
-					{bun ? (
-						<div className={"pl-8"}>
-							<ConstructorElement
-								type="bottom"
-								isLocked={true}
-								text={bun.name + " (низ)"}
-								price={bun.price}
-								thumbnail={bun.image_mobile}
-							/>
-						</div>
-					) : (
-						<div className={`${styles.placeholder}`} />
-					)}
+					<Bun bun={bun} type={"top"} />
+					<BurgerElements elements={listElements} />
+					<Bun bun={bun} type={"bottom"} />
 				</div>
 			</div>
 			<div className={`mt-10 ${styles.total}`}>

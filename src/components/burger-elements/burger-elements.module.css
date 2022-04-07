@@ -1,0 +1,25 @@
+.list,
+.elements {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	--background-element: #1c1c21;
+}
+
+.list {
+	height: -webkit-calc(100vh - 530px);
+	height: -moz-calc(100vh - 530px);
+	height: calc(100vh - 530px);
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.list::-webkit-scrollbar {
+	width: 10px;
+	height: 8px;
+	background-color: #2f2f37;
+}
+
+.list::-webkit-scrollbar-thumb {
+	background: #8585ad;
+}

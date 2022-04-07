@@ -20,6 +20,15 @@ export const remove = createAction(
 	}
 );
 
+export const update = createAction(
+	"elements/update",
+	function prepare(elements) {
+		return {
+			payload: elements,
+		};
+	}
+);
+
 export const postOrder = createAsyncThunk(
 	"elements/postOrder",
 	async (entities) => {

@@ -1,0 +1,10 @@
+.ingredient {
+	display: inline;
+}
+
+.draggable {
+	display: inline;
+}
+.draggable :hover {
+	cursor: pointer;
+}
