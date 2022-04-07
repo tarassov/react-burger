@@ -1,108 +1,39 @@
-import { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+// import { v4 as uuidv4 } from "uuid";
+
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-indredients";
 import styles from "./main-layout.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { CartContext } from "../../services/app-context";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchIngredients } from "../../services/actions/ingredients";
 import { selectAllIngredients } from "../../services/reducers/ingredients";
-
-const URL = "https://norma.nomoreparties.space/api/";
-
-const getUrl = (endpoint) => `${URL}${endpoint}`;
-
-const generateRandomCart = (data) => {
-	const cart = [];
-
-	if (!data || data.length === 0) return cart;
-
-	const buns = data.filter((ingredient) => ingredient.type === "bun");
-	const bunIndex = Math.floor(Math.random() * buns.length);
-	cart.push(buns[bunIndex]);
-
-	const ingredients = data.filter((ingredient) => ingredient.type !== "bun");
-	const ingredientCount = Math.random() * (10 - 4) + 4;
-	for (let i = 0; i < ingredientCount; i++) {
-		cart.push(ingredients[Math.floor(Math.random() * ingredients.length)]);
-	}
-	return cart;
-};
+import { postOrder } from "../../services/actions/elements";
+import { selectAllElements } from "../../services/reducers/elements";
 
 export default function MainLayout() {
-	const [ingredients, setIngredients] = useState([]);
-	const [order, setOrder] = useState({});
-	const [isOrderPosting, setIsOrderPosting] = useState(false);
-	const [isOrderError, setIsOrderError] = useState(false);
 	const [selectedIngredient, setSelectedIngredient] = useState();
 	const data = useSelector(selectAllIngredients);
 	const [isOpenOrder, setIsOpenOrder] = useState(false);
 	const [isOpenIngredient, setIsOpenIngredient] = useState(false);
-	const { cartState, cartDispatcher } = useContext(CartContext);
+	const order = useSelector((store) => store.elements.order);
+	const elements = useSelector(selectAllElements);
 
 	const dispatch = useDispatch();
-
-	const onAddIngredient = useCallback(
-		(ingredient) => {
-			if (
-				ingredient.type === "bun" &&
-				ingredients.some((i) => i.type === "bun")
-			) {
-				setIngredients([
-					...ingredients.filter((x) => x.type !== "bun"),
-					ingredient,
-				]);
-			} else {
-				setIngredients([...ingredients, ingredient]);
-			}
-		},
-		[ingredients]
-	);
-
-	const postOrder = useCallback(() => {
-		setOrder({ number: "" });
-		setIsOrderError(false);
-		setIsOrderPosting(true);
-
-		const ids = cartState.cart.map((ingredient) => ingredient._id);
-
-		window
-			.fetch(getUrl("orders"), {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ ingredients: ids }),
-			})
-			.then((response) => {
-				if (!response.ok) {
-					setIsOrderError(true);
-					setIsOrderPosting(false);
-					return Promise.reject(response.status);
-				}
-				return response.json();
-			})
-			.then((json) => {
-				setOrder(json.order);
-				setIsOrderPosting(false);
-			})
-			.catch((e) => console.log(e));
-	}, [cartState.cart]);
 
 	useEffect(() => {
 		dispatch(fetchIngredients());
 	}, []);
 
-	useEffect(() => {
-		const ingredients = generateRandomCart(data);
-		cartDispatcher({ type: "load", ingredients: ingredients });
-	}, [data, cartDispatcher]);
-
 	//open OrderDetails as modal
 	const onPerformOrder = useCallback(() => {
-		postOrder();
+		dispatch(postOrder(elements));
 		setIsOpenOrder(true);
-	}, [postOrder]);
+	}, [elements, dispatch]);
 
 	const onCloseModalOrder = useCallback(() => {
 		setIsOpenOrder(false);
@@ -120,21 +51,22 @@ export default function MainLayout() {
 
 	return (
 		<main className={styles.layout}>
-			{data && (
-				<BurgerIngredients
-					data={data}
-					onAddIngredient={onAddIngredient}
-					onIngredientClick={onIngredientClick}
-				/>
-			)}
-			<BurgerConstructor onPerformOrderClick={onPerformOrder} />
+			<DndProvider backend={HTML5Backend}>
+				{data && (
+					<BurgerIngredients
+						data={data}
+						onIngredientClick={onIngredientClick}
+					/>
+				)}
+				<BurgerConstructor onPerformOrderClick={onPerformOrder} />
+			</DndProvider>
 
 			{isOpenOrder && (
 				<Modal onClose={onCloseModalOrder}>
 					<OrderDetails
 						order={order}
-						isOrderPosting={isOrderPosting}
-						isOrderError={isOrderError}
+						isOrderPosting={order.posting}
+						isOrderError={order.error}
 					/>
 				</Modal>
 			)}

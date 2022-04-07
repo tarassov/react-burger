@@ -14,7 +14,7 @@ function OrderDetails({ order, isOrderPosting, isOrderError }) {
 				</p>
 			) : (
 				<p className={`text text_type_digits-large mt-30  ${styles.title}`}>
-					{order.number}{" "}
+					{order.orderNumber}{" "}
 				</p>
 			)}
 

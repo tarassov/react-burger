@@ -6,7 +6,6 @@ export const ingredientsAdapter = createEntityAdapter({
 });
 
 const initialState = ingredientsAdapter.getInitialState({
-	ingredients: [],
 	loading: false,
 	error: false,
 });

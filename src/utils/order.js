@@ -1,3 +1,3 @@
 export const order = {
-	number: "034536",
+	orderNumber: "034536",
 };

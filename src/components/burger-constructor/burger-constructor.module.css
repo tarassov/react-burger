@@ -1,6 +1,7 @@
 .container {
 	width: 580px;
 }
+
 .cart {
 	margin-top: 0px;
 }
@@ -16,6 +17,7 @@
 	gap: 16px;
 	--background-element: #1c1c21;
 }
+
 .list {
 	height: -webkit-calc(100vh - 530px);
 	height: -moz-calc(100vh - 530px);
@@ -23,6 +25,7 @@
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
+
 .list::-webkit-scrollbar {
 	width: 10px;
 	height: 8px;
@@ -38,6 +41,11 @@
 	margin-right: 16px;
 	vertical-align: middle;
 }
+
 .price {
 	display: inline;
+}
+
+.onHover {
+	background: #646470;
 }
