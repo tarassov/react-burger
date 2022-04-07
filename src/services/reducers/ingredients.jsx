@@ -17,9 +17,11 @@ export const ingredientSlice = createSlice({
 	extraReducers: (builder) => {
 		builder.addCase(fetchIngredients.pending, (state) => {
 			state.loading = true;
+			state.error = false;
 		});
 		builder.addCase(fetchIngredients.fulfilled, (state, action) => {
 			ingredientsAdapter.upsertMany(state, action.payload);
+			state.error = false;
 			state.loading = false;
 		});
 		builder.addCase(fetchIngredients.rejected, (state) => {

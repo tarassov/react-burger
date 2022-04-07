@@ -48,7 +48,7 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 					className={`${styles.elements} ${isHover && styles.onHover}`}
 					ref={dropTargerRef}
 				>
-					{bun && (
+					{bun ? (
 						<div className={`pl-8`}>
 							<ConstructorElement
 								type="top"
@@ -58,6 +58,8 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 								thumbnail={bun.image_mobile}
 							/>
 						</div>
+					) : (
+						<div className={`${styles.placeholder}`} />
 					)}
 					<div className={styles.list}>
 						{elements.map((ingredient, index) => {
@@ -79,7 +81,7 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 							}
 						})}
 					</div>
-					{bun && (
+					{bun ? (
 						<div className={"pl-8"}>
 							<ConstructorElement
 								type="bottom"
@@ -89,6 +91,8 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 								thumbnail={bun.image_mobile}
 							/>
 						</div>
+					) : (
+						<div className={`${styles.placeholder}`} />
 					)}
 				</div>
 			</div>

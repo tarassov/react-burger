@@ -49,3 +49,7 @@
 .onHover {
 	background: #646470;
 }
+.placeholder {
+	height: 80px;
+	border: dotted 1px #2f2f37;
+}
