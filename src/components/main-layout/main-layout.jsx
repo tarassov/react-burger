@@ -24,7 +24,6 @@ export default function MainLayout() {
 	const [isOpenIngredient, setIsOpenIngredient] = useState(false);
 
 	//selectors
-	const order = useSelector((store) => store.elements.order);
 	const ingredients = useSelector(selectAllIngredients);
 	const elements = useSelector(selectAllElements);
 
@@ -66,11 +65,7 @@ export default function MainLayout() {
 
 			{isOpenOrder && (
 				<Modal onClose={onCloseModalOrder}>
-					<OrderDetails
-						order={order}
-						isOrderPosting={order.posting}
-						isOrderError={order.error}
-					/>
+					<OrderDetails />
 				</Modal>
 			)}
 
