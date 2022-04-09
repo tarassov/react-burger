@@ -5,7 +5,14 @@ import { ingredientsAdapter, initialState } from "../adapters/ingredients";
 export const ingredientSlice = createSlice({
 	name: "ingredients",
 	initialState,
-	reducers: {},
+	reducers: {
+		select: (state, action) => {
+			state.selected = action.payload;
+		},
+		unselect: (state) => {
+			state.selected = {};
+		},
+	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchIngredients.pending, (state) => {
 			state.loading = true;

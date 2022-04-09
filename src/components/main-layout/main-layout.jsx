@@ -9,14 +9,17 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchIngredients } from "../../services/actions/ingredients";
+import {
+	fetchIngredients,
+	selectIngredient,
+	unselectIngredient,
+} from "../../services/actions/ingredients";
 import { selectAllIngredients } from "../../services/adapters/ingredients";
 import { postOrder } from "../../services/actions/elements";
 import { selectAllElements } from "../../services/adapters/elements";
 
 export default function MainLayout() {
 	//state
-	const [selectedIngredient, setSelectedIngredient] = useState();
 	const [isOpenOrder, setIsOpenOrder] = useState(false);
 	const [isOpenIngredient, setIsOpenIngredient] = useState(false);
 
@@ -43,11 +46,12 @@ export default function MainLayout() {
 
 	//open IngredientDetails as modal
 	const onIngredientClick = useCallback((ingredient) => {
-		setSelectedIngredient(ingredient);
+		dispatch(selectIngredient(ingredient));
 		setIsOpenIngredient(true);
 	}, []);
 
 	const onCloseIngredient = useCallback(() => {
+		dispatch(unselectIngredient());
 		setIsOpenIngredient(false);
 	}, []);
 
@@ -72,7 +76,7 @@ export default function MainLayout() {
 
 			{isOpenIngredient && (
 				<Modal onClose={onCloseIngredient}>
-					<IngredientDetails ingredient={selectedIngredient} />
+					<IngredientDetails />
 				</Modal>
 			)}
 		</main>

@@ -5,7 +5,7 @@ export const ingredientsAdapter = createEntityAdapter({
 });
 
 export const initialState = ingredientsAdapter.getInitialState({
-	active: {},
+	selected: {},
 	loading: false,
 	error: false,
 });
