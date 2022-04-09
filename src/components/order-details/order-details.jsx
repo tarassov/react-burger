@@ -21,7 +21,8 @@ function OrderDetails() {
 
 			{order.error && (
 				<p className={`text text_type_main-medium mt-30  ${styles.title}`}>
-					Ошибка запроса. {order.errorMessage}
+					Ошибка запроса.
+					{/*  {order.errorMessage} */}
 				</p>
 			)}
 
