@@ -3,7 +3,7 @@ import styles from "./order-details.module.css";
 import { useSelector } from "react-redux";
 
 function OrderDetails() {
-	const order = useSelector((store) => store.elements.order);
+	const order = useSelector((store) => store.order);
 
 	return (
 		<div className={styles.container}>
@@ -21,7 +21,7 @@ function OrderDetails() {
 
 			{order.error && (
 				<p className={`text text_type_main-medium mt-30  ${styles.title}`}>
-					Ошибка при соединении.
+					Ошибка запроса. {order.errorMessage}
 				</p>
 			)}
 

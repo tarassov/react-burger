@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { postOrder } from "../actions/elements";
 import { elementsAdapter, initialState } from "../adapters/elements";
 
 const countTotalPrice = (state) => {
@@ -82,20 +81,7 @@ export const elementsSlice = createSlice({
 			elementsAdapter.upsertMany(state, action.payload);
 		},
 	},
-	extraReducers: (builder) => {
-		builder.addCase(postOrder.pending, (state) => {
-			state.order.posting = true;
-		});
-		builder.addCase(postOrder.fulfilled, (state, action) => {
-			state.order.error = false;
-			state.order.posting = false;
-			state.order.orderNumber = action.payload.order.number;
-		});
-		builder.addCase(postOrder.rejected, (state) => {
-			state.order.error = true;
-			state.order.posting = false;
-		});
-	},
+	extraReducers: {},
 });
 
 const elementsReducer = elementsSlice.reducer;

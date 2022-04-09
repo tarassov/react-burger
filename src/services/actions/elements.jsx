@@ -1,5 +1,4 @@
-import { createAsyncThunk, createAction, nanoid } from "@reduxjs/toolkit";
-import elementsApi from "../../api/elements-api";
+import { createAction, nanoid } from "@reduxjs/toolkit";
 
 export const add = createAction("elements/add", function prepare(ingredient) {
 	return {
@@ -25,14 +24,5 @@ export const update = createAction(
 		return {
 			payload: elements,
 		};
-	}
-);
-
-export const postOrder = createAsyncThunk(
-	"elements/postOrder",
-	async (entities) => {
-		const ids = entities.map((ingredient) => ingredient._id);
-		const response = await elementsApi.postOrder(ids);
-		return response;
 	}
 );

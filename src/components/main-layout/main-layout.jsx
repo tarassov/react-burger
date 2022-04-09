@@ -15,8 +15,8 @@ import {
 	unselectIngredient,
 } from "../../services/actions/ingredients";
 import { selectAllIngredients } from "../../services/adapters/ingredients";
-import { postOrder } from "../../services/actions/elements";
 import { selectAllElements } from "../../services/adapters/elements";
+import { postOrder } from "../../services/actions/order";
 
 export default function MainLayout() {
 	//state
