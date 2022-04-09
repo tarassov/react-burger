@@ -6,8 +6,8 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import Price from "../price/price";
 
-import { add, update } from "../../services/actions/elements";
-import { selectAllElements } from "../../services/adapters/elements";
+import { add, update } from "../../services/actions/elements-actions";
+import { selectAllElements } from "../../services/adapters/elements-adapters";
 import BurgerElements from "../burger-elements/burger-elements";
 import Bun from "../bun/bun";
 

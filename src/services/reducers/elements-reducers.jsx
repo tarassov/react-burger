@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { elementsAdapter, initialState } from "../adapters/elements";
+import { elementsAdapter, initialState } from "../adapters/elements-adapters";
 
 const countTotalPrice = (state) => {
 	return elementsAdapter
@@ -84,6 +84,6 @@ export const elementsSlice = createSlice({
 	extraReducers: {},
 });
 
-const elementsReducer = elementsSlice.reducer;
+const elementsReducers = elementsSlice.reducer;
 
-export default elementsReducer;
+export default elementsReducers;

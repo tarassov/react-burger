@@ -8,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./element.module.css";
 
-import { remove } from "../../services/actions/elements";
+import { remove } from "../../services/actions/elements-actions";
 
 import { elementPropTypes } from "../../utils/prop-types";
 import { useDrag, useDrop } from "react-dnd";

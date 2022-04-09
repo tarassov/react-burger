@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { postOrder } from "../actions/order";
+import { postOrder } from "../actions/orders-actions";
 
 const initialState = {
 	orderNumber: "",
@@ -30,6 +30,6 @@ export const orderSlice = createSlice({
 	},
 });
 
-const orderReducer = orderSlice.reducer;
+const orderReducers = orderSlice.reducer;
 
-export default orderReducer;
+export default orderReducers;

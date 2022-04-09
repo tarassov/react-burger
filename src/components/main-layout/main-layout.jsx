@@ -13,10 +13,10 @@ import {
 	fetchIngredients,
 	selectIngredient,
 	unselectIngredient,
-} from "../../services/actions/ingredients";
-import { selectAllIngredients } from "../../services/adapters/ingredients";
-import { selectAllElements } from "../../services/adapters/elements";
-import { postOrder } from "../../services/actions/order";
+} from "../../services/actions/ingredients-actions";
+import { selectAllIngredients } from "../../services/adapters/ingredients-adapters";
+import { selectAllElements } from "../../services/adapters/elements-adapters";
+import { postOrder } from "../../services/actions/orders-actions";
 
 export default function MainLayout() {
 	//state

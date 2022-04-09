@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchIngredients } from "../actions/ingredients";
-import { ingredientsAdapter, initialState } from "../adapters/ingredients";
+import { fetchIngredients } from "../actions/ingredients-actions";
+import {
+	ingredientsAdapter,
+	initialState,
+} from "../adapters/ingredients-adapters";
 
 export const ingredientSlice = createSlice({
 	name: "ingredients",
@@ -30,5 +33,5 @@ export const ingredientSlice = createSlice({
 	},
 });
 
-const ingredientReducer = ingredientSlice.reducer;
-export default ingredientReducer;
+const ingredientReducers = ingredientSlice.reducer;
+export default ingredientReducers;
