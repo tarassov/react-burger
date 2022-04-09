@@ -7,7 +7,7 @@ import styles from "./burger-constructor.module.css";
 import Price from "../price/price";
 
 import { add, update } from "../../services/actions/elements";
-import { selectAllElements } from "../../services/reducers/elements";
+import { selectAllElements } from "../../services/adapters/elements";
 import BurgerElements from "../burger-elements/burger-elements";
 import Bun from "../bun/bun";
 

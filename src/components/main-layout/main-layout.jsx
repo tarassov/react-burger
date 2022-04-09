@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-// import { v4 as uuidv4 } from "uuid";
 
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-indredients";
@@ -11,9 +10,9 @@ import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchIngredients } from "../../services/actions/ingredients";
-import { selectAllIngredients } from "../../services/reducers/ingredients";
+import { selectAllIngredients } from "../../services/adapters/ingredients";
 import { postOrder } from "../../services/actions/elements";
-import { selectAllElements } from "../../services/reducers/elements";
+import { selectAllElements } from "../../services/adapters/elements";
 
 export default function MainLayout() {
 	//state

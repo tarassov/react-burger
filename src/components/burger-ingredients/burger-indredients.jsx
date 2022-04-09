@@ -4,7 +4,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientBlock from "../ingredient-block/ingredient-block";
 import { useSelector } from "react-redux";
-import { selectAllIngredients } from "../../services/reducers/ingredients";
+import { selectAllIngredients } from "../../services/adapters/ingredients";
 
 export default function BurgerIngredients(props) {
 	const bunRef = useRef(null);
