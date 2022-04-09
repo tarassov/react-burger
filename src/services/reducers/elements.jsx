@@ -52,7 +52,7 @@ const reorder = (state) => {
 				state.maxIndex = index;
 				return {
 					...element,
-					sortIndex: element.type === "bun" ? 0 : index + 1,
+					sortIndex: element.type === "bun" ? 0 : index,
 				};
 			})
 	);
@@ -69,18 +69,27 @@ export const elementsSlice = createSlice({
 			reorder(state);
 		},
 		add: (state, action) => {
-			state.maxIndex = state.maxIndex + 1;
-			elementsAdapter.upsertOne(state, {
-				...action.payload,
-				sortIndex: state.maxIndex,
-			});
+			if (action.payload.type == "bun") {
+				if (state.entities["bun"]) {
+					state.entities["bun"] = { ...action.payload, sortIndex: 0 };
+				} else {
+					elementsAdapter.upsertOne(state, {
+						...action.payload,
+						sortIndex: 0,
+					});
+				}
+			} else {
+				state.maxIndex = state.maxIndex + 1;
+				elementsAdapter.upsertOne(state, {
+					...action.payload,
+					sortIndex: state.maxIndex,
+				});
+			}
 			state.totalPrice = countTotalPrice(state);
 			state.groupedCart = generateGroupedCart(state);
-			reorder(state);
 		},
 		update: (state, action) => {
 			elementsAdapter.upsertMany(state, action.payload);
-			reorder(state);
 		},
 	},
 	extraReducers: (builder) => {

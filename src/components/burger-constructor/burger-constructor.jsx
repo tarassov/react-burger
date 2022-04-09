@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import PropTypes from "prop-types";
@@ -27,16 +27,19 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 		},
 	});
 
-	const onSubstitute = (from, to, hoverIndex, dragIndex) => {
-		if (hoverIndex !== dragIndex) {
-			dispatch(
-				update([
-					{ ...from, sortIndex: hoverIndex },
-					{ ...to, sortIndex: dragIndex },
-				])
-			);
-		}
-	};
+	const onSubstitute = useCallback(
+		(from, to, hoverIndex, dragIndex) => {
+			if (hoverIndex !== dragIndex) {
+				dispatch(
+					update([
+						{ ...from, sortIndex: hoverIndex },
+						{ ...to, sortIndex: dragIndex },
+					])
+				);
+			}
+		},
+		[dispatch]
+	);
 
 	const bun = useMemo(() => {
 		return elements.find((x) => x.type === "bun");

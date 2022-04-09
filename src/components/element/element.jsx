@@ -13,7 +13,7 @@ import { remove } from "../../services/actions/elements";
 import { elementPropTypes } from "../../utils/prop-types";
 import { useDrag, useDrop } from "react-dnd";
 
-export default function Element({ element, moveElement }) {
+export default function Element({ element, onSubstitute }) {
 	const dispatch = useDispatch();
 
 	const onRemoveElement = useCallback(
@@ -31,15 +31,12 @@ export default function Element({ element, moveElement }) {
 		}),
 	});
 
-	const [{ handlerId }, dropRef] = useDrop({
+	const [, dropRef] = useDrop({
 		accept: "element",
-		collect(monitor) {
-			return {
-				handlerId: monitor.getHandlerId(),
-			};
-		},
+
 		hover: (item, monitor) => {
-			if (item.id === element.id) return;
+			if (!ref.current) return;
+			if (item.element.id === element.id) return;
 			if (Math.abs(item.sortIndex - element.sortIndex) > 1) return;
 			const dragIndex = item.sortIndex;
 			const hoverIndex = element.sortIndex;
@@ -48,6 +45,7 @@ export default function Element({ element, moveElement }) {
 			const hoverMiddleY =
 				(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 			const clientOffset = monitor.getClientOffset();
+			if (clientOffset === null) return;
 			const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
 			if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -58,20 +56,16 @@ export default function Element({ element, moveElement }) {
 				return;
 			}
 
-			moveElement(item.element, element, hoverIndex, dragIndex);
+			onSubstitute(item.element, element, hoverIndex, dragIndex);
 			item.sortIndex = hoverIndex;
 		},
 	});
+
 	const ref = useRef(null);
 	const dragDropRef = dragRef(dropRef(ref));
-	const preventDefault = (e) => e.preventDefault();
+
 	return (
-		<div
-			style={{ opacity }}
-			ref={dragDropRef}
-			data-handler-id={handlerId}
-			onDrop={preventDefault}
-		>
+		<div style={{ opacity }} ref={dragDropRef}>
 			<div className={styles.draggable}>
 				<DragIcon type="primary" />
 			</div>
@@ -90,5 +84,5 @@ export default function Element({ element, moveElement }) {
 
 Element.propTypes = {
 	element: elementPropTypes.isRequired,
-	moveElement: PropTypes.func.isRequired,
+	onSubstitute: PropTypes.func.isRequired,
 };
