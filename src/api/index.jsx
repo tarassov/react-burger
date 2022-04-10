@@ -1,18 +1,19 @@
 export const API_URL = "https://norma.nomoreparties.space/api/";
 
-export const checkResponse = (response) => {
+const checkResponse = (response) => {
 	return response.ok
 		? response.json()
 		: response.json().then((e) => Promise.reject(e));
 };
 
+const checkSuccess = (data) => {
+	return data?.success ? data : Promise.reject(data);
+};
+
 export const get = (endpoint) => {
 	return fetch(`${API_URL}${endpoint}`, { method: "GET" })
 		.then(checkResponse)
-		.then((data) => {
-			if (data?.success) return data.data;
-			return Promise.reject(data);
-		});
+		.then(checkSuccess);
 };
 
 export const post = (endpoint, body) => {
@@ -22,8 +23,5 @@ export const post = (endpoint, body) => {
 		body: body,
 	})
 		.then(checkResponse)
-		.then((data) => {
-			if (data?.success) return data;
-			return Promise.reject(data);
-		});
+		.then(checkSuccess);
 };

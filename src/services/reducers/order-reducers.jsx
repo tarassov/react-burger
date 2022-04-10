@@ -22,7 +22,6 @@ export const orderSlice = createSlice({
 			state.orderNumber = action.payload.order.number;
 		});
 		builder.addCase(postOrder.rejected, (state, payload) => {
-			console.log(payload);
 			state.errorMessage = payload.error.message;
 			state.error = true;
 			state.posting = false;

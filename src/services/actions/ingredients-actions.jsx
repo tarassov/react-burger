@@ -5,7 +5,7 @@ export const fetchIngredients = createAsyncThunk(
 	"ingredients/fetchAll",
 	async () => {
 		const response = await ingredientsApi.fetchAll();
-		return response;
+		return response.data;
 	}
 );
 
