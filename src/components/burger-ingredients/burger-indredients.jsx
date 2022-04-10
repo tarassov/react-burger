@@ -63,7 +63,7 @@ export default function BurgerIngredients(props) {
 	return (
 		<section className={`mr-5 mt-10 ${styles.container}`}>
 			<p className="text text_type_main-large">Соберите бургер</p>
-			<div style={{ display: "flex" }}>
+			<div className={styles.tab}>
 				<Tab value="bun" active={currentTab === "bun"} onClick={onTabClick}>
 					Булки
 				</Tab>

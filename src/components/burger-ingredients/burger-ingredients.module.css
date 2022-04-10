@@ -1,6 +1,7 @@
 .container {
 	width: 600px;
 }
+
 .list {
 	height: -webkit-calc(100vh - 300px);
 	height: -moz-calc(100vh - 300px);
@@ -8,6 +9,7 @@
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
+
 .list::-webkit-scrollbar {
 	width: 10px;
 	height: 8px;
@@ -21,4 +23,8 @@
 .grid {
 	display: grid;
 	grid-template-columns: auto auto;
+}
+
+.tab {
+	display: flex
 }

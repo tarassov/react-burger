@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { postOrder } from "../actions/orders-actions";
 import { elementsAdapter, initialState } from "../adapters/elements-adapters";
 
 const countTotalPrice = (state) => {
@@ -81,7 +82,14 @@ export const elementsSlice = createSlice({
 			elementsAdapter.upsertMany(state, action.payload);
 		},
 	},
-	extraReducers: {},
+	extraReducers: (builder) => {
+		builder.addCase(postOrder.fulfilled, (state) => {
+			elementsAdapter.removeAll(state);
+			state.maxIndex = 0;
+			state.groupedCart = [];
+			state.totalPrice = 0;
+		});
+	},
 });
 
 const elementsReducers = elementsSlice.reducer;

@@ -9,9 +9,11 @@ export default function BurgerElements({ elements, onSubstitute }) {
 		<div className={styles.list}>
 			{elements.map((element) => {
 				return (
-					<div key={element.id}>
-						<Element element={element} onSubstitute={onSubstitute} />
-					</div>
+					<Element
+						key={element.id}
+						element={element}
+						onSubstitute={onSubstitute}
+					/>
 				);
 			})}
 		</div>
