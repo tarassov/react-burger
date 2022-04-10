@@ -4,10 +4,13 @@ import ReactDOM from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./modal.module.css";
+import { useDispatch } from "react-redux";
+import { closeModal } from "../../services/actions/system-actions";
 
 const modalRoot = document.getElementById("modal-root");
 
 export default function Modal({ children, onClose }) {
+	const dispatch = useDispatch();
 	useEffect(() => {
 		window.addEventListener("keydown", keyHandler);
 		return () => {
@@ -16,7 +19,8 @@ export default function Modal({ children, onClose }) {
 	}, []);
 
 	const close = () => {
-		onClose();
+		dispatch(closeModal());
+		if (onClose) onClose();
 	};
 
 	const keyHandler = (e) => {

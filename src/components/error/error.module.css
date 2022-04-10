@@ -1,0 +1,18 @@
+.container {
+	height: 320px;
+	width: 518px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+@media screen and (max-height: 720px) {
+	.container {
+		height: 200px;
+	}
+
+	.title {
+		margin-top: 60px;
+	}
+}

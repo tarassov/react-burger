@@ -16,16 +16,19 @@ import {
 } from "../../services/actions/ingredients-actions";
 import { selectAllIngredients } from "../../services/adapters/ingredients-adapters";
 import { selectAllElements } from "../../services/adapters/elements-adapters";
-import { postOrder } from "../../services/actions/orders-actions";
+// import { postOrder } from "../../services/actions/orders-actions";
+import { tryToPostOrder } from "../../services/actions/orders-actions";
+import Error from "../error/erorr";
 
 export default function MainLayout() {
 	//state
-	const [isOpenOrder, setIsOpenOrder] = useState(false);
+
 	const [isOpenIngredient, setIsOpenIngredient] = useState(false);
 
 	//selectors
 	const ingredients = useSelector(selectAllIngredients);
 	const elements = useSelector(selectAllElements);
+	const { orderModal, error } = useSelector((store) => store.system);
 
 	const dispatch = useDispatch();
 
@@ -35,13 +38,8 @@ export default function MainLayout() {
 
 	//open OrderDetails as modal
 	const onPerformOrder = useCallback(() => {
-		dispatch(postOrder(elements));
-		setIsOpenOrder(true);
+		dispatch(tryToPostOrder(elements));
 	}, [elements, dispatch]);
-
-	const onCloseModalOrder = useCallback(() => {
-		setIsOpenOrder(false);
-	}, []);
 
 	//open IngredientDetails as modal
 	const onIngredientClick = useCallback((ingredient) => {
@@ -63,8 +61,8 @@ export default function MainLayout() {
 				<BurgerConstructor onPerformOrderClick={onPerformOrder} />
 			</DndProvider>
 
-			{isOpenOrder && (
-				<Modal onClose={onCloseModalOrder}>
+			{orderModal && (
+				<Modal>
 					<OrderDetails />
 				</Modal>
 			)}
@@ -72,6 +70,11 @@ export default function MainLayout() {
 			{isOpenIngredient && (
 				<Modal onClose={onCloseIngredient}>
 					<IngredientDetails />
+				</Modal>
+			)}
+			{error && (
+				<Modal>
+					<Error />
 				</Modal>
 			)}
 		</main>

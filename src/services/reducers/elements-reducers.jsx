@@ -86,7 +86,7 @@ export const elementsSlice = createSlice({
 		builder.addCase(postOrder.fulfilled, (state) => {
 			elementsAdapter.removeAll(state);
 			state.maxIndex = 0;
-			state.groupedCart = [];
+			state.groupedCart = {};
 			state.totalPrice = 0;
 		});
 	},
