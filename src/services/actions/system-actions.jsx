@@ -9,14 +9,4 @@ export const fireError = createAction(
 	}
 );
 
-export const showOrder = createAction(
-	"system/showOrder",
-	function prepare(visible) {
-		return {
-			payload: visible,
-		};
-	}
-);
-export const hideOrder = createAction("system/hideOrder");
-
 export const closeModal = createAction("system/closeModal");

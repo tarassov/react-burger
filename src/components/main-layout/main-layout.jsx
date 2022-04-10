@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -19,16 +19,15 @@ import { selectAllElements } from "../../services/adapters/elements-adapters";
 // import { postOrder } from "../../services/actions/orders-actions";
 import { tryToPostOrder } from "../../services/actions/orders-actions";
 import Error from "../error/erorr";
+import Loader from "../loader/loader";
 
 export default function MainLayout() {
-	//state
-
-	const [isOpenIngredient, setIsOpenIngredient] = useState(false);
-
 	//selectors
 	const ingredients = useSelector(selectAllIngredients);
 	const elements = useSelector(selectAllElements);
-	const { orderModal, error } = useSelector((store) => store.system);
+	const { orderModal, error, ingredientModal, loading } = useSelector(
+		(store) => store.system
+	);
 
 	const dispatch = useDispatch();
 
@@ -44,12 +43,10 @@ export default function MainLayout() {
 	//open IngredientDetails as modal
 	const onIngredientClick = useCallback((ingredient) => {
 		dispatch(selectIngredient(ingredient));
-		setIsOpenIngredient(true);
 	}, []);
 
 	const onCloseIngredient = useCallback(() => {
 		dispatch(unselectIngredient());
-		setIsOpenIngredient(false);
 	}, []);
 
 	return (
@@ -67,7 +64,7 @@ export default function MainLayout() {
 				</Modal>
 			)}
 
-			{isOpenIngredient && (
+			{ingredientModal && (
 				<Modal onClose={onCloseIngredient}>
 					<IngredientDetails />
 				</Modal>
@@ -77,6 +74,7 @@ export default function MainLayout() {
 					<Error />
 				</Modal>
 			)}
+			{loading && <Loader />}
 		</main>
 	);
 }

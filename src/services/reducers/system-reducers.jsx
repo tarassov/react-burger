@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchIngredients } from "../actions/ingredients-actions";
 import { postOrder } from "../actions/orders-actions";
 
 const initialState = {
@@ -23,8 +24,29 @@ export const systemSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
+		builder.addCase(fetchIngredients.pending, (state) => {
+			state.loading = true;
+		});
+		builder.addCase(fetchIngredients.rejected, (state) => {
+			state.loading = false;
+		});
+		builder.addCase(fetchIngredients.fulfilled, (state) => {
+			state.loading = false;
+		});
+		builder.addCase(postOrder.pending, (state) => {
+			state.loading = true;
+		});
+		builder.addCase(postOrder.rejected, (state) => {
+			state.loading = false;
+			state.error = true;
+			state.errorMessage = "Галактический сбой.";
+		});
 		builder.addCase(postOrder.fulfilled, (state) => {
 			state.orderModal = true;
+			state.loading = false;
+		});
+		builder.addCase("ingredients/select", (state) => {
+			state.ingredientModal = true;
 		});
 	},
 });

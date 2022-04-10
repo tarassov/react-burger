@@ -18,7 +18,6 @@ export const orderSlice = createSlice({
 		builder.addCase(postOrder.fulfilled, (state, action) => {
 			state.error = false;
 			state.posting = false;
-			console.log(action.payload);
 			state.orderNumber = action.payload.order.number;
 		});
 		builder.addCase(postOrder.rejected, (state, payload) => {

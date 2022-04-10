@@ -1,6 +1,5 @@
 import styles from "./error.module.css";
 import { useSelector } from "react-redux";
-
 function Error() {
 	const order = useSelector((store) => store.system);
 
