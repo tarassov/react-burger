@@ -1,24 +1,30 @@
 .container {
-    width: 600px;
+	width: 600px;
 }
-.list{
-    height: -webkit-calc(100vh - 300px);
-    height: -moz-calc(100vh - 300px);
-    height: calc(100vh - 300px); 
-    overflow-y: scroll;
-    overflow-x: hidden;
+
+.list {
+	height: -webkit-calc(100vh - 300px);
+	height: -moz-calc(100vh - 300px);
+	height: calc(100vh - 300px);
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
+
 .list::-webkit-scrollbar {
-    width: 10px;
-    height: 8px;
-    background-color: #2F2F37; 
-  }
-  
- .list::-webkit-scrollbar-thumb {
-    background: #8585AD;
- }
+	width: 10px;
+	height: 8px;
+	background-color: #2f2f37;
+}
+
+.list::-webkit-scrollbar-thumb {
+	background: #8585ad;
+}
 
 .grid {
-    display: grid;
-    grid-template-columns: auto auto;
-  }
+	display: grid;
+	grid-template-columns: auto auto;
+}
+
+.tab {
+	display: flex
+}
