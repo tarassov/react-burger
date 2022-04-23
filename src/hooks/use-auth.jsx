@@ -5,6 +5,7 @@ export function useAuth() {
 	const dispatch = useDispatch();
 
 	const signIn = async (credentials) => {
+		console.log(credentials);
 		dispatch(login(credentials));
 	};
 

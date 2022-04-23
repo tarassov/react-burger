@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Link, Navigate, Route, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { useAuth } from "../../hooks/use-auth";
@@ -19,24 +19,22 @@ export function LoginPage() {
 	const from = location.state?.from?.pathname || "/";
 	const { loggedIn } = useSelector((store) => store.user);
 
-	const [form, setValue] = useState({ email: "", password: "" });
+	const [credentials, setValue] = useState({ email: "", password: "" });
 
 	const onChange = (e) => {
-		setValue({ ...form, [e.target.name]: e.target.value });
+		setValue({ ...credentials, [e.target.name]: e.target.value });
 	};
 
 	let login = useCallback(
 		(e) => {
 			e.preventDefault();
-			auth.signIn(() => {
-				navigate(from, { replace: true });
-			});
+			auth.signIn(credentials).then(navigate(from, { replace: true }));
 		},
-		[auth, navigate]
+		[auth, navigate, credentials]
 	);
 
 	if (loggedIn) {
-		return <Route render={() => <Navigate to="/" />} />;
+		return <Navigate to="/" />;
 	}
 
 	return (
@@ -49,7 +47,7 @@ export function LoginPage() {
 				<div className={`mt-6`}>
 					<Input
 						placeholder="Email"
-						value={form.email}
+						value={credentials.email}
 						name="email"
 						onChange={onChange}
 					/>
@@ -57,7 +55,7 @@ export function LoginPage() {
 				<div className={`mt-6`}>
 					<PasswordInput
 						placeholder="Password"
-						value={form.password}
+						value={credentials.password}
 						name="password"
 						onChange={onChange}
 					/>
