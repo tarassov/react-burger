@@ -1,8 +1,11 @@
 import { post } from ".";
-
+const authPath = "auth";
 const userApi = {
-	postOrder: (credentials) => {
-		return post("login", JSON.stringify(credentials));
+	login: (credentials) => {
+		return post(`${authPath}/login`, JSON.stringify(credentials));
+	},
+	register: (credentials) => {
+		return post(`${authPath}/register`, JSON.stringify(credentials));
 	},
 };
 

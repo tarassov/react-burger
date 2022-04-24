@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
+import { useCallback, useState, useEffect } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/use-auth";
 
@@ -9,44 +9,51 @@ import {
 	PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./login-page.module.css";
+import styles from "./register-page.module.css";
 
-export default function LoginPage() {
+export default function RegisterPage() {
 	const navigate = useNavigate();
-	const { signIn, user, dismissErrors } = useAuth();
-	const location = useLocation();
+	const { register, user, dismissErrors } = useAuth();
 
-	const from = location.state?.from?.pathname || "/";
-
-	const [credentials, setValue] = useState({ email: "", password: "" });
-
-	useEffect(() => {
-		dismissErrors();
-	}, []);
+	const [credentials, setValue] = useState({
+		email: "",
+		password: "",
+		name: "",
+	});
 
 	const onChange = (e) => {
 		setValue({ ...credentials, [e.target.name]: e.target.value });
 	};
 
-	let login = useCallback(
+	useEffect(() => {
+		dismissErrors();
+	}, []);
+	const onClick = useCallback(
 		(e) => {
 			e.preventDefault();
-			signIn(credentials);
+			register(credentials);
 		},
-		[signIn, navigate, credentials]
+		[register, navigate, credentials]
 	);
 
 	if (user.authenticated) {
-		return <Navigate to={from} />;
+		return <Navigate to="/" />;
 	}
 
 	return (
 		<div className={styles.container}>
 			<form className={styles.form}>
 				<div>
-					<p className={`text text_type_main-large`}>Вход</p>
+					<p className={`text text_type_main-large`}>Регистрация</p>
 				</div>
-
+				<div className={`mt-6`}>
+					<Input
+						placeholder="Имя"
+						value={credentials.name}
+						name="name"
+						onChange={onChange}
+					/>
+				</div>
 				<div className={`mt-6`}>
 					<Input
 						placeholder="Email"
@@ -69,24 +76,16 @@ export default function LoginPage() {
 					</p>
 				)}
 				<div className={`mt-6`}>
-					<Button onClick={login} primary={true}>
-						Войти
+					<Button onClick={onClick} primary={true}>
+						Зарегистрироваться
 					</Button>
 				</div>
 			</form>
 			<div className={`mt-20`}>
 				<p className={`text text_type_main-default text_color_inactive`}>
-					Вы - новый пользователь?{" "}
-					<Link className={styles.link} to="/register">
-						Зарегистрироваться
-					</Link>
-				</p>
-			</div>
-			<div className={`mt-4`}>
-				<p className={`text text_type_main-default text_color_inactive`}>
-					Забыли пароль?{" "}
-					<Link className={styles.link} to="/forgot-password">
-						Восстановить пароль
+					Уже зарегистрированы?{" "}
+					<Link className={styles.link} to="/login">
+						Войти
 					</Link>
 				</p>
 			</div>

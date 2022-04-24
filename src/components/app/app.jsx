@@ -9,6 +9,8 @@ import {
 	HomePage,
 	OrderHistory,
 	ProfileEdit,
+	RegisterPage,
+	Logout,
 } from "../../pages";
 import RequireAuth from "../../pages/require-auth";
 
@@ -20,6 +22,7 @@ function App() {
 					<AppHeader />
 					<Routes>
 						<Route path="/login" element={<LoginPage />} />
+						<Route path="/register" element={<RegisterPage />} />
 						<Route
 							path="/"
 							element={
@@ -38,6 +41,7 @@ function App() {
 						>
 							<Route path="" element={<ProfileEdit />} />
 							<Route path="orders" element={<OrderHistory />} />
+							<Route path="logout" element={<Logout />} />
 						</Route>
 					</Routes>
 				</BrowserRouter>

@@ -1,17 +1,31 @@
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "../services/actions/user-actions";
+import {
+	login,
+	logout,
+	register as registerAction,
+	dismissErrors as dismissErrorsAction,
+} from "../services/actions/user-actions";
 
 export function useAuth() {
 	const dispatch = useDispatch();
 	const user = useSelector((store) => store.user);
 
+	const dismissErrors = () => {
+		if (user.error) dispatch(dismissErrorsAction());
+	};
+
 	const signIn = async (credentials) => {
-		console.log(credentials);
 		dispatch(login(credentials));
 	};
 
 	const signOut = async () => {
 		dispatch(logout());
+	};
+	const updateUser = async () => {
+		console.log("updating user");
+	};
+	const register = async (credentials) => {
+		dispatch(registerAction(credentials));
 	};
 
 	const checkAuth = () => {
@@ -23,5 +37,8 @@ export function useAuth() {
 		checkAuth,
 		signIn,
 		signOut,
+		register,
+		dismissErrors,
+		updateUser,
 	};
 }
