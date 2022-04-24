@@ -1,8 +1,9 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "../services/actions/user-actions";
 
 export function useAuth() {
 	const dispatch = useDispatch();
+	const user = useSelector((store) => store.user);
 
 	const signIn = async (credentials) => {
 		console.log(credentials);
@@ -18,6 +19,7 @@ export function useAuth() {
 	};
 
 	return {
+		user,
 		checkAuth,
 		signIn,
 		signOut,

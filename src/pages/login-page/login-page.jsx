@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
 
 import { useAuth } from "../../hooks/use-auth";
 
@@ -12,12 +11,12 @@ import {
 
 import styles from "./login-page.module.css";
 
-export function LoginPage() {
+export default function LoginPage() {
 	const navigate = useNavigate();
-	const auth = useAuth();
+	const { signIn, user } = useAuth();
+	const location = useLocation();
 
 	const from = location.state?.from?.pathname || "/";
-	const { loggedIn } = useSelector((store) => store.user);
 
 	const [credentials, setValue] = useState({ email: "", password: "" });
 
@@ -28,12 +27,13 @@ export function LoginPage() {
 	let login = useCallback(
 		(e) => {
 			e.preventDefault();
-			auth.signIn(credentials).then(navigate(from, { replace: true }));
+			console.log(from);
+			signIn(credentials).then(navigate(from, { replace: true }));
 		},
-		[auth, navigate, credentials]
+		[signIn, navigate, credentials]
 	);
 
-	if (loggedIn) {
+	if (user.loggedIn) {
 		return <Navigate to="/" />;
 	}
 

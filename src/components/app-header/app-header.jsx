@@ -16,10 +16,12 @@ export default function AppHeader() {
 				<NavigationLink
 					text={"Конструктор"}
 					logo={<BurgerIcon type="primary" />}
+					to={"/"}
 				/>
 				<NavigationLink
 					text={"Лента заказов"}
 					logo={<ListIcon type="primary" />}
+					to={"#"}
 				/>
 			</Navigation>
 			<div className={styles.logo}>
@@ -29,6 +31,7 @@ export default function AppHeader() {
 			<Navigation className={styles.right}>
 				<NavigationLink
 					text={"Личный кабинет"}
+					to={"profile"}
 					logo={<ProfileIcon type="primary" />}
 				/>
 			</Navigation>
