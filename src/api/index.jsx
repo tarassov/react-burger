@@ -3,6 +3,8 @@ export const API_URL = "https://norma.nomoreparties.space/api/";
 const checkResponse = (response) => {
 	return response.ok
 		? response.json()
+		: response.status === 404
+		? Promise.reject("not found")
 		: response.json().then((e) => Promise.reject(e));
 };
 

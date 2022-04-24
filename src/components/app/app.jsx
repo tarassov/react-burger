@@ -28,7 +28,14 @@ function App() {
 								</RequireAuth>
 							}
 						/>
-						<Route path="/profile" element={<ProfilePage />}>
+						<Route
+							path="/profile"
+							element={
+								<RequireAuth>
+									<ProfilePage />
+								</RequireAuth>
+							}
+						>
 							<Route path="" element={<ProfileEdit />} />
 							<Route path="orders" element={<OrderHistory />} />
 						</Route>

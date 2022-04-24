@@ -33,7 +33,7 @@ export default function LoginPage() {
 		[signIn, navigate, credentials]
 	);
 
-	if (user.loggedIn) {
+	if (user.authenticated) {
 		return <Navigate to="/" />;
 	}
 
@@ -60,6 +60,11 @@ export default function LoginPage() {
 						onChange={onChange}
 					/>
 				</div>
+				{user.error && (
+					<p className={`text text_type_main-default mt-3`}>
+						Ошибка авторизации!
+					</p>
+				)}
 				<div className={`mt-6`}>
 					<Button onClick={login} primary={true}>
 						Войти
