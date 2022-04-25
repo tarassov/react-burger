@@ -72,7 +72,9 @@ export function useAuth() {
 
 	const checkAuth = async () => {
 		if (storedValue) {
-			dispatch(authenticated());
+			dispatch(authenticated(true));
+		} else {
+			dispatch(authenticated(false));
 		}
 	};
 

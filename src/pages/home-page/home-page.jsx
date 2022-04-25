@@ -7,16 +7,11 @@ import BurgerIngredients from "../../components/burger-ingredients/burger-indred
 import styles from "./home-page.module.css";
 import Modal from "../../components/modal/modal";
 import OrderDetails from "../../components/order-details/order-details";
-import IngredientDetails from "../../components/ingredient-details/ingredient-details";
+
 import { useSelector, useDispatch } from "react-redux";
-import {
-	fetchIngredients,
-	//	selectIngredient,
-	unselectIngredient,
-} from "../../services/actions/ingredients-actions";
+import { fetchIngredients } from "../../services/actions/ingredients-actions";
 import { selectAllIngredients } from "../../services/adapters/ingredients-adapters";
 import { selectAllElements } from "../../services/adapters/elements-adapters";
-// import { postOrder } from "../../services/actions/orders-actions";
 import { tryToPostOrder } from "../../services/actions/orders-actions";
 import Error from "../../components/error/erorr";
 import Loader from "../../components/loader/loader";
@@ -26,9 +21,7 @@ export default function HomePage() {
 	//selectors
 	const ingredients = useSelector(selectAllIngredients);
 	const elements = useSelector(selectAllElements);
-	const { orderModal, error, ingredientModal, loading } = useSelector(
-		(store) => store.system
-	);
+	const { orderModal, error, loading } = useSelector((store) => store.system);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -45,14 +38,9 @@ export default function HomePage() {
 
 	//open IngredientDetails as modal
 	const onIngredientClick = useCallback((ingredient) => {
-		//	dispatch(selectIngredient(ingredient));
 		navigate(`/ingredients/${ingredient._id}`, {
 			state: { background: location },
 		});
-	}, []);
-
-	const onCloseIngredient = useCallback(() => {
-		dispatch(unselectIngredient());
 	}, []);
 
 	return (
@@ -70,11 +58,6 @@ export default function HomePage() {
 				</Modal>
 			)}
 
-			{ingredientModal && (
-				<Modal onClose={onCloseIngredient}>
-					<IngredientDetails />
-				</Modal>
-			)}
 			{error && (
 				<Modal>
 					<Error />

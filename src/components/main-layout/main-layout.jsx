@@ -13,9 +13,10 @@ import { useAuth } from "../../hooks/use-auth";
 import { useCallback, useEffect } from "react";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import Loader from "../loader/loader";
 
 function MainLayout() {
-	const { checkAuth } = useAuth();
+	const { checkAuth, user } = useAuth();
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -28,6 +29,10 @@ function MainLayout() {
 	useEffect(() => {
 		checkAuth();
 	}, []);
+
+	if (user.pendingAuthentication) {
+		return <Loader />;
+	}
 	return (
 		<>
 			<Routes location={background || location}>

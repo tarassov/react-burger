@@ -3,6 +3,7 @@ import { get, login, register, token, update } from "../actions/user-actions";
 
 const initialState = {
 	authenticated: false,
+	pendingAuthentication: true,
 	userLoaded: false,
 	error: false,
 	pending: false,
@@ -20,6 +21,7 @@ const fulfilled = (state, action) => {
 	state.error = false;
 	state.pending = false;
 	state.authenticated = true;
+	state.pendingAuthentication = false;
 	state.email = action.payload.user.email;
 	state.name = action.payload.user.name;
 	state.accessToken = action.payload.accessToken;
@@ -37,10 +39,11 @@ export const userSlice = createSlice({
 	initialState,
 	reducers: {
 		logout: () => {
-			return initialState;
+			return { ...initialState, pendingAuthentication: false };
 		},
-		authenticated: (state) => {
-			state.authenticated = true;
+		authenticated: (state, action) => {
+			state.authenticated = action.payload;
+			state.pendingAuthentication = false;
 		},
 		dismissErrors: (state) => {
 			return {
