@@ -10,5 +10,7 @@ export const initialState = ingredientsAdapter.getInitialState({
 	error: false,
 });
 
-export const { selectAll: selectAllIngredients } =
-	ingredientsAdapter.getSelectors((state) => state.ingredients);
+export const {
+	selectAll: selectAllIngredients,
+	selectById: selectIngredientById,
+} = ingredientsAdapter.getSelectors((state) => state.ingredients);

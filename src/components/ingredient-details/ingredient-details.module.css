@@ -5,11 +5,16 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
+	margin: auto;
 }
 
 .title {
 	width: 100%;
 	margin-top: 40px;
+}
+
+.titleCentered {
+	text-align: center;
 }
 
 .details {

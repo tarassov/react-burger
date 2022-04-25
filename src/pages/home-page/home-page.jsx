@@ -11,7 +11,7 @@ import IngredientDetails from "../../components/ingredient-details/ingredient-de
 import { useSelector, useDispatch } from "react-redux";
 import {
 	fetchIngredients,
-	selectIngredient,
+	//	selectIngredient,
 	unselectIngredient,
 } from "../../services/actions/ingredients-actions";
 import { selectAllIngredients } from "../../services/adapters/ingredients-adapters";
@@ -20,6 +20,7 @@ import { selectAllElements } from "../../services/adapters/elements-adapters";
 import { tryToPostOrder } from "../../services/actions/orders-actions";
 import Error from "../../components/error/erorr";
 import Loader from "../../components/loader/loader";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function HomePage() {
 	//selectors
@@ -30,6 +31,8 @@ export default function HomePage() {
 	);
 
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const location = useLocation();
 
 	useEffect(() => {
 		dispatch(fetchIngredients());
@@ -42,7 +45,10 @@ export default function HomePage() {
 
 	//open IngredientDetails as modal
 	const onIngredientClick = useCallback((ingredient) => {
-		dispatch(selectIngredient(ingredient));
+		//	dispatch(selectIngredient(ingredient));
+		navigate(`/ingredients/${ingredient._id}`, {
+			state: { background: location },
+		});
 	}, []);
 
 	const onCloseIngredient = useCallback(() => {
