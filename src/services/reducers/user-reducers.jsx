@@ -1,13 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, register } from "../actions/user-actions";
+import { get, login, register, token, update } from "../actions/user-actions";
 
 const initialState = {
 	authenticated: false,
+	userLoaded: false,
 	error: false,
 	pending: false,
 	email: "",
 	name: "",
 	errorMessage: "",
+	accessToken: null,
+	accessTokenExpire: Date.now(),
 };
 const pending = (state) => {
 	state.pending = true;
@@ -19,7 +22,10 @@ const fulfilled = (state, action) => {
 	state.authenticated = true;
 	state.email = action.payload.user.email;
 	state.name = action.payload.user.name;
+	state.accessToken = action.payload.accessToken;
+	state.accessTokenExpire = Date.now() + 600000;
 	state.errorMessage = "";
+	state.userLoaded = true;
 };
 const rejected = (state, action) => {
 	state.errorMessage = action.error.message;
@@ -32,6 +38,9 @@ export const userSlice = createSlice({
 	reducers: {
 		logout: () => {
 			return initialState;
+		},
+		authenticated: (state) => {
+			state.authenticated = true;
 		},
 		dismissErrors: (state) => {
 			return {
@@ -57,6 +66,33 @@ export const userSlice = createSlice({
 		builder.addCase(register.rejected, (state, payload) =>
 			rejected(state, payload)
 		);
+		builder.addCase(token.fulfilled, (state, action) => {
+			state.authenticated = true;
+			state.accessToken = action.payload.accessToken;
+			state.accessTokenExpire = Date.now() + 600000;
+		});
+		builder.addCase(token.rejected, () => {
+			return initialState;
+		});
+		builder.addCase(get.pending, (state) => pending(state));
+		builder.addCase(get.fulfilled, (state, action) => {
+			state.email = action.payload.email;
+			state.name = action.payload.name;
+			state.userLoaded = true;
+			state.pending = false;
+		});
+		builder.addCase(get.rejected, (state) => {
+			state.authenticated = true;
+			state.email = "";
+			state.name = "";
+			state.pending = false;
+		});
+		builder.addCase(update.fulfilled, (state, action) => {
+			state.email = action.payload.user.email;
+			state.name = action.payload.user.name;
+			state.userLoaded = true;
+			state.pending = false;
+		});
 	},
 });
 

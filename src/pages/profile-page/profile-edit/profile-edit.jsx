@@ -4,9 +4,11 @@ import styles from "./profile-edit.module.css";
 import { useAuth } from "../../../hooks/use-auth";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { get, update } from "../../../services/actions/user-actions";
+import Loader from "../../../components/loader/loader";
 
 export default function ProfileEdit() {
-	const { user, updateUser } = useAuth();
+	const { user, secureDispatch } = useAuth();
 	const [values, setValues] = useState({
 		email: "",
 		name: "",
@@ -14,22 +16,32 @@ export default function ProfileEdit() {
 	const [changed, setChanged] = useState(false);
 
 	useEffect(() => {
-		setValues({ ...user });
+		if (!user.userLoaded) secureDispatch(get, {});
 	}, []);
 
-	const onChange = (e) => {
-		setValues({ ...values, [e.target.name]: e.target.value });
-		setChanged(true);
-	};
+	useEffect(() => {
+		setValues({ email: user.email, name: user.name });
+	}, [user.email, user.name]);
+
+	const onChange = useCallback(
+		(e) => {
+			setValues({ ...values, [e.target.name]: e.target.value });
+			setChanged(true);
+		},
+		[values]
+	);
 
 	let save = useCallback(
 		(e) => {
 			e.preventDefault();
-			updateUser(values);
+			secureDispatch(update, { user: values });
+			setChanged(false);
 		},
-		[updateUser, values]
+		[secureDispatch, update, values]
 	);
-
+	if (!user.userLoaded) {
+		return <Loader />;
+	}
 	return (
 		<div className={styles.container}>
 			<form className={styles.form}>
