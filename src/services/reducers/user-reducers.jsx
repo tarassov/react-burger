@@ -75,7 +75,7 @@ export const userSlice = createSlice({
 			state.accessTokenExpire = Date.now() + 600000;
 		});
 		builder.addCase(token.rejected, () => {
-			return initialState;
+			return { ...initialState, pendingAuthentication: false };
 		});
 		builder.addCase(get.pending, (state) => pending(state));
 		builder.addCase(get.fulfilled, (state, action) => {
