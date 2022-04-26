@@ -6,7 +6,7 @@ export default function Logout() {
 	const { signOut } = useAuth();
 	const navigate = useNavigate();
 	const onClick = () => {
-		signOut().then(navigate("/login", { replace: true }));
+		signOut().then(navigate("/", { replace: true }));
 	};
 	return (
 		<div>

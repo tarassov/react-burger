@@ -8,28 +8,24 @@ import {
 import Navigation from "../navigation/navigation";
 import styles from "./app-header.module.css";
 import NavigationLink from "../navigation-link/navigation-link";
-import { useAuth } from "../../hooks/use-auth";
 
 export default function AppHeader() {
-	const { user } = useAuth();
 	return (
 		<header className={styles.container}>
 			<Navigation className={styles.left}>
-				{user.authenticated && (
-					<>
-						{" "}
-						<NavigationLink
-							text={"Конструктор"}
-							logo={<BurgerIcon type="primary" />}
-							to={"/"}
-						/>
-						<NavigationLink
-							text={"Лента заказов"}
-							logo={<ListIcon type="primary" />}
-							to={"#"}
-						/>
-					</>
-				)}
+				{" "}
+				<NavigationLink
+					text={"Конструктор"}
+					logo={<BurgerIcon type="primary" />}
+					to={"/"}
+					matching
+				/>
+				<NavigationLink
+					text={"Лента заказов"}
+					logo={<ListIcon type="primary" />}
+					to={"/orders"}
+					matching
+				/>
 			</Navigation>
 
 			<div className={styles.logo}>
@@ -37,16 +33,13 @@ export default function AppHeader() {
 			</div>
 
 			<Navigation className={styles.right}>
-				{user.authenticated && (
-					<>
-						{" "}
-						<NavigationLink
-							text={"Личный кабинет"}
-							to={"profile"}
-							logo={<ProfileIcon type="primary" />}
-						/>
-					</>
-				)}
+				{" "}
+				<NavigationLink
+					text={"Личный кабинет"}
+					to={"profile"}
+					logo={<ProfileIcon type="primary" />}
+					matching
+				/>
 			</Navigation>
 		</header>
 	);

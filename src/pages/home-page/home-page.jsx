@@ -12,16 +12,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchIngredients } from "../../services/actions/ingredients-actions";
 import { selectAllIngredients } from "../../services/adapters/ingredients-adapters";
 import { selectAllElements } from "../../services/adapters/elements-adapters";
-import { tryToPostOrder } from "../../services/actions/orders-actions";
+import { postOrder } from "../../services/actions/orders-actions";
 import Error from "../../components/error/erorr";
 import Loader from "../../components/loader/loader";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/use-auth";
+import { fireError } from "../../services/actions/system-actions";
 
 export default function HomePage() {
 	//selectors
 	const ingredients = useSelector(selectAllIngredients);
 	const elements = useSelector(selectAllElements);
 	const { orderModal, error, loading } = useSelector((store) => store.system);
+	const { secureDispatch } = useAuth();
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -33,8 +36,14 @@ export default function HomePage() {
 
 	//open OrderDetails as modal
 	const onPerformOrder = useCallback(() => {
-		dispatch(tryToPostOrder(elements));
-	}, [elements, dispatch]);
+		if (elements.length === 0) {
+			dispatch(fireError("Не выбраны ингредиенты"));
+		} else if (elements.find((x) => x.type === "bun") === undefined) {
+			dispatch(fireError("Не выбрана булка"));
+		} else {
+			secureDispatch(postOrder, { elements: elements });
+		}
+	}, [elements, secureDispatch]);
 
 	//open IngredientDetails as modal
 	const onIngredientClick = useCallback((ingredient) => {

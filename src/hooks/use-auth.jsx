@@ -1,5 +1,6 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
 	login,
 	logout,
@@ -14,7 +15,7 @@ export function useAuth() {
 	const dispatch = useDispatch();
 	const user = useSelector((store) => store.user);
 	const [savedToken, setSavedToken] = useStorage("refreshToken", null);
-
+	const navigate = useNavigate();
 	const dismissErrors = () => {
 		if (user.error) dispatch(dismissErrorsAction());
 	};
@@ -41,10 +42,16 @@ export function useAuth() {
 	};
 
 	const secureDispatch = async (action, payload) => {
-		return refreshToken().then((result) => {
-			setSavedToken(result.refreshToken);
-			dispatch(action({ ...payload, token: result.accessToken }));
-		});
+		return refreshToken()
+			.then((result) => {
+				if (result.error) {
+					navigate("login");
+				} else {
+					setSavedToken(result.refreshToken);
+					dispatch(action({ ...payload, token: result.accessToken }));
+				}
+			})
+			.catch((e) => console.log(e));
 	};
 	const refreshToken = () => {
 		if (user.accessToken && user.accessTokenExpire > Date.now()) {
@@ -54,8 +61,8 @@ export function useAuth() {
 		} else {
 			return dispatch(token(savedToken))
 				.then(unwrapResult)
-				.catch((e) => {
-					Promise.reject(e);
+				.catch(() => {
+					return { error: true };
 				});
 		}
 	};

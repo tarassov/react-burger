@@ -42,15 +42,9 @@ function SwitchRoutes() {
 				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/forgot-password" element={<ForgotPasswordPage />} />
 				<Route path="/reset-password" element={<ResetPasswordPage />} />
+				<Route path="orders" element={<OrderHistory />} />
 				<Route path="/ingredients/:id" element={<IngredientDetails />} />
-				<Route
-					path="/"
-					element={
-						<ProtectedRoute>
-							<HomePage />
-						</ProtectedRoute>
-					}
-				/>
+				<Route path="/" element={<HomePage />} />
 				<Route
 					path="/profile"
 					element={
