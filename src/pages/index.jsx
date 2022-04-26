@@ -5,7 +5,7 @@ import ProfileEdit from "./profile-page/profile-edit/profile-edit";
 import OrderHistory from "./profile-page/order-history/order-history";
 import RegisterPage from "./register-page/register-page";
 import Logout from "./profile-page/logout/logout";
-
+import ForgotPasswordPage from "./forgot-password-page/forgot-password-page";
 export {
 	ProfilePage,
 	LoginPage,
@@ -14,4 +14,5 @@ export {
 	OrderHistory,
 	RegisterPage,
 	Logout,
+	ForgotPasswordPage,
 };

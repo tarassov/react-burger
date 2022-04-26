@@ -19,6 +19,9 @@ const userApi = {
 	getUser: (token) => {
 		return get(`${authPath}/user`, token);
 	},
+	forgotPassword: (email) => {
+		return post(`password-reset`, JSON.stringify({ email: email }));
+	},
 };
 
 export default userApi;

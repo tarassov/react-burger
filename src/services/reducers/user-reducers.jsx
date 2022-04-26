@@ -41,7 +41,7 @@ export const userSlice = createSlice({
 		logout: () => {
 			return { ...initialState, pendingAuthentication: false };
 		},
-		authenticated: (state, action) => {
+		authenticate: (state, action) => {
 			state.authenticated = action.payload;
 			state.pendingAuthentication = false;
 		},
@@ -49,6 +49,7 @@ export const userSlice = createSlice({
 			return {
 				...initialState,
 				authenticated: state.authenticated,
+				pendingAuthentication: false,
 				name: state.name,
 				email: state.email,
 			};

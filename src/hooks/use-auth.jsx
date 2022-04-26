@@ -6,63 +6,53 @@ import {
 	register as registerAction,
 	dismissErrors as dismissErrorsAction,
 	token,
-	authenticated,
+	authenticate,
 } from "../services/actions/user-actions";
 import { useStorage } from "./use-storage";
 
 export function useAuth() {
 	const dispatch = useDispatch();
 	const user = useSelector((store) => store.user);
-	const [storedValue, setValue] = useStorage("refreshToken", null);
+	const [savedToken, setSavedToken] = useStorage("refreshToken", null);
 
 	const dismissErrors = () => {
 		if (user.error) dispatch(dismissErrorsAction());
 	};
 
 	const signIn = async (credentials) => {
-		dispatch(login(credentials))
+		return dispatch(login(credentials))
 			.then(unwrapResult)
 			.then((result) => {
-				setValue(result.refreshToken);
-			})
-			.catch((e) => {
-				console.log(e);
+				setSavedToken(result.refreshToken);
 			});
 	};
 
 	const signOut = async () => {
 		dispatch(logout());
-		setValue(null);
+		setSavedToken(null);
 	};
 
 	const register = async (credentials) => {
-		dispatch(registerAction(credentials))
+		return dispatch(registerAction(credentials))
 			.then(unwrapResult)
 			.then((result) => {
-				setValue(result.refreshToken);
-			})
-			.catch((e) => {
-				console.log(e);
+				setSavedToken(result.refreshToken);
 			});
 	};
 
 	const secureDispatch = async (action, payload) => {
-		refreshToken()
-			.then((result) => {
-				setValue(result.refreshToken);
-				dispatch(action({ ...payload, token: result.accessToken }));
-			})
-			.catch((e) => {
-				Promise.reject(e);
-			});
+		return refreshToken().then((result) => {
+			setSavedToken(result.refreshToken);
+			dispatch(action({ ...payload, token: result.accessToken }));
+		});
 	};
 	const refreshToken = () => {
 		if (user.accessToken && user.accessTokenExpire > Date.now()) {
 			return new Promise((resolve) =>
-				resolve({ refreshToken: storedValue, accessToken: user.accessToken })
+				resolve({ refreshToken: savedToken, accessToken: user.accessToken })
 			);
 		} else {
-			return dispatch(token(storedValue))
+			return dispatch(token(savedToken))
 				.then(unwrapResult)
 				.catch((e) => {
 					Promise.reject(e);
@@ -71,10 +61,10 @@ export function useAuth() {
 	};
 
 	const checkAuth = async () => {
-		if (storedValue) {
-			dispatch(authenticated(true));
+		if (savedToken) {
+			dispatch(authenticate(true));
 		} else {
-			dispatch(authenticated(false));
+			dispatch(authenticate(false));
 		}
 	};
 

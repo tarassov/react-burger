@@ -2,7 +2,7 @@ import { Provider } from "react-redux";
 import { store, history } from "../../services/store/store";
 import styles from "./app.module.css";
 
-import MainLayout from "../main-layout/main-layout";
+import SwitchRoutes from "../switch-routes/switch-routes";
 
 import { HistoryRouter as Router } from "redux-first-history/rr6";
 import AppHeader from "../app-header/app-header";
@@ -13,7 +13,7 @@ function App() {
 			<Provider store={store}>
 				<Router history={history}>
 					<AppHeader />
-					<MainLayout />
+					<SwitchRoutes />
 				</Router>
 			</Provider>
 		</div>
