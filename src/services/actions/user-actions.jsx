@@ -19,6 +19,15 @@ export const forgotPassword = createAsyncThunk(
 	"user/forgotPassword",
 	async (email, thunkApi) => {
 		const response = await userApi.forgotPassword(email);
+		if (response.success) thunkApi.dispatch(push("reset-password"));
+		return response;
+	}
+);
+
+export const setPassword = createAsyncThunk(
+	"user/setPassword",
+	async (values, thunkApi) => {
+		const response = await userApi.setPassword(values);
 		if (response.success) thunkApi.dispatch(push("login"));
 		return response;
 	}

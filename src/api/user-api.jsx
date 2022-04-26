@@ -22,6 +22,9 @@ const userApi = {
 	forgotPassword: (email) => {
 		return post(`password-reset`, JSON.stringify({ email: email }));
 	},
+	setPassword: (data) => {
+		return post(`password-reset/reset`, JSON.stringify(data));
+	},
 };
 
 export default userApi;

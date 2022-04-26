@@ -6,6 +6,7 @@ import OrderHistory from "./profile-page/order-history/order-history";
 import RegisterPage from "./register-page/register-page";
 import Logout from "./profile-page/logout/logout";
 import ForgotPasswordPage from "./forgot-password-page/forgot-password-page";
+import ResetPasswordPage from "./reset-password-page/reset-password-page";
 export {
 	ProfilePage,
 	LoginPage,
@@ -15,4 +16,5 @@ export {
 	RegisterPage,
 	Logout,
 	ForgotPasswordPage,
+	ResetPasswordPage,
 };

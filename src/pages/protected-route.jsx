@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/use-auth";
 
-const RequireAuth = ({ children }) => {
+const ProtectedRoute = ({ children }) => {
 	let { user } = useAuth();
 	let location = useLocation();
 
@@ -11,4 +11,4 @@ const RequireAuth = ({ children }) => {
 
 	return children;
 };
-export default RequireAuth;
+export default ProtectedRoute;

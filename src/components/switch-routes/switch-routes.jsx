@@ -8,8 +8,9 @@ import {
 	RegisterPage,
 	Logout,
 	ForgotPasswordPage,
+	ResetPasswordPage,
 } from "../../pages";
-import RequireAuth from "../../pages/require-auth";
+import ProtectedRoute from "../../pages/protected-route";
 import { useAuth } from "../../hooks/use-auth";
 import { useCallback, useEffect } from "react";
 import Modal from "../modal/modal";
@@ -40,21 +41,22 @@ function SwitchRoutes() {
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/forgot-password" element={<ForgotPasswordPage />} />
+				<Route path="/reset-password" element={<ResetPasswordPage />} />
 				<Route path="/ingredients/:id" element={<IngredientDetails />} />
 				<Route
 					path="/"
 					element={
-						<RequireAuth>
+						<ProtectedRoute>
 							<HomePage />
-						</RequireAuth>
+						</ProtectedRoute>
 					}
 				/>
 				<Route
 					path="/profile"
 					element={
-						<RequireAuth>
+						<ProtectedRoute>
 							<ProfilePage />
-						</RequireAuth>
+						</ProtectedRoute>
 					}
 				>
 					<Route path="" element={<ProfileEdit />} />

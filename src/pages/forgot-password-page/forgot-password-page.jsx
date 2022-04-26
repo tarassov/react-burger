@@ -11,7 +11,7 @@ import { forgotPassword } from "../../services/actions/user-actions";
 import { useDispatch } from "react-redux";
 
 export default function ForgotPasswordPage() {
-	const [email, setEmail] = useState();
+	const [email, setEmail] = useState("");
 	const dispatch = useDispatch();
 
 	const onChange = (e) => {
@@ -33,13 +33,14 @@ export default function ForgotPasswordPage() {
 				</div>
 
 				<div className={`mt-6`}>
-					<Input placeholder="Email" name="email" onChange={onChange} />
+					<Input
+						placeholder="Укажите e-mail"
+						name="email"
+						value={email}
+						onChange={onChange}
+						size="default"
+					/>
 				</div>
-				{/* {user.error && (
-					<p className={`text text_type_main-default mt-3`}>
-						Ошибка авторизации!
-					</p>
-				)} */}
 				<div className={`mt-6`}>
 					<Button onClick={send} primary={true}>
 						Восстановить
