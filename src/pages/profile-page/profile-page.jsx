@@ -18,7 +18,7 @@ export default function ProfilePage() {
 
 				<div className={`mt-4`}>
 					<p className={`text text_type_main-default text_color_inactive`}>
-						В этом разделе вы можете изменить свой персональные данные
+						В этом разделе вы можете изменить свои персональные данные
 					</p>
 				</div>
 			</nav>

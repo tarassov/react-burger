@@ -31,7 +31,7 @@ export default function ProfileEdit() {
 		[values]
 	);
 
-	let save = useCallback(
+	const save = useCallback(
 		(e) => {
 			e.preventDefault();
 			secureDispatch(update, { user: values });
@@ -39,6 +39,15 @@ export default function ProfileEdit() {
 		},
 		[secureDispatch, update, values]
 	);
+	const cancel = useCallback(
+		(e) => {
+			e.preventDefault();
+			setValues({ email: user.email, name: user.name });
+			setChanged(false);
+		},
+		[user.email, user.name]
+	);
+
 	if (!user.userLoaded) {
 		return <Loader />;
 	}
@@ -73,9 +82,12 @@ export default function ProfileEdit() {
 					/>
 				</div>
 				{changed && (
-					<div className={`mt-6`}>
-						<Button onClick={save} primary={true}>
+					<div className={`${styles.button} mt-6`}>
+						<Button onClick={save} type={"primary"}>
 							Сохранить
+						</Button>
+						<Button onClick={cancel} type={"secondary"}>
+							Отменить
 						</Button>
 					</div>
 				)}
