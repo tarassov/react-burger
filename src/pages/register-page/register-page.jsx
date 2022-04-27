@@ -84,8 +84,8 @@ export default function RegisterPage() {
 			<div className={`mt-20`}>
 				<p className={`text text_type_main-default text_color_inactive`}>
 					Уже зарегистрированы?{" "}
-					<Link className={styles.link} to="/login">
-						Войти
+					<Link to="/login">
+						<Button type={"secondary"}>Войти</Button>
 					</Link>
 				</p>
 			</div>

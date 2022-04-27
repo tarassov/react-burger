@@ -77,16 +77,17 @@ export default function LoginPage() {
 			<div className={`mt-20`}>
 				<p className={`text text_type_main-default text_color_inactive`}>
 					Вы - новый пользователь?{" "}
-					<Link className={styles.link} to="/register">
-						Зарегистрироваться
+					<Link to="/register">
+						{" "}
+						<Button type={"secondary"}>Зарегистрироваться</Button>
 					</Link>
 				</p>
 			</div>
 			<div className={`mt-4`}>
 				<p className={`text text_type_main-default text_color_inactive`}>
 					Забыли пароль?{" "}
-					<Link className={styles.link} to="/forgot-password">
-						Восстановить пароль
+					<Link to="/forgot-password">
+						<Button type={"secondary"}>Восстановить пароль</Button>
 					</Link>
 				</p>
 			</div>
