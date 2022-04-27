@@ -42,7 +42,7 @@ export default function LoginPage() {
 
 	return (
 		<div className={styles.container}>
-			<form className={styles.form}>
+			<form className={styles.form} onSubmit={login}>
 				<div>
 					<p className={`text text_type_main-large`}>Вход</p>
 				</div>
@@ -69,7 +69,7 @@ export default function LoginPage() {
 					</p>
 				)}
 				<div className={`mt-6`}>
-					<Button onClick={login} primary={true}>
+					<Button htmlType="submit" primary={true}>
 						Войти
 					</Button>
 				</div>

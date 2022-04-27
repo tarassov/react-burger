@@ -24,6 +24,7 @@ function SwitchRoutes() {
 	const navigate = useNavigate();
 
 	const background = location.state && location.state.background;
+	const from = location.state?.from?.pathname || "/";
 
 	const modalClose = useCallback(() => {
 		navigate(-1);
@@ -42,7 +43,9 @@ function SwitchRoutes() {
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/register" element={<RegisterPage />} />
 				<Route path="/forgot-password" element={<ForgotPasswordPage />} />
-				<Route path="/reset-password" element={<ResetPasswordPage />} />
+				{from === "/forgot-password" && (
+					<Route path="/reset-password" element={<ResetPasswordPage />} />
+				)}
 				<Route path="orders" element={<OrderHistory />} />
 				<Route path="/ingredients/:id" element={<IngredientDetails />} />
 				<Route path="/" element={<HomePage />} />

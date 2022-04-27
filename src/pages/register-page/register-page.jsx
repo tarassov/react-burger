@@ -28,7 +28,7 @@ export default function RegisterPage() {
 	useEffect(() => {
 		dismissErrors();
 	}, []);
-	const onClick = useCallback(
+	const onRegister = useCallback(
 		(e) => {
 			e.preventDefault();
 			register(credentials);
@@ -42,7 +42,7 @@ export default function RegisterPage() {
 
 	return (
 		<div className={styles.container}>
-			<form className={styles.form}>
+			<form className={styles.form} onSubmit={onRegister}>
 				<div>
 					<p className={`text text_type_main-large`}>Регистрация</p>
 				</div>
@@ -76,7 +76,7 @@ export default function RegisterPage() {
 					</p>
 				)}
 				<div className={`mt-6`}>
-					<Button onClick={onClick} primary={true}>
+					<Button htmlType="submit" primary={true}>
 						Зарегистрироваться
 					</Button>
 				</div>

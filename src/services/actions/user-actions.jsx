@@ -17,9 +17,10 @@ export const register = createAsyncThunk(
 
 export const forgotPassword = createAsyncThunk(
 	"user/forgotPassword",
-	async (email, thunkApi) => {
-		const response = await userApi.forgotPassword(email);
-		if (response.success) thunkApi.dispatch(push("reset-password"));
+	async (payload, thunkApi) => {
+		const response = await userApi.forgotPassword(payload.email);
+		if (response.success)
+			thunkApi.dispatch(push("reset-password", { from: payload.location }));
 		return response;
 	}
 );

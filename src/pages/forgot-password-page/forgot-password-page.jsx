@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import {
 	Input,
@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 export default function ForgotPasswordPage() {
 	const [email, setEmail] = useState("");
 	const dispatch = useDispatch();
+	const location = useLocation();
 
 	const onChange = (e) => {
 		setEmail(e.target.value);
@@ -21,13 +22,13 @@ export default function ForgotPasswordPage() {
 	const send = useCallback(
 		(e) => {
 			e.preventDefault();
-			dispatch(forgotPassword(email));
+			dispatch(forgotPassword({ email, location }));
 		},
 		[forgotPassword, email]
 	);
 	return (
 		<div className={styles.container}>
-			<form className={styles.form}>
+			<form className={styles.form} onSubmit={send}>
 				<div>
 					<p className={`text text_type_main-default`}>Восстановление пароля</p>
 				</div>
@@ -42,7 +43,7 @@ export default function ForgotPasswordPage() {
 					/>
 				</div>
 				<div className={`mt-6`}>
-					<Button onClick={send} primary={true}>
+					<Button htmlType="submit" primary={true}>
 						Восстановить
 					</Button>
 				</div>

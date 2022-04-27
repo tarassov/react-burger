@@ -53,7 +53,7 @@ export default function ProfileEdit() {
 	}
 	return (
 		<div className={styles.container}>
-			<form className={styles.form}>
+			<form className={styles.form} onSubmit={save} onReset={cancel}>
 				<div className={`mt-6`}>
 					<Input
 						placeholder="Имя"
@@ -83,10 +83,10 @@ export default function ProfileEdit() {
 				</div>
 				{changed && (
 					<div className={`${styles.button} mt-6`}>
-						<Button onClick={save} type={"primary"}>
+						<Button htmlType="submit" type={"primary"}>
 							Сохранить
 						</Button>
-						<Button onClick={cancel} type={"secondary"}>
+						<Button htmlType="reset" type={"secondary"}>
 							Отменить
 						</Button>
 					</div>

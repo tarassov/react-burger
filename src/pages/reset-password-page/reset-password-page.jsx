@@ -35,9 +35,10 @@ export default function ResetPasswordPage() {
 		},
 		[setPassword, values, dispatch]
 	);
+
 	return (
 		<div className={styles.container}>
-			<form className={styles.form}>
+			<form className={styles.form} onSubmit={send}>
 				<div>
 					<p className={`text text_type_main-default`}>Восстановление пароля</p>
 				</div>
@@ -62,7 +63,7 @@ export default function ResetPasswordPage() {
 					/>
 				</div>
 				<div className={`mt-6`}>
-					<Button onClick={send} primary={true}>
+					<Button htmlType="submit" primary={true}>
 						Сохранить
 					</Button>
 				</div>
@@ -70,8 +71,8 @@ export default function ResetPasswordPage() {
 			<div className={`mt-20`}>
 				<p className={`text text_type_main-default text_color_inactive`}>
 					Вспомнили пароль?{" "}
-					<Link className={styles.link} to="/login">
-						Войти
+					<Link to="/login">
+						<Button type="secondary"> Войти</Button>
 					</Link>
 				</p>
 			</div>

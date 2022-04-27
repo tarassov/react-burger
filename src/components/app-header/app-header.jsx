@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import {
 	Logo,
 	BurgerIcon,
@@ -30,7 +30,9 @@ export default function AppHeader() {
 			</Navigation>
 
 			<div className={styles.logo}>
-				<Logo />
+				<Link to="/">
+					<Logo />
+				</Link>
 			</div>
 
 			<Navigation className={styles.right}>
