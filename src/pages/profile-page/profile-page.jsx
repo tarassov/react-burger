@@ -7,7 +7,13 @@ export default function ProfilePage() {
 	return (
 		<div className={`${styles.container} ml-20 mt-20`}>
 			<nav className={`${styles.links}`}>
-				<NavigationLink medium matching to={""} text={"Профиль"} />
+				<NavigationLink
+					medium
+					matching
+					to={""}
+					exactMatching
+					text={"Профиль"}
+				/>
 				<NavigationLink
 					medium
 					matching

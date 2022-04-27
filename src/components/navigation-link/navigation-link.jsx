@@ -2,9 +2,19 @@ import PropTypes from "prop-types";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import styles from "./navigation-link.module.css";
 
-export default function NavigationLink({ logo, text, to, medium, matching }) {
-	let resolved = useResolvedPath(to);
-	let match = useMatch({ path: resolved.pathname, end: true });
+export default function NavigationLink({
+	logo,
+	text,
+	to,
+	medium,
+	matching,
+	exactMatching,
+}) {
+	const resolved = useResolvedPath(to);
+	const match = useMatch({
+		path: resolved.pathname,
+		end: exactMatching ?? false,
+	});
 
 	return (
 		<Link to={to} className={`mt-4 mb-4 ${logo && "pl-5"} ${styles.link}`}>
@@ -26,4 +36,5 @@ NavigationLink.propTypes = {
 	to: PropTypes.string.isRequired,
 	medium: PropTypes.bool,
 	matching: PropTypes.bool,
+	exactMatching: PropTypes.bool,
 };

@@ -19,6 +19,7 @@ export default function AppHeader() {
 					logo={<BurgerIcon type="primary" />}
 					to={"/"}
 					matching
+					exactMatching
 				/>
 				<NavigationLink
 					text={"Лента заказов"}
