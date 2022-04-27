@@ -6,12 +6,21 @@ export default function Logout() {
 	const { signOut } = useAuth();
 	const navigate = useNavigate();
 	const onClick = () => {
-		signOut().then(navigate("/", { replace: true }));
+		signOut().then(navigate("/login", { replace: true }));
+	};
+	const back = () => {
+		navigate(-1);
 	};
 	return (
 		<div className={"mt-20"}>
+			<div className={"mb-8"}>
+				<p className={`text text_type_main-large`}>Покинуть планету?</p>
+			</div>
 			<Button onClick={onClick} primary={true}>
-				Выйти
+				Да
+			</Button>
+			<Button onClick={back} type={"secondary"}>
+				Нет
 			</Button>
 		</div>
 	);

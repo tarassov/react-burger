@@ -24,7 +24,7 @@ export default function AppHeader() {
 				<NavigationLink
 					text={"Лента заказов"}
 					logo={<ListIcon type="primary" />}
-					to={"/orders"}
+					to={"/feed"}
 					matching
 				/>
 			</Navigation>

@@ -16,6 +16,7 @@ import { useCallback, useEffect } from "react";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Loader from "../loader/loader";
+import NotFoundPage from "../../pages/not-found-page/not-found-page";
 
 function SwitchRoutes() {
 	const { checkAuth, user } = useAuth();
@@ -57,6 +58,7 @@ function SwitchRoutes() {
 					<Route path="orders" element={<OrderHistory />} />
 					<Route path="logout" element={<Logout />} />
 				</Route>
+				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 			{/* Show the modal when a `backgroundLocation` is set */}
 			{background && (
