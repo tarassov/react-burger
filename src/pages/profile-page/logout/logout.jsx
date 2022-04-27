@@ -9,7 +9,7 @@ export default function Logout() {
 		signOut().then(navigate("/", { replace: true }));
 	};
 	return (
-		<div>
+		<div className={"mt-20"}>
 			<Button onClick={onClick} primary={true}>
 				Выйти
 			</Button>
