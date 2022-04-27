@@ -5,7 +5,7 @@ import { fireError } from "./system-actions";
 export const postOrder = createAsyncThunk("order/postOrder", async (data) => {
 	const ids = data.elements.map((ingredient) => ingredient._id);
 
-	const response = await elementsApi.postOrder(ids);
+	const response = await elementsApi.postOrder(ids, data.token);
 	return response;
 });
 

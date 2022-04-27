@@ -41,23 +41,36 @@ export function useAuth() {
 			});
 	};
 
-	const secureDispatch = async (action, payload) => {
-		return refreshToken()
+	const secureDispatch = async (action, payload, forceRefresh = false) => {
+		return refreshToken(forceRefresh)
 			.then((result) => {
 				if (result.error) {
 					navigate("login");
 				} else {
 					setSavedToken(result.refreshToken);
-					dispatch(action({ ...payload, token: result.accessToken }));
+					dispatch(action({ ...payload, token: result.accessToken })).then(
+						(res) => {
+							if (res?.error?.message === "jwt expired" && !forceRefresh) {
+								secureDispatch(action, payload, true);
+							}
+						}
+					);
 				}
 			})
 			.catch((e) => console.log(e));
 	};
-	const refreshToken = () => {
-		if (user.accessToken && user.accessTokenExpire > Date.now()) {
-			return new Promise((resolve) =>
-				resolve({ refreshToken: savedToken, accessToken: user.accessToken })
-			);
+	const refreshToken = async (forceRefresh) => {
+		if (!savedToken) return { error: true };
+
+		if (
+			user.accessToken &&
+			user.accessTokenExpire > Date.now() &&
+			!forceRefresh
+		) {
+			return {
+				refreshToken: savedToken,
+				accessToken: user.accessToken,
+			};
 		} else {
 			return dispatch(token(savedToken))
 				.then(unwrapResult)
