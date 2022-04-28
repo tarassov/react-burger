@@ -1,12 +1,29 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { fetchIngredients } from "../../services/actions/ingredients-actions";
+import { selectIngredientById } from "../../services/adapters/ingredients-adapters";
+import Loader from "../loader/loader";
 import styles from "./ingredient-details.module.css";
+import PropTypes from "prop-types";
 
-function IngredientDetails() {
-	const ingredient = useSelector((store) => store.ingredients.selected);
+function IngredientDetails({ modal }) {
+	const { id } = useParams();
+	const dispatch = useDispatch();
+	const ingredient = useSelector((state) => selectIngredientById(state, id));
+	useEffect(() => {
+		if (!ingredient) dispatch(fetchIngredients());
+	}, [ingredient]);
+
+	if (!ingredient) {
+		return <Loader />;
+	}
 	return (
 		<div className={styles.container}>
-			<div className={styles.title}>
-				<p className={`pl-10 text text_type_main-large`}>Детали ингредиента</p>
+			<div className={`${styles.title} ${!modal && styles.titleCentered}`}>
+				<p className={`${modal && "pl-10"} text text_type_main-large`}>
+					Детали ингредиента
+				</p>
 			</div>
 			<div className={"mt-8"}>
 				<img src={ingredient.image} className={styles.image} />
@@ -50,5 +67,9 @@ function IngredientDetails() {
 		</div>
 	);
 }
+
+IngredientDetails.propTypes = {
+	modal: PropTypes.bool,
+};
 
 export default IngredientDetails;

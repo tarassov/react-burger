@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../actions/ingredients-actions";
 import { postOrder } from "../actions/orders-actions";
+import { get } from "../actions/user-actions";
 
 const initialState = {
 	error: false,
@@ -34,6 +35,9 @@ export const systemSlice = createSlice({
 			state.loading = false;
 		});
 		builder.addCase(postOrder.pending, (state) => {
+			state.loading = true;
+		});
+		builder.addCase(get.pending, (state) => {
 			state.loading = true;
 		});
 		builder.addCase(postOrder.rejected, (state) => {

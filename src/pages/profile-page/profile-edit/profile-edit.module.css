@@ -1,0 +1,7 @@
+.button {
+	text-align: start;
+}
+
+.button>* {
+	margin-right: 10px;
+}

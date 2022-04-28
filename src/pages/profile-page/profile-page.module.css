@@ -1,0 +1,23 @@
+.container {
+	/* position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%); */
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	/* align-items: center; */
+	text-align: center;
+}
+
+.links {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	width: 350px;
+}
+
+.outlet {
+	width: 600px;
+	height: 600px;
+}

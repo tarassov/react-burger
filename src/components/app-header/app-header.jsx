@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import {
 	Logo,
 	BurgerIcon,
@@ -13,23 +13,35 @@ export default function AppHeader() {
 	return (
 		<header className={styles.container}>
 			<Navigation className={styles.left}>
+				{" "}
 				<NavigationLink
 					text={"Конструктор"}
 					logo={<BurgerIcon type="primary" />}
+					to={"/"}
+					matching
+					exactMatching
 				/>
 				<NavigationLink
 					text={"Лента заказов"}
 					logo={<ListIcon type="primary" />}
+					to={"/feed"}
+					matching
 				/>
 			</Navigation>
+
 			<div className={styles.logo}>
-				<Logo />
+				<Link to="/">
+					<Logo />
+				</Link>
 			</div>
 
 			<Navigation className={styles.right}>
+				{" "}
 				<NavigationLink
 					text={"Личный кабинет"}
+					to={"profile"}
 					logo={<ProfileIcon type="primary" />}
+					matching
 				/>
 			</Navigation>
 		</header>

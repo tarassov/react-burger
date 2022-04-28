@@ -1,8 +1,8 @@
 import { post } from ".";
 
 const elementsApi = {
-	postOrder: (ids) => {
-		return post("orders", JSON.stringify({ ingredients: ids }));
+	postOrder: (ids, token) => {
+		return post("orders", JSON.stringify({ ingredients: ids }), token);
 	},
 };
 
