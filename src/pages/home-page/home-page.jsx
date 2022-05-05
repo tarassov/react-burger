@@ -46,11 +46,14 @@ export default function HomePage() {
 	}, [elements, secureDispatch]);
 
 	//open IngredientDetails as modal
-	const onIngredientClick = useCallback((ingredient) => {
-		navigate(`/ingredients/${ingredient._id}`, {
-			state: { background: location },
-		});
-	}, []);
+	const onIngredientClick = useCallback(
+		(ingredient) => {
+			navigate(`/ingredients/${ingredient._id}`, {
+				state: { background: location },
+			});
+		},
+		[location]
+	);
 
 	return (
 		<main className={styles.layout}>
