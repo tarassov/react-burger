@@ -1,5 +1,14 @@
 export const API_URL = "https://norma.nomoreparties.space/api/";
 
+// export interface IJSONResponse {
+// 	json: () => IResponseData;
+// 	ok: boolean;
+// }
+
+// export interface IResponseData {
+// 	data?: object;
+// 	success: boolean;
+// }
 const checkResponse = (response) => {
 	return response.ok
 		? response.json()

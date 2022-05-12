@@ -1,8 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { postOrder } from "../actions/orders-actions";
-import { elementsAdapter, initialState } from "../adapters/elements-adapters";
+import {
+	elementsAdapter,
+	IElement,
+	IElementsState,
+	IGroupedCart,
+	initialState,
+} from "../adapters/elements-adapters";
 
-const countTotalPrice = (state) => {
+const countTotalPrice = (state: IElementsState) => {
 	return elementsAdapter
 		.getSelectors()
 		.selectAll(state)
@@ -13,12 +19,12 @@ const countTotalPrice = (state) => {
 		);
 };
 
-const generateGroupedCart = (state) => {
-	const newGroupedCart = {};
+const generateGroupedCart = (state: IElementsState) => {
+	const newGroupedCart: IGroupedCart = {};
 	elementsAdapter
 		.getSelectors()
 		.selectAll(state)
-		.forEach((element) => {
+		.forEach((element: IElement) => {
 			if (newGroupedCart[element._id] === undefined) {
 				if (element.type === "bun") {
 					newGroupedCart[element._id] = 2;
@@ -32,7 +38,7 @@ const generateGroupedCart = (state) => {
 	return newGroupedCart;
 };
 
-const recreateSortIndex = (state) => {
+const recreateSortIndex = (state: IElementsState) => {
 	elementsAdapter.setAll(
 		state,
 		elementsAdapter

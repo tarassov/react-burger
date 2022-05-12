@@ -1,20 +1,17 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import ingredientsApi from "../../api/ingredients-api";
+import { IIngredient } from "../adapters/ingredients-adapters";
+
+interface IFetchIngredients {
+	data: Array<IIngredient>;
+	success: boolean;
+}
 
 export const fetchIngredients = createAsyncThunk(
 	"ingredients/fetchAll",
 	async () => {
-		const response = await ingredientsApi.fetchAll();
+		const response = (await ingredientsApi.fetchAll()) as IFetchIngredients;
 		return response.data;
-	}
-);
-
-export const selectIngredient = createAction(
-	"ingredients/select",
-	function prepare(ingredient) {
-		return {
-			payload: ingredient,
-		};
 	}
 );
 

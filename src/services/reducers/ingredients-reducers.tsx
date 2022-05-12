@@ -8,14 +8,7 @@ import {
 export const ingredientSlice = createSlice({
 	name: "ingredients",
 	initialState,
-	reducers: {
-		select: (state, action) => {
-			state.selected = action.payload;
-		},
-		unselect: (state) => {
-			state.selected = {};
-		},
-	},
+	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(fetchIngredients.pending, (state) => {
 			state.loading = true;
