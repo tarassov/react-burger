@@ -29,8 +29,7 @@ export function useAuth() {
 	};
 
 	const signOut = async () => {
-		dispatch(logout());
-		setSavedToken(null);
+		dispatch(logout(savedToken)).then(setSavedToken(null));
 	};
 
 	const register = async (credentials) => {
@@ -45,7 +44,7 @@ export function useAuth() {
 		return refreshToken(forceRefresh)
 			.then((result) => {
 				if (result.error) {
-					navigate("login");
+					navigate("/login");
 				} else {
 					setSavedToken(result.refreshToken);
 					dispatch(action({ ...payload, token: result.accessToken })).then(

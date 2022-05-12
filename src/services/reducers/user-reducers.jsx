@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { get, login, register, token, update } from "../actions/user-actions";
+import {
+	get,
+	login,
+	logout,
+	register,
+	token,
+	update,
+} from "../actions/user-actions";
 
 const initialState = {
 	authenticated: false,
@@ -63,6 +70,9 @@ export const userSlice = createSlice({
 		builder.addCase(login.rejected, (state, payload) =>
 			rejected(state, payload)
 		);
+		builder.addCase(logout.fulfilled, () => {
+			return { ...initialState, pendingAuthentication: false };
+		});
 		builder.addCase(register.pending, (state) => pending(state));
 		builder.addCase(register.fulfilled, (state, action) =>
 			fulfilled(state, action)

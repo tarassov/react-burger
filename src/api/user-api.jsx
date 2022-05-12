@@ -4,6 +4,12 @@ const userApi = {
 	login: (credentials) => {
 		return post(`${authPath}/login`, JSON.stringify(credentials));
 	},
+	logout: (refreshToken) => {
+		return post(
+			`${authPath}/logout`,
+			JSON.stringify({ token: `${refreshToken}` })
+		);
+	},
 	register: (credentials) => {
 		return post(`${authPath}/register`, JSON.stringify(credentials));
 	},

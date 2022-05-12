@@ -7,6 +7,10 @@ export const login = createAsyncThunk("user/login", async (credentials) => {
 	return response;
 });
 
+export const logout = createAsyncThunk("user/logout", async (token) => {
+	const response = await userApi.logout(token);
+	return response;
+});
 export const register = createAsyncThunk(
 	"user/register",
 	async (credentials) => {
@@ -44,7 +48,7 @@ export const token = createAsyncThunk("user/token", async (resfreshToken) => {
 	return response;
 });
 
-export const logout = createAction("user/logout");
+//export const logout = createAction("user/logout");
 
 export const get = createAsyncThunk("user/get", async (data) => {
 	const response = await userApi.getUser(data.token);
