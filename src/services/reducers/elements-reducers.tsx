@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { postOrder } from "../actions/orders-actions";
 import {
 	elementsAdapter,
-	IElement,
 	IElementsState,
 	IGroupedCart,
 	initialState,
 } from "../adapters/elements-adapters";
+import { IElement } from "../interfaces";
 
 const countTotalPrice = (state: IElementsState) => {
 	return elementsAdapter

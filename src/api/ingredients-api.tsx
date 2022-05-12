@@ -1,8 +1,10 @@
-import { get } from ".";
+import { get, IFetchArray } from ".";
+import { IIngredient } from "../services/interfaces";
 
 const ingredientsApi = {
 	fetchAll: () => {
-		return get("ingredients");
+		const ingredients = get<IFetchArray<IIngredient>>("ingredients");
+		return ingredients;
 	},
 };
 

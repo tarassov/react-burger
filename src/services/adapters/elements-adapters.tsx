@@ -1,22 +1,6 @@
 import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
+import { IElement } from "../interfaces";
 import { RootState } from "../store/store";
-
-export interface IElement {
-	_id: string;
-	name: string;
-	type: string;
-	proteins: number;
-	fat: number;
-	carbohydrates: number;
-	calories: number;
-	price: number;
-	image: string;
-	image_mobile: string;
-	image_large: string;
-	__v: number;
-	id: string;
-	sortIndex: number;
-}
 
 export interface IElementsState extends EntityState<IElement> {
 	totalPrice: number;
