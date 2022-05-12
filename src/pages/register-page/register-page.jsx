@@ -72,7 +72,7 @@ export default function RegisterPage() {
 				</div>
 				{user.error && (
 					<p className={`text text_type_main-default mt-3`}>
-						Ошибка авторизации!
+						Ошибка регистрации!
 					</p>
 				)}
 				<div className={`mt-6`}>
