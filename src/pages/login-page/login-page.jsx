@@ -16,7 +16,10 @@ export default function LoginPage() {
 	const { signIn, user, dismissErrors } = useAuth();
 	const location = useLocation();
 
-	const from = location.state?.from?.pathname || "/";
+	const from =
+		location.state?.from?.pathname !== "/profile/logout"
+			? location.state?.from?.pathname || "/"
+			: "/";
 
 	const [credentials, setValue] = useState({ email: "", password: "" });
 
