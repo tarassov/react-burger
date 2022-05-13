@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 //export const API_URL = "https://norma.nomoreparties.space/api/";
 axios.defaults.baseURL = "https://norma.nomoreparties.space/api/";
@@ -6,13 +6,30 @@ axios.defaults.baseURL = "https://norma.nomoreparties.space/api/";
 
 export interface IReposnse {
 	success: boolean;
+	message?: string;
+}
+
+export interface IRequest {
+	token?: string;
 }
 export interface IFetchArray<T> extends IReposnse {
 	data: Array<T>;
 }
 
 const checkSuccess = (response: AxiosResponse) => {
-	return response.data?.success ? response.data : Promise.reject(response.data); //todo обрабатывать тут ошибку и передавть в thunk и там вызвать thunkAPI.rejectWithValue
+	return response.data?.success ? response.data : Promise.reject(response.data);
+};
+
+const handleErrors = (e: AxiosError) => {
+	if (e.response) {
+		if (e.response.status === 404) {
+			throw "not found";
+		} else {
+			throw e.response?.data;
+		}
+	} else {
+		throw "Unknown error";
+	}
 };
 
 export const get = <ResponseType,>(
@@ -26,7 +43,8 @@ export const get = <ResponseType,>(
 				Authorization: token || "",
 			},
 		})
-		.then(checkSuccess);
+		.then(checkSuccess)
+		.catch(handleErrors);
 };
 
 export const post = <RequestType, ResponseType>(
@@ -41,7 +59,8 @@ export const post = <RequestType, ResponseType>(
 				Authorization: token || "",
 			},
 		})
-		.then(checkSuccess);
+		.then(checkSuccess)
+		.catch(handleErrors);
 };
 
 export const patch = <RequestType, ResponseType>(
@@ -56,5 +75,6 @@ export const patch = <RequestType, ResponseType>(
 				Authorization: token || "",
 			},
 		})
-		.then(checkSuccess);
+		.then(checkSuccess)
+		.catch(handleErrors);
 };

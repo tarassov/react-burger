@@ -1,6 +1,12 @@
-import { unwrapResult } from "@reduxjs/toolkit";
-import { useDispatch, useSelector } from "react-redux";
+import { AsyncThunk, SerializedError, unwrapResult } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { IReposnse } from "../api";
+//import { IReposnse } from "../api";
+import {
+	ILoginRequest,
+	IRegisterRequest,
+} from "../api/user/user-api-interface";
 import {
 	login,
 	logout,
@@ -9,56 +15,70 @@ import {
 	token,
 	authenticate,
 } from "../services/actions/user-actions";
+import { RootState, useAppDispatch } from "../services/store/store";
 import { useStorage } from "./use-storage";
 
 export function useAuth() {
-	const dispatch = useDispatch();
-	const user = useSelector((store) => store.user);
-	const [savedToken, setSavedToken] = useStorage("refreshToken", null);
+	const dispatch = useAppDispatch();
+	const user = useSelector((store: RootState) => store.user);
+	const [savedToken, setSavedToken] = useStorage("refreshToken", "");
 	const navigate = useNavigate();
 	const dismissErrors = () => {
 		if (user.error) dispatch(dismissErrorsAction());
 	};
 
-	const signIn = async (credentials) => {
+	const signIn = async (credentials: ILoginRequest) => {
 		return dispatch(login(credentials))
 			.then(unwrapResult)
 			.then((result) => {
 				setSavedToken(result.refreshToken);
-			});
+			})
+			.catch((e) => console.log(e));
 	};
 
 	const signOut = async () => {
-		dispatch(logout(savedToken)).then(setSavedToken(null));
+		dispatch(logout(savedToken)).then(() => setSavedToken(""));
 	};
 
-	const register = async (credentials) => {
+	const register = async (credentials: IRegisterRequest) => {
 		return dispatch(registerAction(credentials))
 			.then(unwrapResult)
 			.then((result) => {
-				setSavedToken(result.refreshToken);
-			});
+				() => {
+					setSavedToken(result.refreshToken);
+				};
+			})
+			.catch((e) => console.log(e.message));
 	};
 
-	const secureDispatch = async (action, payload, forceRefresh = false) => {
+	const secureDispatch = async <PayloadType, T extends IReposnse>(
+		action: AsyncThunk<T, PayloadType, any>,
+		payload: PayloadType,
+		forceRefresh = false
+	) => {
 		return refreshToken(forceRefresh)
 			.then((result) => {
 				if (result.error) {
 					navigate("/login");
 				} else {
-					setSavedToken(result.refreshToken);
-					dispatch(action({ ...payload, token: result.accessToken })).then(
-						(res) => {
-							if (res?.error?.message === "jwt expired" && !forceRefresh) {
+					if (result.refreshToken) setSavedToken(result.refreshToken);
+					dispatch(
+						action({
+							...payload,
+							token: result.accessToken,
+						})
+					)
+						.then(unwrapResult)
+						.catch((res: SerializedError) => {
+							if (res?.message === "jwt expired" && !forceRefresh) {
 								secureDispatch(action, payload, true);
 							}
-						}
-					);
+						});
 				}
 			})
 			.catch((e) => console.log(e));
 	};
-	const refreshToken = async (forceRefresh) => {
+	const refreshToken = async (forceRefresh: boolean) => {
 		if (!savedToken) return { error: true };
 
 		if (

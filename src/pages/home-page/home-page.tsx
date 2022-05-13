@@ -19,6 +19,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/use-auth";
 import { fireError } from "../../services/actions/system-actions";
 import { RootState, useAppDispatch } from "../../services/store/store";
+import {
+	IPostOrderRequest,
+	IPostOrderResponse,
+} from "../../api/orders/orders-api-interface";
 
 export default function HomePage() {
 	//selectors
@@ -44,7 +48,9 @@ export default function HomePage() {
 		} else if (elements.find((x) => x.type === "bun") === undefined) {
 			dispatch(fireError("Не выбрана булка"));
 		} else {
-			secureDispatch(postOrder, { elements: elements });
+			secureDispatch<IPostOrderRequest, IPostOrderResponse>(postOrder, {
+				ingredients: elements.map((ingredient) => ingredient._id),
+			});
 		}
 	}, [elements, secureDispatch]);
 

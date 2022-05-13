@@ -26,6 +26,12 @@ export interface IRefreshRequest {
 	token: string;
 }
 
+export interface IResfreshResponse extends IReposnse {
+	accessToken: string;
+	refreshToken: string;
+	error?: boolean;
+}
+
 export interface IPasswordSetRequest {
 	passoword: string;
 	token: string;

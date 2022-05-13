@@ -1,13 +1,14 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { push } from "redux-first-history";
-import { IReposnse } from "../../api";
+import { IReposnse, IRequest } from "../../api";
 import {
 	ILoginRequest,
 	ILoginResponse,
 	IPasswordSetRequest,
 	IRegisterRequest,
+	IResfreshResponse,
 	IUserResponse,
-} from "../../api/user/types";
+} from "../../api/user/user-api-interface";
 import userApi from "../../api/user/user-api";
 import { IUser } from "../interfaces";
 
@@ -26,7 +27,7 @@ export const logout = createAsyncThunk<IReposnse, string>(
 		return response;
 	}
 );
-export const register = createAsyncThunk<IReposnse, IRegisterRequest>(
+export const register = createAsyncThunk<ILoginResponse, IRegisterRequest>(
 	"user/register",
 	async (credentials) => {
 		const response = await userApi.register(credentials);
@@ -55,13 +56,13 @@ export const setPassword = createAsyncThunk<IReposnse, IPasswordSetRequest>(
 
 export const update = createAsyncThunk<
 	IUserResponse,
-	{ user: IUser; token: string }
+	{ user: IUser } & IRequest
 >("user/update", async (data) => {
-	const response = await userApi.update(data.user, data.token);
+	const response = await userApi.update(data);
 	return response;
 });
 
-export const token = createAsyncThunk<IReposnse, string>(
+export const token = createAsyncThunk<IResfreshResponse, string>(
 	"user/token",
 	async (resfreshToken) => {
 		const response = await userApi.token(resfreshToken);
@@ -77,6 +78,6 @@ export const get = createAsyncThunk<IUser, { token: string }>(
 	}
 );
 
-export const authenticate = createAction("user/authenticate");
+export const authenticate = createAction<boolean>("user/authenticate");
 
 export const dismissErrors = createAction("user/dismissErrors");
