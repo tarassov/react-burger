@@ -2,7 +2,6 @@ import { AsyncThunk, SerializedError, unwrapResult } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IReposnse } from "../api";
-//import { IReposnse } from "../api";
 import {
 	ILoginRequest,
 	IRegisterRequest,
@@ -37,7 +36,8 @@ export function useAuth() {
 	};
 
 	const signOut = async () => {
-		dispatch(logout(savedToken)).then(() => setSavedToken(""));
+		setSavedToken("");
+		dispatch(logout(savedToken));
 	};
 
 	const register = async (credentials: IRegisterRequest) => {
@@ -52,7 +52,7 @@ export function useAuth() {
 	};
 
 	const secureDispatch = async <PayloadType, T extends IReposnse>(
-		action: AsyncThunk<T, PayloadType, any>,
+		action: AsyncThunk<T, PayloadType, object>,
 		payload: PayloadType,
 		forceRefresh = false
 	) => {
