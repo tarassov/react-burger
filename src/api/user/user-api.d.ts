@@ -1,5 +1,5 @@
 import { IReposnse } from "..";
-import { IUser } from "../../services/interfaces";
+import { IUser } from "../../services/interfaces/model";
 
 export interface ILoginRequest {
 	email: string;

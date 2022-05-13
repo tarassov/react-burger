@@ -1,5 +1,5 @@
 import { createEntityAdapter, EntityState } from "@reduxjs/toolkit";
-import { IElement } from "../interfaces";
+import { IElement } from "../interfaces/model";
 import { RootState } from "../store/store";
 
 export interface IElementsState extends EntityState<IElement> {

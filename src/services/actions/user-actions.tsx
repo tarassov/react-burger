@@ -8,9 +8,9 @@ import {
 	IRegisterRequest,
 	IResfreshResponse,
 	IUserResponse,
-} from "../../api/user/user-api-interface";
+} from "../../api/user/user-api.d";
 import userApi from "../../api/user/user-api";
-import { IUser } from "../interfaces";
+import { IUser } from "../interfaces/model";
 
 export const login = createAsyncThunk<ILoginResponse, ILoginRequest>(
 	"user/login",

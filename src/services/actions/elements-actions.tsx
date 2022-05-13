@@ -1,5 +1,5 @@
 import { createAction, nanoid } from "@reduxjs/toolkit";
-import { IElement, IIngredient } from "../interfaces";
+import { IElement, IIngredient } from "../interfaces/model";
 
 export const add = createAction(
 	"elements/add",

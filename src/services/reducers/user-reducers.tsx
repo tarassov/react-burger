@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-	ILoginRequest,
-	ILoginResponse,
-} from "../../api/user/user-api-interface";
+import { ILoginRequest, ILoginResponse } from "../../api/user/user-api.d";
 import {
 	get,
 	login,

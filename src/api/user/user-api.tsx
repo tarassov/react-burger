@@ -1,5 +1,5 @@
 import { patch, post, get, IReposnse, IRequest } from "..";
-import { IUser } from "../../services/interfaces";
+import { IUser } from "../../services/interfaces/model";
 import {
 	ILoginRequest,
 	ILoginResponse,
@@ -10,7 +10,7 @@ import {
 	IUserResponse,
 	IPasswordForgot,
 	IPasswordSetRequest,
-} from "./user-api-interface";
+} from "./user-api.d";
 const authPath = "auth";
 
 const userApi = {

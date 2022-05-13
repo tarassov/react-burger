@@ -7,7 +7,7 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { get, update } from "../../../services/actions/user-actions";
 import Loader from "../../../components/loader/loader";
 import { IRequest } from "../../../api";
-import { IUserResponse } from "../../../api/user/user-api-interface";
+import { IUserResponse } from "../../../api/user/user-api.d";
 
 export default function ProfileEdit() {
 	const { user, secureDispatch } = useAuth();
