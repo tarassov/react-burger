@@ -6,17 +6,19 @@ import { useCallback, useEffect, useState } from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { get, update } from "../../../services/actions/user-actions";
 import Loader from "../../../components/loader/loader";
+import { IRequest } from "../../../api";
+import { IUserResponse } from "../../../api/user/user-api-interface";
 
 export default function ProfileEdit() {
 	const { user, secureDispatch } = useAuth();
-	const [values, setValues] = useState({
+	const [values, setValues] = useState<{ email: string; name: string }>({
 		email: "",
 		name: "",
 	});
-	const [changed, setChanged] = useState(false);
+	const [changed, setChanged] = useState<boolean>(false);
 
 	useEffect(() => {
-		if (!user.userLoaded) secureDispatch(get, {});
+		if (!user.userLoaded) secureDispatch<IRequest, IUserResponse>(get, {});
 	}, []);
 
 	useEffect(() => {
@@ -78,6 +80,7 @@ export default function ProfileEdit() {
 						value={"123456"}
 						name="password"
 						disabled
+						onChange={onChange}
 						type="password"
 					/>
 				</div>

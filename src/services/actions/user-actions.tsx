@@ -70,11 +70,11 @@ export const token = createAsyncThunk<IResfreshResponse, string>(
 	}
 );
 
-export const get = createAsyncThunk<IUser, { token: string }>(
+export const get = createAsyncThunk<IUserResponse, IRequest>(
 	"user/get",
 	async (data) => {
-		const response = await userApi.getUser(data.token);
-		return response.user;
+		const response = await userApi.getUser(data);
+		return response;
 	}
 );
 

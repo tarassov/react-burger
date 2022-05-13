@@ -90,8 +90,8 @@ export const userSlice = createSlice({
 		});
 		builder.addCase(get.pending, (state) => pending(state));
 		builder.addCase(get.fulfilled, (state, action) => {
-			state.email = action.payload.email;
-			state.name = action.payload.name;
+			state.email = action.payload.user.email;
+			state.name = action.payload.user.name;
 			state.userLoaded = true;
 			state.pending = false;
 		});

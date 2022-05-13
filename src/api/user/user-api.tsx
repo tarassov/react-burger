@@ -44,8 +44,8 @@ const userApi = {
 			data.token
 		);
 	},
-	getUser: (token: string) => {
-		return get<IUserResponse>(`${authPath}/user`, token);
+	getUser: (data: IRequest) => {
+		return get<IUserResponse>(`${authPath}/user`, data.token);
 	},
 	forgotPassword: (email: string) => {
 		return post<IPasswordForgot, IReposnse>(`password-reset`, {
