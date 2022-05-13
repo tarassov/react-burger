@@ -15,7 +15,7 @@ export default function ProfileEdit() {
 		email: "",
 		name: "",
 	});
-	const [changed, setChanged] = useState<boolean>(false);
+	const [changed, setChanged] = useState<boolean | undefined>(false);
 
 	useEffect(() => {
 		if (!user.userLoaded) secureDispatch<IRequest, IUserResponse>(get, {});

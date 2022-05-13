@@ -1,4 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+	ILoginRequest,
+	ILoginResponse,
+} from "../../api/user/user-api-interface";
 import {
 	get,
 	login,
@@ -8,7 +12,20 @@ import {
 	update,
 } from "../actions/user-actions";
 
-const initialState = {
+export interface IUserState {
+	authenticated: boolean;
+	pendingAuthentication: boolean;
+	userLoaded: boolean;
+	error: boolean;
+	pending: boolean;
+	email: string;
+	name: string;
+	errorMessage: string | undefined;
+	accessToken: string | undefined;
+	accessTokenExpire: number;
+}
+
+const initialState: IUserState = {
 	authenticated: false,
 	pendingAuthentication: true,
 	userLoaded: false,
@@ -17,14 +34,26 @@ const initialState = {
 	email: "",
 	name: "",
 	errorMessage: "",
-	accessToken: null,
+	accessToken: undefined,
 	accessTokenExpire: Date.now(),
 };
-const pending = (state) => {
+const pending = (state: IUserState) => {
 	state.pending = true;
 	state.errorMessage = "";
 };
-const fulfilled = (state, action) => {
+const fulfilled = (
+	state: IUserState,
+	action: PayloadAction<
+		ILoginResponse,
+		string,
+		{
+			arg: ILoginRequest;
+			requestId: string;
+			requestStatus: "fulfilled";
+		},
+		never
+	>
+) => {
 	state.error = false;
 	state.pending = false;
 	state.authenticated = true;
@@ -36,11 +65,7 @@ const fulfilled = (state, action) => {
 	state.errorMessage = "";
 	state.userLoaded = true;
 };
-const rejected = (state, action) => {
-	state.errorMessage = action.error.message;
-	state.error = true;
-	state.pending = false;
-};
+
 export const userSlice = createSlice({
 	name: "user",
 	initialState,
@@ -67,9 +92,11 @@ export const userSlice = createSlice({
 		builder.addCase(login.fulfilled, (state, action) =>
 			fulfilled(state, action)
 		);
-		builder.addCase(login.rejected, (state, payload) =>
-			rejected(state, payload)
-		);
+		builder.addCase(login.rejected, (state, payload) => {
+			state.errorMessage = payload.error.message;
+			state.error = true;
+			state.pending = false;
+		});
 		builder.addCase(logout.fulfilled, () => {
 			return { ...initialState, pendingAuthentication: false };
 		});
@@ -77,9 +104,11 @@ export const userSlice = createSlice({
 		builder.addCase(register.fulfilled, (state, action) =>
 			fulfilled(state, action)
 		);
-		builder.addCase(register.rejected, (state, payload) =>
-			rejected(state, payload)
-		);
+		builder.addCase(register.rejected, (state, payload) => {
+			state.errorMessage = payload.error.message;
+			state.error = true;
+			state.pending = false;
+		});
 		builder.addCase(token.fulfilled, (state, action) => {
 			state.authenticated = true;
 			state.accessToken = action.payload.accessToken;

@@ -1,12 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { postOrder } from "../actions/orders-actions";
 
-const initialState = {
-	orderNumber: "",
+export interface IOrderState {
+	orderNumber: number | undefined;
+	error: boolean;
+	posting: boolean;
+	errorMessage: string | undefined;
+}
+
+const initialState: IOrderState = {
+	orderNumber: undefined,
 	error: false,
 	posting: false,
 	errorMessage: "",
 };
+
 export const orderSlice = createSlice({
 	name: "order",
 	initialState,
