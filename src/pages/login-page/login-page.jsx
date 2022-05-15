@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/use-auth";
 
@@ -10,11 +10,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./login-page.module.css";
+import { useLocationTyped } from "../../hooks/use-location-typed";
 
 export default function LoginPage() {
 	const navigate = useNavigate();
 	const { signIn, user, dismissErrors } = useAuth();
-	const location = useLocation();
+	const location = useLocationTyped();
 
 	const from =
 		location.state?.from?.pathname !== "/profile/logout"

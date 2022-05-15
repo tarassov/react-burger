@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import { useCallback, useRef } from "react";
+import { FC, useCallback, useRef } from "react";
 import { useDispatch } from "react-redux";
 
 import {
@@ -10,10 +9,19 @@ import styles from "./element.module.css";
 
 import { remove } from "../../services/actions/elements-actions";
 
-import { elementPropTypes } from "../../utils/prop-types";
 import { useDrag, useDrop } from "react-dnd";
+import { IElement } from "../../services/interfaces/model";
+import { ISubstituteProps } from "../burger-constructor/burger-constructor";
 
-export default function Element({ element, onSubstitute }) {
+interface IDropItem {
+	element: IElement;
+	sortIndex: number;
+}
+
+const Element: FC<{
+	element: IElement;
+	onSubstitute: (args: ISubstituteProps) => void;
+}> = ({ element, onSubstitute }) => {
 	const dispatch = useDispatch();
 
 	const onRemoveElement = useCallback(
@@ -34,7 +42,7 @@ export default function Element({ element, onSubstitute }) {
 	const [, dropRef] = useDrop({
 		accept: "element",
 
-		hover: (item, monitor) => {
+		hover: (item: IDropItem, monitor) => {
 			if (!ref.current) return;
 			if (item.element.id === element.id) return;
 			if (Math.abs(item.sortIndex - element.sortIndex) > 1) return;
@@ -56,16 +64,21 @@ export default function Element({ element, onSubstitute }) {
 				return;
 			}
 
-			onSubstitute(item.element, element, hoverIndex, dragIndex);
+			onSubstitute({
+				from: item.element,
+				to: element,
+				hoverIndex: hoverIndex,
+				dragIndex: dragIndex,
+			});
 			item.sortIndex = hoverIndex;
 		},
 	});
 
-	const ref = useRef(null);
-	const dragDropRef = dragRef(dropRef(ref));
+	const ref = useRef<HTMLDivElement>(null);
+	dragRef(dropRef(ref));
 
 	return (
-		<div style={{ opacity }} ref={dragDropRef}>
+		<div style={{ opacity }} ref={ref}>
 			<div className={styles.draggable}>
 				<DragIcon type="primary" />
 			</div>
@@ -80,9 +93,6 @@ export default function Element({ element, onSubstitute }) {
 			</div>
 		</div>
 	);
-}
-
-Element.propTypes = {
-	element: elementPropTypes.isRequired,
-	onSubstitute: PropTypes.func.isRequired,
 };
+
+export default Element;

@@ -1,15 +1,24 @@
-import PropTypes from "prop-types";
+import { FC } from "react";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import styles from "./navigation-link.module.css";
 
-export default function NavigationLink({
+interface INavigationLink {
+	logo?: JSX.Element;
+	text: string;
+	to: string;
+	medium?: boolean;
+	matching?: boolean;
+	exactMatching?: boolean;
+}
+
+const NavigationLink: FC<INavigationLink> = ({
 	logo,
 	text,
 	to,
 	medium,
 	matching,
 	exactMatching,
-}) {
+}) => {
 	const resolved = useResolvedPath(to);
 	const match = useMatch({
 		path: resolved.pathname,
@@ -28,13 +37,6 @@ export default function NavigationLink({
 			</p>
 		</Link>
 	);
-}
-
-NavigationLink.propTypes = {
-	logo: PropTypes.object,
-	text: PropTypes.string,
-	to: PropTypes.string.isRequired,
-	medium: PropTypes.bool,
-	matching: PropTypes.bool,
-	exactMatching: PropTypes.bool,
 };
+
+export default NavigationLink;

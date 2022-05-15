@@ -1,16 +1,18 @@
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchIngredients } from "../../services/actions/ingredients-actions";
 import { selectIngredientById } from "../../services/adapters/ingredients-adapters";
 import Loader from "../loader/loader";
 import styles from "./ingredient-details.module.css";
-import PropTypes from "prop-types";
+import { RootState } from "../../services/store/store";
 
-function IngredientDetails({ modal }) {
-	const { id } = useParams();
+const IngredientDetails: FC<{ modal?: boolean }> = ({ modal }) => {
+	const { id } = useParams<{ id: string }>();
 	const dispatch = useDispatch();
-	const ingredient = useSelector((state) => selectIngredientById(state, id));
+	const ingredient = useSelector((state: RootState) =>
+		selectIngredientById(state, id ?? "")
+	);
 	useEffect(() => {
 		if (!ingredient) dispatch(fetchIngredients());
 	}, [ingredient]);
@@ -66,10 +68,6 @@ function IngredientDetails({ modal }) {
 			</div>
 		</div>
 	);
-}
-
-IngredientDetails.propTypes = {
-	modal: PropTypes.bool,
 };
 
 export default IngredientDetails;

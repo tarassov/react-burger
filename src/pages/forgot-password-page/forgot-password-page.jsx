@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import {
 	Input,
@@ -9,11 +9,12 @@ import {
 import styles from "./forgot-password-page.module.css";
 import { forgotPassword } from "../../services/actions/user-actions";
 import { useDispatch } from "react-redux";
+import { useLocationTyped } from "../../hooks/use-location-typed";
 
 export default function ForgotPasswordPage() {
 	const [email, setEmail] = useState("");
 	const dispatch = useDispatch();
-	const location = useLocation();
+	const location = useLocationTyped();
 
 	const onChange = (e) => {
 		setEmail(e.target.value);

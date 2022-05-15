@@ -29,7 +29,7 @@ export function useAuth() {
 			.then((result) => {
 				setSavedToken(result.refreshToken);
 			})
-			.catch((e) => console.log(e));
+			.catch((e: SerializedError) => console.log(e));
 	};
 
 	const signOut = async () => {
@@ -45,7 +45,7 @@ export function useAuth() {
 					setSavedToken(result.refreshToken);
 				};
 			})
-			.catch((e) => console.log(e.message));
+			.catch((e: SerializedError) => console.log(e.message));
 	};
 
 	const secureDispatch = async <PayloadType, T extends IReposnse>(

@@ -1,16 +1,15 @@
-import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
-
-import { ingredientPropTypes } from "../../utils/prop-types";
 import styles from "./ingredient-card.module.css";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import Price from "../price/price";
+import { FC } from "react";
+import { IIngredient } from "../../services/interfaces/model";
 
-export default function IngredientCard({
-	ingredient,
-	count,
-	onIngredientClick,
-}) {
+const IngredientCard: FC<{
+	ingredient: IIngredient;
+	count: number;
+	onIngredientClick: (ingredient: IIngredient) => void;
+}> = ({ ingredient, count, onIngredientClick }) => {
 	const [{ opacity }, dragRef] = useDrag({
 		type: "ingredient",
 		item: { ...ingredient },
@@ -46,10 +45,6 @@ export default function IngredientCard({
 			</p>
 		</div>
 	);
-}
-
-IngredientCard.propTypes = {
-	ingredient: ingredientPropTypes,
-	count: PropTypes.number,
-	onIngredientClick: PropTypes.func.isRequired,
 };
+
+export default IngredientCard;

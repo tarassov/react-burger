@@ -15,7 +15,7 @@ import { selectAllElements } from "../../services/adapters/elements-adapters";
 import { postOrder } from "../../services/actions/orders-actions";
 import Error from "../../components/error/erorr";
 import Loader from "../../components/loader/loader";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/use-auth";
 import { fireError } from "../../services/actions/system-actions";
 import { RootState, useAppDispatch } from "../../services/store/store";
@@ -23,6 +23,7 @@ import {
 	IPostOrderRequest,
 	IPostOrderResponse,
 } from "../../api/orders/orders-api-interface";
+import { useLocationTyped } from "../../hooks/use-location-typed";
 
 export default function HomePage() {
 	//selectors
@@ -35,7 +36,7 @@ export default function HomePage() {
 
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const location = useLocation();
+	const location = useLocationTyped();
 
 	useEffect(() => {
 		dispatch(fetchIngredients());

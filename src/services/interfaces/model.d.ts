@@ -1,24 +1,7 @@
-export interface IElement {
-	_id: string;
-	name: string;
-	type: string;
-	proteins: number;
-	fat: number;
-	carbohydrates: number;
-	calories: number;
-	price: number;
-	image: string;
-	image_mobile: string;
-	image_large: string;
-	__v: number;
-	id: string;
-	sortIndex: number;
-}
-
 export interface IIngredient {
 	_id: string;
 	name: string;
-	type: string;
+	type: "bun" | "sauce" | "main";
 	proteins: number;
 	fat: number;
 	carbohydrates: number;
@@ -28,6 +11,12 @@ export interface IIngredient {
 	image_mobile: string;
 	image_large: string;
 	__v: number;
+	bun_type?: "bottom" | "top";
+}
+
+export interface IElement extends IIngredient {
+	id: string;
+	sortIndex: number;
 }
 
 export type TOrderStatus = "done";

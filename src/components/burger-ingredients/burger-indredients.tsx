@@ -1,20 +1,26 @@
-import React, { useRef, useCallback, useMemo } from "react";
+import React, { useRef, useCallback, useMemo, FC } from "react";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientBlock from "../ingredient-block/ingredient-block";
 import { useSelector } from "react-redux";
 import { selectAllIngredients } from "../../services/adapters/ingredients-adapters";
+import { RootState } from "../../services/store/store";
+import { IIngredient } from "../../services/interfaces/model";
 
-export default function BurgerIngredients(props) {
-	const bunRef = useRef(null);
-	const sauceRef = useRef(null);
-	const mainRef = useRef(null);
-	const listRef = useRef(null);
+const BurgerIngredients: FC<{
+	onIngredientClick: (ingredient: IIngredient) => void;
+}> = ({ onIngredientClick }) => {
+	const bunRef = useRef<HTMLParagraphElement>(null);
+	const sauceRef = useRef<HTMLParagraphElement>(null);
+	const mainRef = useRef<HTMLParagraphElement>(null);
+	const listRef = useRef<HTMLDivElement>(null);
 
 	const [currentTab, setCurrentTab] = React.useState("bun");
 
-	const groupedCart = useSelector((store) => store.elements.groupedCart);
+	const groupedCart = useSelector(
+		(store: RootState) => store.elements.groupedCart
+	);
 
 	const ingredients = useSelector(selectAllIngredients);
 
@@ -29,16 +35,20 @@ export default function BurgerIngredients(props) {
 	}, [ingredients]);
 
 	const handleScroll = useCallback(() => {
-		const position = listRef.current.scrollTop + listRef.current.offsetTop;
-		if (sauceRef.current.offsetTop > position) {
-			setCurrentTab("bun");
-		} else if (
-			mainRef.current.offsetTop > position &&
-			position >= sauceRef.current.offsetTop
-		) {
-			setCurrentTab("sauce");
-		} else {
-			setCurrentTab("main");
+		if (listRef.current) {
+			const position = listRef.current.scrollTop + listRef.current.offsetTop;
+			if (sauceRef.current && sauceRef.current.offsetTop > position) {
+				setCurrentTab("bun");
+			} else if (
+				mainRef.current &&
+				sauceRef.current &&
+				mainRef.current.offsetTop > position &&
+				position >= sauceRef.current.offsetTop
+			) {
+				setCurrentTab("sauce");
+			} else {
+				setCurrentTab("main");
+			}
 		}
 	}, []);
 
@@ -46,16 +56,20 @@ export default function BurgerIngredients(props) {
 		setCurrentTab(value);
 		switch (value) {
 			case "bun":
-				bunRef.current.scrollIntoView({ behavior: "smooth" });
+				if (bunRef.current)
+					bunRef.current.scrollIntoView({ behavior: "smooth" });
 				break;
 			case "sauce":
-				sauceRef.current.scrollIntoView({ behavior: "smooth" });
+				if (sauceRef.current)
+					sauceRef.current.scrollIntoView({ behavior: "smooth" });
 				break;
 			case "main":
-				mainRef.current.scrollIntoView({ behavior: "smooth" });
+				if (mainRef.current)
+					mainRef.current.scrollIntoView({ behavior: "smooth" });
 				break;
 			default:
-				bunRef.current.scrollIntoView({ behavior: "smooth" });
+				if (bunRef.current)
+					bunRef.current.scrollIntoView({ behavior: "smooth" });
 				break;
 		}
 	}, []);
@@ -79,34 +93,33 @@ export default function BurgerIngredients(props) {
 					Булки
 				</p>
 				<IngredientBlock
-					data={buns}
+					ingredients={buns}
 					groupedCart={groupedCart}
-					onAddIngredient={props.onAddIngredient}
-					onIngredientClick={props.onIngredientClick}
+					onIngredientClick={onIngredientClick}
 				/>
 				<p className="mt-10 text text_type_main-medium" ref={sauceRef}>
 					Соусы
 				</p>
 				<IngredientBlock
-					data={sauces}
+					ingredients={sauces}
 					groupedCart={groupedCart}
-					onAddIngredient={props.onAddIngredient}
-					onIngredientClick={props.onIngredientClick}
+					onIngredientClick={onIngredientClick}
 				/>
 				<p className="mt-10 text text_type_main-medium" ref={mainRef}>
 					Начинки
 				</p>
 				<IngredientBlock
-					data={mains}
+					ingredients={mains}
 					groupedCart={groupedCart}
-					onAddIngredient={props.onAddIngredient}
-					onIngredientClick={props.onIngredientClick}
+					onIngredientClick={onIngredientClick}
 				/>
 			</div>
 		</section>
 	);
-}
+};
 
 BurgerIngredients.propTypes = {
 	onIngredientClick: PropTypes.func.isRequired,
 };
+
+export default BurgerIngredients;

@@ -7,13 +7,15 @@ import Spinner from "../spinner/spinner";
 const modalRoot = document.getElementById("modal-root");
 
 export default function Loader() {
-	return ReactDOM.createPortal(
-		<>
-			<ModalOverlay onClick={close} />
-			<div className={styles.modal}>
-				<Spinner />
-			</div>
-		</>,
-		modalRoot
-	);
+	return modalRoot
+		? ReactDOM.createPortal(
+				<>
+					<ModalOverlay onClick={close} />
+					<div className={styles.modal}>
+						<Spinner />
+					</div>
+				</>,
+				modalRoot
+		  )
+		: null;
 }

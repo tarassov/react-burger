@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import {
 	LoginPage,
 	ProfilePage,
@@ -17,10 +17,11 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Loader from "../loader/loader";
 import NotFoundPage from "../../pages/not-found-page/not-found-page";
+import { useLocationTyped } from "../../hooks/use-location-typed";
 
 function SwitchRoutes() {
 	const { checkAuth, user } = useAuth();
-	const location = useLocation();
+	const location = useLocationTyped();
 	const navigate = useNavigate();
 
 	const background = location.state && location.state.background;

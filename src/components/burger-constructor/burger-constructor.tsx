@@ -1,7 +1,6 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useDrop } from "react-dnd";
-import PropTypes from "prop-types";
+import { DropTargetMonitor, useDrop } from "react-dnd";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import Price from "../price/price";
@@ -10,30 +9,43 @@ import { add, update } from "../../services/actions/elements-actions";
 import { selectAllElements } from "../../services/adapters/elements-adapters";
 import BurgerElements from "../burger-elements/burger-elements";
 import Bun from "../bun/bun";
+import { RootState } from "../../services/store/store";
+import { IElement, IIngredient } from "../../services/interfaces/model";
 
-export default function BurgerConstructor({ onPerformOrderClick }) {
+export interface ISubstituteProps {
+	from: IElement;
+	to: IElement;
+	hoverIndex: number;
+	dragIndex: number;
+}
+
+export const BurgerConstructor: FC<{ onPerformOrderClick: () => void }> = ({
+	onPerformOrderClick,
+}) => {
 	const dispatch = useDispatch();
 
 	const elements = useSelector(selectAllElements);
-	const totalPrice = useSelector((store) => store.elements.totalPrice);
+	const totalPrice = useSelector(
+		(store: RootState) => store.elements.totalPrice
+	);
 
 	const [{ isHover }, dropTargerRef] = useDrop({
 		accept: "ingredient",
-		collect: (monitor) => ({
+		collect: (monitor: DropTargetMonitor) => ({
 			isHover: monitor.isOver(),
 		}),
-		drop(ingredient) {
+		drop(ingredient: IIngredient) {
 			dispatch(add(ingredient));
 		},
 	});
 
 	const onSubstitute = useCallback(
-		(from, to, hoverIndex, dragIndex) => {
-			if (hoverIndex !== dragIndex) {
+		(args: ISubstituteProps) => {
+			if (args.hoverIndex !== args.dragIndex) {
 				dispatch(
 					update([
-						{ ...from, sortIndex: hoverIndex },
-						{ ...to, sortIndex: dragIndex },
+						{ ...args.from, sortIndex: args.hoverIndex },
+						{ ...args.to, sortIndex: args.dragIndex },
 					])
 				);
 			}
@@ -56,14 +68,14 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 					className={`${styles.elements} ${isHover && styles.onHover}`}
 					ref={dropTargerRef}
 				>
-					<Bun bun={bun} type={"top"} />
+					<Bun bun={{ ...bun, bun_type: "top" } as IElement} />
 					<BurgerElements elements={listElements} onSubstitute={onSubstitute} />
-					<Bun bun={bun} type={"bottom"} />
+					<Bun bun={{ ...bun, bun_type: "bottom" } as IElement} />
 				</div>
 			</div>
 			<div className={`mt-10 ${styles.total}`}>
 				<div className={`mr-10 ${styles.price}`}>
-					<Price price={totalPrice} large />
+					<Price price={totalPrice} size="default" />
 				</div>
 				<Button type="primary" size="large" onClick={onPerformOrderClick}>
 					Оформить заказ
@@ -71,8 +83,6 @@ export default function BurgerConstructor({ onPerformOrderClick }) {
 			</div>
 		</section>
 	);
-}
-
-BurgerConstructor.propTypes = {
-	onPerformOrderClick: PropTypes.func.isRequired,
 };
+
+export default BurgerConstructor;
