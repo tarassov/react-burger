@@ -1,8 +1,7 @@
 import { AsyncThunk, SerializedError, unwrapResult } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { IReposnse } from "../api";
-import { ILoginRequest, IRegisterRequest } from "../api/user/user-api.d";
+import { IReposnse, ILoginRequest, IRegisterRequest } from "../api/types";
 import {
 	login,
 	logout,

@@ -1,10 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IRequest } from "../../api";
-import elementsApi from "../../api/orders/orders-api";
 import {
+	IRequest,
 	IPostOrderRequest,
 	IPostOrderResponse,
-} from "../../api/orders/orders-api-interface";
+} from "../../api/types";
+
+import elementsApi from "../../api/orders-api";
 
 export const postOrder = createAsyncThunk<
 	IPostOrderResponse,

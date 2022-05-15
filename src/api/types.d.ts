@@ -1,9 +1,19 @@
-import { IReposnse } from "..";
-import { IUser } from "../../services/interfaces/model";
+import { IUser, IOrder } from "../../services/interfaces/model";
 
+export interface IReposnse {
+	success: boolean;
+	message?: string;
+}
+
+export interface IRequest {
+	token?: string;
+}
+export interface IFetchArray<T> extends IReposnse {
+	data: Array<T>;
+}
 export interface ILoginRequest {
 	email: string;
-	passoword: string;
+	password: string;
 }
 export interface ILoginResponse extends IReposnse {
 	accessToken: string;
@@ -33,10 +43,18 @@ export interface IResfreshResponse extends IReposnse {
 }
 
 export interface IPasswordSetRequest {
-	passoword: string;
+	password: string;
 	token: string;
 }
 
 export interface IPasswordForgot {
 	email: string;
+}
+
+export interface IPostOrderRequest extends IRequest {
+	ingredients: Array<string>;
+}
+export interface IPostOrderResponse extends IReposnse {
+	name: string;
+	order: IOrder;
 }

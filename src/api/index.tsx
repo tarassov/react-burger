@@ -4,18 +4,6 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 axios.defaults.baseURL = "https://norma.nomoreparties.space/api/";
 //axios.defaults.headers;
 
-export interface IReposnse {
-	success: boolean;
-	message?: string;
-}
-
-export interface IRequest {
-	token?: string;
-}
-export interface IFetchArray<T> extends IReposnse {
-	data: Array<T>;
-}
-
 const checkSuccess = (response: AxiosResponse) => {
 	return response.data?.success ? response.data : Promise.reject(response.data);
 };

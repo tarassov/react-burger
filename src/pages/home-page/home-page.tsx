@@ -19,10 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/use-auth";
 import { fireError } from "../../services/actions/system-actions";
 import { RootState, useAppDispatch } from "../../services/store/store";
-import {
-	IPostOrderRequest,
-	IPostOrderResponse,
-} from "../../api/orders/orders-api-interface";
+import { IPostOrderRequest, IPostOrderResponse } from "../../api/types";
 import { useLocationTyped } from "../../hooks/use-location-typed";
 
 export default function HomePage() {

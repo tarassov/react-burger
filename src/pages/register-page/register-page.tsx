@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, SyntheticEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/use-auth";
@@ -21,8 +21,8 @@ export default function RegisterPage() {
 		name: "",
 	});
 
-	const onChange = (e) => {
-		setValue({ ...credentials, [e.target.name]: e.target.value });
+	const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+		setValue({ ...credentials, [e.currentTarget.name]: e.currentTarget.value });
 	};
 
 	useEffect(() => {
@@ -64,7 +64,6 @@ export default function RegisterPage() {
 				</div>
 				<div className={`mt-6`}>
 					<PasswordInput
-						placeholder="Password"
 						value={credentials.password}
 						name="password"
 						onChange={onChange}
@@ -76,9 +75,7 @@ export default function RegisterPage() {
 					</p>
 				)}
 				<div className={`mt-6`}>
-					<Button htmlType="submit" primary={true}>
-						Зарегистрироваться
-					</Button>
+					<Button htmlType="submit">Зарегистрироваться</Button>
 				</div>
 			</form>
 			<div className={`mt-20`}>

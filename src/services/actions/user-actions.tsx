@@ -1,16 +1,18 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { Location } from "history";
 import { push } from "redux-first-history";
-import { IReposnse, IRequest } from "../../api";
+
 import {
+	IReposnse,
+	IRequest,
 	ILoginRequest,
 	ILoginResponse,
 	IPasswordSetRequest,
 	IRegisterRequest,
 	IResfreshResponse,
 	IUserResponse,
-} from "../../api/user/user-api.d";
-import userApi from "../../api/user/user-api";
+} from "../../api/types";
+import userApi from "../../api/user-api";
 import { IUser } from "../interfaces/model";
 
 export const login = createAsyncThunk<ILoginResponse, ILoginRequest>(

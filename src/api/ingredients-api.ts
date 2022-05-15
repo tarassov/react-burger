@@ -1,5 +1,6 @@
-import { get, IFetchArray } from ".";
+import { get } from ".";
 import { IIngredient } from "../services/interfaces/model";
+import { IFetchArray } from "./types";
 
 const ingredientsApi = {
 	fetchAll: () => {

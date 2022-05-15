@@ -4,6 +4,7 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./not-found-page.module.css";
 import img404 from "../../images/404.png";
+
 export default function NotFoundPage() {
 	const navigate = useNavigate();
 

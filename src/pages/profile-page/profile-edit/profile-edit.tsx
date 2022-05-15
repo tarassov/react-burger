@@ -2,12 +2,11 @@ import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./profile-edit.module.css";
 import { useAuth } from "../../../hooks/use-auth";
-import { useCallback, useEffect, useState } from "react";
+import { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { get, update } from "../../../services/actions/user-actions";
 import Loader from "../../../components/loader/loader";
-import { IRequest } from "../../../api";
-import { IUserResponse } from "../../../api/user/user-api.d";
+import { IRequest, IUserResponse } from "../../../api/types";
 
 export default function ProfileEdit() {
 	const { user, secureDispatch } = useAuth();
@@ -26,15 +25,15 @@ export default function ProfileEdit() {
 	}, [user.email, user.name]);
 
 	const onChange = useCallback(
-		(e) => {
-			setValues({ ...values, [e.target.name]: e.target.value });
+		(e: SyntheticEvent<HTMLInputElement>) => {
+			setValues({ ...values, [e.currentTarget.name]: e.currentTarget.value });
 			setChanged(true);
 		},
 		[values]
 	);
 
 	const save = useCallback(
-		(e) => {
+		(e: SyntheticEvent) => {
 			e.preventDefault();
 			secureDispatch(update, { user: values });
 			setChanged(false);

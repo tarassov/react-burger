@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../hooks/use-auth";
@@ -11,6 +11,7 @@ import {
 
 import styles from "./login-page.module.css";
 import { useLocationTyped } from "../../hooks/use-location-typed";
+import { ILoginRequest } from "../../api/types";
 
 export default function LoginPage() {
 	const navigate = useNavigate();
@@ -22,17 +23,20 @@ export default function LoginPage() {
 			? location.state?.from?.pathname || "/"
 			: "/";
 
-	const [credentials, setValue] = useState({ email: "", password: "" });
+	const [credentials, setValue] = useState<ILoginRequest>({
+		email: "",
+		password: "",
+	});
 
 	useEffect(() => {
 		dismissErrors();
 	}, []);
 
-	const onChange = (e) => {
-		setValue({ ...credentials, [e.target.name]: e.target.value });
+	const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+		setValue({ ...credentials, [e.currentTarget.name]: e.currentTarget.value });
 	};
 
-	let login = useCallback(
+	const login = useCallback(
 		(e) => {
 			e.preventDefault();
 			signIn(credentials);
@@ -61,7 +65,6 @@ export default function LoginPage() {
 				</div>
 				<div className={`mt-6`}>
 					<PasswordInput
-						placeholder="Password"
 						value={credentials.password}
 						name="password"
 						onChange={onChange}
@@ -73,7 +76,7 @@ export default function LoginPage() {
 					</p>
 				)}
 				<div className={`mt-6`}>
-					<Button htmlType="submit" primary={true}>
+					<Button htmlType="submit" type="primary">
 						Войти
 					</Button>
 				</div>

@@ -1,5 +1,5 @@
-import { post } from "..";
-import { IPostOrderRequest, IPostOrderResponse } from "./orders-api-interface";
+import { post } from ".";
+import { IPostOrderRequest, IPostOrderResponse } from "./types";
 
 const elementsApi = {
 	postOrder: (data: IPostOrderRequest) => {

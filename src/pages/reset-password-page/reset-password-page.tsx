@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { SyntheticEvent, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -9,29 +9,34 @@ import {
 
 import styles from "./reset-password-page.module.css";
 import { setPassword } from "../../services/actions/user-actions";
-import { useDispatch } from "react-redux";
+import { IPasswordSetRequest } from "../../api/types";
+import { useAppDispatch } from "../../services/store/store";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 export default function ResetPasswordPage() {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
-	const [values, setValues] = useState({ token: "", password: "" });
+	const [values, setValues] = useState<IPasswordSetRequest>({
+		token: "",
+		password: "",
+	});
 	const [error, setError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
-	const onChange = (e) => {
-		setValues({ ...values, [e.target.name]: e.target.value });
+	const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
+		setValues({ ...values, [e.currentTarget.name]: e.currentTarget.value });
 	};
 
 	const send = useCallback(
-		(e) => {
+		(e: SyntheticEvent) => {
 			e.preventDefault();
 			setError(false);
 			setErrorMessage("");
-			dispatch(setPassword(values)).then((res) => {
-				if (res.error) {
+			dispatch(setPassword(values))
+				.then(unwrapResult)
+				.catch(() => {
 					setError(true);
 					setErrorMessage("Неверный код");
-				}
-			});
+				});
 		},
 		[setPassword, values, dispatch]
 	);
@@ -45,7 +50,6 @@ export default function ResetPasswordPage() {
 
 				<div className={`mt-6`}>
 					<PasswordInput
-						placeholder="Введите новый пароль"
 						name="password"
 						onChange={onChange}
 						value={values.password}
@@ -63,9 +67,7 @@ export default function ResetPasswordPage() {
 					/>
 				</div>
 				<div className={`mt-6`}>
-					<Button htmlType="submit" primary={true}>
-						Сохранить
-					</Button>
+					<Button htmlType="submit">Сохранить</Button>
 				</div>
 			</form>
 			<div className={`mt-20`}>
