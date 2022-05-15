@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { FC, SyntheticEvent, useCallback, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import {
 	Input,
@@ -9,15 +9,16 @@ import {
 import styles from "./forgot-password-page.module.css";
 import { forgotPassword } from "../../services/actions/user-actions";
 import { useDispatch } from "react-redux";
-import { useLocationTyped } from "../../hooks/use-location-typed";
+//import { useLocationTyped } from "../../hooks/use-location-typed";
 
-export default function ForgotPasswordPage() {
+const ForgotPasswordPage: FC = () => {
 	const [email, setEmail] = useState("");
 	const dispatch = useDispatch();
-	const location = useLocationTyped();
+	const location = useLocation();
 
-	const onChange = (e) => {
-		setEmail(e.target.value);
+	const onChange = (e: SyntheticEvent) => {
+		const target = e.target as HTMLInputElement;
+		setEmail(target.value);
 	};
 
 	const send = useCallback(
@@ -44,7 +45,7 @@ export default function ForgotPasswordPage() {
 					/>
 				</div>
 				<div className={`mt-6`}>
-					<Button htmlType="submit" primary={true}>
+					<Button htmlType="submit" type="primary">
 						Восстановить
 					</Button>
 				</div>
@@ -59,4 +60,6 @@ export default function ForgotPasswordPage() {
 			</div>
 		</div>
 	);
-}
+};
+
+export default ForgotPasswordPage;

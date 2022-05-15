@@ -1,4 +1,5 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { Location } from "history";
 import { push } from "redux-first-history";
 import { IReposnse, IRequest } from "../../api";
 import {
@@ -37,11 +38,12 @@ export const register = createAsyncThunk<ILoginResponse, IRegisterRequest>(
 
 export const forgotPassword = createAsyncThunk<
 	IReposnse,
-	{ email: string; location: string }
+	{ email: string; location: Location }
 >("user/forgotPassword", async (payload, thunkApi) => {
 	const response = await userApi.forgotPassword(payload.email);
-	if (response.success)
+	if (response.success) {
 		thunkApi.dispatch(push("reset-password", { from: payload.location }));
+	}
 	return response;
 });
 

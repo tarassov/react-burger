@@ -1,14 +1,14 @@
 import { useLocation } from "react-router-dom";
 
-type LocationProps = {
+export interface ILocationProps extends Location {
 	state: {
 		from?: Location;
 		background?: Location;
 	};
-};
+}
 
 export function useLocationTyped() {
-	const location = useLocation() as unknown as LocationProps;
+	const location = useLocation() as unknown as ILocationProps;
 
 	return location;
 }
