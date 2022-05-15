@@ -12,7 +12,7 @@ export function useStorage(
 
 	useEffect(() => {
 		const value = window.localStorage.getItem(key);
-		setStoredValue(JSON.parse(value || "") ?? initialValue);
+		setStoredValue(value ? JSON.parse(value) : initialValue);
 	}, []);
 
 	const setValue = (value: string) => {

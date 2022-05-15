@@ -55,6 +55,8 @@ export function useAuth() {
 		return refreshToken(forceRefresh)
 			.then((result) => {
 				if (result.error) {
+					setSavedToken("");
+					dispatch(authenticate(false));
 					navigate("/login");
 				} else {
 					if (result.refreshToken) setSavedToken(result.refreshToken);
