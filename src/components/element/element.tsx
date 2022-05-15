@@ -10,7 +10,7 @@ import styles from "./element.module.css";
 import { remove } from "../../services/actions/elements-actions";
 
 import { useDrag, useDrop } from "react-dnd";
-import { IElement } from "../../services/interfaces/model";
+import { IElement } from "../../services/model/types";
 import { ISubstituteProps } from "../burger-constructor/burger-constructor";
 
 interface IDropItem {

@@ -1,6 +1,6 @@
 import { patch, post, get } from ".";
 import { IReposnse, IRequest } from "./types";
-import { IUser } from "../services/interfaces/model";
+import { IUser } from "../services/model/types";
 
 import {
 	ILoginRequest,

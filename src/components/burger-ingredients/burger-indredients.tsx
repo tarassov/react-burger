@@ -6,7 +6,7 @@ import IngredientBlock from "../ingredient-block/ingredient-block";
 import { useSelector } from "react-redux";
 import { selectAllIngredients } from "../../services/adapters/ingredients-adapters";
 import { RootState } from "../../services/store/store";
-import { IIngredient } from "../../services/interfaces/model";
+import { IIngredient } from "../../services/model/types";
 
 const BurgerIngredients: FC<{
 	onIngredientClick: (ingredient: IIngredient) => void;

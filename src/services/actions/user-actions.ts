@@ -13,7 +13,7 @@ import {
 	IUserResponse,
 } from "../../api/types";
 import userApi from "../../api/user-api";
-import { IUser } from "../interfaces/model";
+import { IUser } from "../model/types";
 
 export const login = createAsyncThunk<ILoginResponse, ILoginRequest>(
 	"user/login",

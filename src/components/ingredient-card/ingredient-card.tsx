@@ -3,7 +3,7 @@ import styles from "./ingredient-card.module.css";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import Price from "../price/price";
 import { FC } from "react";
-import { IIngredient } from "../../services/interfaces/model";
+import { IIngredient } from "../../services/model/types";
 
 const IngredientCard: FC<{
 	ingredient: IIngredient;

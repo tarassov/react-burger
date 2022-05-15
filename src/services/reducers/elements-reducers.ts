@@ -6,7 +6,7 @@ import {
 	IGroupedCart,
 	initialState,
 } from "../adapters/elements-adapters";
-import { IElement } from "../interfaces/model";
+import { IElement } from "../model/types";
 
 const countTotalPrice = (state: IElementsState) => {
 	return elementsAdapter

@@ -1,7 +1,7 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./bun.module.css";
 import { FC } from "react";
-import { IElement } from "../../services/interfaces/model";
+import { IElement } from "../../services/model/types";
 
 const Bun: FC<{ bun: IElement }> = ({ bun }) => {
 	return (

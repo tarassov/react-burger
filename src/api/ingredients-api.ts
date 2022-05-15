@@ -1,5 +1,5 @@
 import { get } from ".";
-import { IIngredient } from "../services/interfaces/model";
+import { IIngredient } from "../services/model/types";
 import { IFetchArray } from "./types";
 
 const ingredientsApi = {

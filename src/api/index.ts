@@ -20,7 +20,7 @@ const handleErrors = (e: AxiosError) => {
 	}
 };
 
-export const get = <ResponseType,>(
+export const get = <ResponseType>(
 	endpoint: string,
 	token?: string
 ): Promise<ResponseType> => {

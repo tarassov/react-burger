@@ -1,7 +1,7 @@
 import { FC, useMemo } from "react";
 import styles from "./ingredient-block.module.css";
 import IngredientCard from "../ingredient-card/ingredient-card";
-import { IIngredient } from "../../services/interfaces/model";
+import { IIngredient } from "../../services/model/types";
 import { IGroupedCart } from "../../services/adapters/elements-adapters";
 
 const IngredientBlock: FC<{

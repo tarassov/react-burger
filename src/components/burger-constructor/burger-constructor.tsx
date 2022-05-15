@@ -10,7 +10,7 @@ import { selectAllElements } from "../../services/adapters/elements-adapters";
 import BurgerElements from "../burger-elements/burger-elements";
 import Bun from "../bun/bun";
 import { RootState } from "../../services/store/store";
-import { IElement, IIngredient } from "../../services/interfaces/model";
+import { IElement, IIngredient } from "../../services/model/types";
 
 export interface ISubstituteProps {
 	from: IElement;
