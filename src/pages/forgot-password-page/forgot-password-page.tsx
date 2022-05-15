@@ -9,10 +9,9 @@ import {
 import styles from "./forgot-password-page.module.css";
 import { forgotPassword } from "../../services/actions/user-actions";
 import { useDispatch } from "react-redux";
-//import { useLocationTyped } from "../../hooks/use-location-typed";
 
 const ForgotPasswordPage: FC = () => {
-	const [email, setEmail] = useState("");
+	const [email, setEmail] = useState<string>("");
 	const dispatch = useDispatch();
 	const location = useLocation();
 

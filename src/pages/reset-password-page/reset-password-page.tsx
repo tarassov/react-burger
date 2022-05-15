@@ -20,8 +20,8 @@ export default function ResetPasswordPage() {
 		token: "",
 		password: "",
 	});
-	const [error, setError] = useState(false);
-	const [errorMessage, setErrorMessage] = useState("");
+	const [error, setError] = useState<boolean>(false);
+	const [errorMessage, setErrorMessage] = useState<string>("");
 	const onChange = (e: SyntheticEvent<HTMLInputElement>) => {
 		setValues({ ...values, [e.currentTarget.name]: e.currentTarget.value });
 	};

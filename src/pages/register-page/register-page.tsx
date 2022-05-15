@@ -10,12 +10,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./register-page.module.css";
+import { IRegisterRequest } from "../../api/types";
 
 export default function RegisterPage() {
 	const navigate = useNavigate();
 	const { register, user, dismissErrors } = useAuth();
 
-	const [credentials, setValue] = useState({
+	const [credentials, setValue] = useState<IRegisterRequest>({
 		email: "",
 		password: "",
 		name: "",
