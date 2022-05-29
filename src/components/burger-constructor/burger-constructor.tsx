@@ -1,5 +1,5 @@
 import { useCallback, useMemo, FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
@@ -9,7 +9,7 @@ import { add, update } from "../../services/actions/elements-actions";
 import { selectAllElements } from "../../services/adapters/elements-adapters";
 import BurgerElements from "../burger-elements/burger-elements";
 import Bun from "../bun/bun";
-import { RootState } from "../../services/store/store";
+import { useAppSelector } from "../../services/store/store";
 import { IElement, IIngredient } from "../../services/model/types";
 
 export interface ISubstituteProps {
@@ -24,10 +24,8 @@ export const BurgerConstructor: FC<{ onPerformOrderClick: () => void }> = ({
 }) => {
 	const dispatch = useDispatch();
 
-	const elements = useSelector(selectAllElements);
-	const totalPrice = useSelector(
-		(store: RootState) => store.elements.totalPrice
-	);
+	const elements = useAppSelector(selectAllElements);
+	const totalPrice = useAppSelector((store) => store.elements.totalPrice);
 
 	const [{ isHover }, dropTargerRef] = useDrop({
 		accept: "ingredient",
