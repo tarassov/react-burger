@@ -12,9 +12,13 @@ import {
 	TypedUseSelectorHook,
 	useSelector as selectorHook,
 } from "react-redux";
+import { feedMiddleware } from "../middleware/feedMiddleware";
+import feedReducers from "../reducers/feed-reducers";
 
 const { createReduxHistory, routerMiddleware, routerReducer } =
 	createReduxHistoryContext({ history: createBrowserHistory() });
+
+const wsUrl = "wss://norma.nomoreparties.space/orders/all";
 
 export const store = configureStore({
 	reducer: {
@@ -24,9 +28,10 @@ export const store = configureStore({
 		order: orderReducers,
 		system: systemReducers,
 		user: userReducers,
+		feed: feedReducers,
 	},
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(routerMiddleware),
+		getDefaultMiddleware().concat(routerMiddleware, feedMiddleware(wsUrl)),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

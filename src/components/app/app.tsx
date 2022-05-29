@@ -13,7 +13,9 @@ function App() {
 			<Provider store={store}>
 				<Router history={history}>
 					<AppHeader />
-					<SwitchRoutes />
+					<main>
+						<SwitchRoutes />
+					</main>
 				</Router>
 			</Provider>
 		</div>

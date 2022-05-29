@@ -18,6 +18,7 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Loader from "../loader/loader";
 import NotFoundPage from "../../pages/not-found-page/not-found-page";
 import { useLocationTyped } from "../../hooks/use-location-typed";
+import FeedPage from "../../pages/feed-page/feed-page";
 
 function SwitchRoutes() {
 	const { checkAuth, user } = useAuth();
@@ -48,6 +49,7 @@ function SwitchRoutes() {
 					<Route path="/reset-password" element={<ResetPasswordPage />} />
 				)}
 				<Route path="orders" element={<OrderHistory />} />
+				<Route path="feed" element={<FeedPage />} />
 				<Route path="/ingredients/:id" element={<IngredientDetails />} />
 				<Route path="/" element={<HomePage />} />
 				<Route

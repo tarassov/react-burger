@@ -63,7 +63,7 @@ export default function HomePage() {
 	);
 
 	return (
-		<main className={styles.layout}>
+		<div className={styles.layout}>
 			<DndProvider backend={HTML5Backend}>
 				{ingredients && (
 					<BurgerIngredients onIngredientClick={onIngredientClick} />
@@ -83,6 +83,6 @@ export default function HomePage() {
 				</Modal>
 			)}
 			{loading && <Loader />}
-		</main>
+		</div>
 	);
 }
