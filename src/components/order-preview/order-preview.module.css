@@ -1,0 +1,31 @@
+.card {
+	width: 584px;
+	border-radius: 40px;
+	background-color: #1C1C21;
+}
+
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between
+}
+
+.number {
+	font-size: 28px;
+}
+
+.ingredients {
+	position: relative;
+}
+
+.image {
+	object-fit: cover;
+	position: relative;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	border: 2px solid transparent;
+	background:
+		linear-gradient(black, black) padding-box,
+		linear-gradient(rgb(34, 12, 95), purple) border-box;
+}

@@ -13,7 +13,6 @@ export const feedMiddleware = (wsUrl: string): Middleware => {
 		let socket: WebSocket | null = null;
 
 		return (next) => (action: AnyAction) => {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const { dispatch } = store;
 
 			if (startWs.match(action)) {
