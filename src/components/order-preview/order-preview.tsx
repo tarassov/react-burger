@@ -44,7 +44,7 @@ const OrderPreview: FC<{
 				</p>
 			</div>
 			<p className="text text_type_main-medium ml-6 mr-6 mb-6">{order.name}</p>
-			<div className={`${styles.ingredients} ml-6`}>
+			<div className={`${styles.ingredients} ml-6 pb-6`}>
 				{order.ingredients.map((id, index) => {
 					const ingredient = ingredients[id];
 					if (ingredient !== undefined) {
@@ -53,7 +53,14 @@ const OrderPreview: FC<{
 							<img
 								src={ingredient.image}
 								className={styles.image}
-								style={index > 0 ? { left: `${left}px`, zIndex: index } : {}}
+								style={
+									index > 0
+										? {
+												left: `${left}px`,
+												zIndex: order.ingredients.length - index,
+										  }
+										: { zIndex: order.ingredients.length }
+								}
 								key={index}
 							/>
 						);

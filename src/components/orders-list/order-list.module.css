@@ -3,9 +3,9 @@
 }
 
 .list {
-	height: -webkit-calc(100vh - 100px);
-	height: -moz-calc(100vh - 100px);
-	height: calc(100vh - 100px);
+	height: -webkit-calc(100vh - 180px);
+	height: -moz-calc(100vh - 180px);
+	height: calc(100vh - 180px);
 	overflow-y: scroll;
 	overflow-x: hidden;
 }

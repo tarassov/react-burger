@@ -10,6 +10,7 @@ const OrdersList: FC<{ orders: Array<IFeedOrder> }> = ({ orders }) => {
 
 	return (
 		<div className={`${styles.container} ml-2`}>
+			<p className="text text_type_main-medium mt-6 ml-6">Лента заказов</p>
 			<div className={`${styles.list} mt-4`}>
 				{orders.map((order) => {
 					return (
