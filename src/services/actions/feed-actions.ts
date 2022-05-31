@@ -1,5 +1,8 @@
-import { createAction } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { IRequest } from "../../api/types";
 import { IFeedOrder } from "../adapters/feed-adapters";
+
+import api from "../../api/orders-api";
 
 export const connect = createAction("feed/connect");
 
@@ -17,3 +20,11 @@ export const fetched = createAction<{
 }>("feed/fetched");
 
 export const close = createAction("feed/close");
+
+export const fetchOneOrder = createAsyncThunk<
+	{ success: boolean; orders: Array<IFeedOrder> },
+	{ number: string } & IRequest
+>("feed/fetchOne", async (data) => {
+	const response = await api.getOrder(data);
+	return response;
+});

@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetched, error, connect, connected } from "../actions/feed-actions";
+import {
+	fetched,
+	error,
+	connect,
+	connected,
+	fetchOneOrder,
+} from "../actions/feed-actions";
 import { feedAdapter, initialState } from "../adapters/feed-adapters";
 
 export const feedSlice = createSlice({
@@ -29,6 +35,14 @@ export const feedSlice = createSlice({
 		});
 		builder.addCase(error, (state) => {
 			state.error = true;
+		});
+
+		builder.addCase(fetchOneOrder.fulfilled, (state, action) => {
+			if (action.payload.success) {
+				feedAdapter.upsertMany(state, action.payload.orders);
+			} else {
+				state.error = false;
+			}
 		});
 	},
 });

@@ -20,7 +20,7 @@ export interface IFeedState extends EntityState<IFeedOrder> {
 }
 
 export const feedAdapter = createEntityAdapter<IFeedOrder>({
-	selectId: (order) => order._id,
+	selectId: (order) => order.number,
 });
 
 export const initialState = feedAdapter.getInitialState({

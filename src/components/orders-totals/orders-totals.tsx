@@ -54,7 +54,7 @@ const OrdersTotal: FC<{
 				Выполнено за все время:
 			</p>
 			<p className={`text text_type_digits-large ${styles.number}`}>{total}</p>
-			<p className={`text text_type_main-medium mt-8`}>Выполнено за сегодня</p>
+			<p className={`text text_type_main-medium mt-8`}>Выполнено за сегодня:</p>
 			<p className={`text text_type_digits-large ${styles.number}`}>
 				{totalToday}
 			</p>

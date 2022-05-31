@@ -1,12 +1,22 @@
-import { FC } from "react";
+import { FC, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLocationTyped } from "../../hooks/use-location-typed";
 import { IFeedOrder } from "../../services/adapters/feed-adapters";
 import OrderPreview from "../order-preview/order-preview";
 import styles from "./order-list.module.css";
 
 const OrdersList: FC<{ orders: Array<IFeedOrder> }> = ({ orders }) => {
-	const onClick = (order: IFeedOrder) => {
-		console.log(order._id);
-	};
+	const navigate = useNavigate();
+	const location = useLocationTyped();
+
+	const onClick = useCallback(
+		(order: IFeedOrder) => {
+			navigate(`/feed/${order.number}`, {
+				state: { background: location },
+			});
+		},
+		[location]
+	);
 
 	return (
 		<div className={`${styles.container} ml-2`}>

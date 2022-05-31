@@ -4,6 +4,10 @@
 	background-color: #1C1C21;
 }
 
+.card :hover {
+	cursor: pointer;
+}
+
 .header {
 	display: flex;
 	flex-direction: row;
