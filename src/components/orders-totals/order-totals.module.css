@@ -1,3 +1,29 @@
 .container {
 	width: 600px;
+	margin-top: 72px;
+}
+
+.list {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start
+}
+
+.headerTitle,
+.listBox {
+	width: 250px;
+}
+
+.listBox {
+	height: 200px;
+	column-count: 4;
+	overflow: hidden
+}
+
+.ready {
+	color: #00CCCC;
+}
+
+.number {
+	text-shadow: 2px 2px blueviolet;
 }

@@ -1,13 +1,7 @@
 import type { AnyAction, Middleware, MiddlewareAPI } from "redux";
-import {
-	// onClose,
-	// onError,
-	onGet,
-	onOpen,
-	startWs,
-} from "../actions/feed-actions";
+import * as feed from "../actions/feed-actions";
 import { AppDispatch, RootState } from "../store/store";
-
+//TODO: https://redux-toolkit.js.org/api/createListenerMiddleware rewrite
 export const feedMiddleware = (wsUrl: string): Middleware => {
 	return (store: MiddlewareAPI<AppDispatch, RootState>) => {
 		let socket: WebSocket | null = null;
@@ -15,29 +9,37 @@ export const feedMiddleware = (wsUrl: string): Middleware => {
 		return (next) => (action: AnyAction) => {
 			const { dispatch } = store;
 
-			if (startWs.match(action)) {
-				socket = new WebSocket(`${wsUrl}`);
+			if (feed.connect.match(action)) {
+				try {
+					socket = new WebSocket(`${wsUrl}`);
+				} catch (e) {
+					dispatch(feed.error());
+				}
 			}
+
+			if (feed.disconnect.match(action)) {
+				socket?.close();
+				socket = null;
+			}
+
 			if (socket) {
 				socket.onopen = () => {
-					dispatch(onOpen());
+					dispatch(feed.connected());
 				};
 
-				socket.onerror = (event) => {
-					console.log(event);
-					//	dispatch({ type: onError(event) });
+				socket.onerror = () => {
+					dispatch(feed.error());
 				};
 
 				socket.onmessage = (event) => {
 					const { data } = event;
 					const parsedData = JSON.parse(data);
 					const { ...restParsedData } = parsedData;
-					dispatch(onGet(restParsedData));
+					dispatch(feed.fetched(restParsedData));
 				};
 
-				socket.onclose = (event) => {
-					console.log(event);
-					//	dispatch({ type: onClose(event) });
+				socket.onclose = () => {
+					dispatch(feed.close());
 				};
 			}
 

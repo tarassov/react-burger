@@ -15,6 +15,8 @@ export interface IFeedOrder {
 export interface IFeedState extends EntityState<IFeedOrder> {
 	total: number;
 	totalToday: number;
+	connecting: boolean;
+	error: boolean;
 }
 
 export const feedAdapter = createEntityAdapter<IFeedOrder>({

@@ -1,32 +1,50 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { IFeedOrder } from "../../services/adapters/feed-adapters";
 import styles from "./order-totals.module.css";
-
-const readyBurgers = ["034533", "034532", "034534", "034535"];
-const inProgressBurgers = ["034543", "034542", "034544"];
 
 const OrdersTotal: FC<{
 	orders: Array<IFeedOrder>;
 	total: number;
 	totalToday: number;
-}> = ({ total, totalToday }) => {
+}> = ({ orders, total, totalToday }) => {
+	const readyBurgers = useMemo(
+		() => orders.filter((x) => x.status === "done"),
+		[orders]
+	);
+
+	const inProgressBurgers = useMemo(
+		() => orders.filter((x) => x.status !== "done"),
+		[orders]
+	);
+
 	return (
-		<div className={styles.container}>
+		<div className={`${styles.container} ml-15`}>
 			<div className={styles.list}>
-				<div>
+				<p className={`text text_type_main-default mb-6 ${styles.headerTitle}`}>
+					Готовы:
+				</p>
+				<p className={`text text_type_main-default mb-6 ${styles.headerTitle}`}>
+					В работе:
+				</p>
+			</div>
+			<div className={styles.list}>
+				<div className={`${styles.listBox}`}>
 					{readyBurgers.map((burger) => {
 						return (
-							<p key={burger} className={`text text_type_main-small`}>
-								{burger}
+							<p
+								key={burger._id}
+								className={`text text_type_main-small ${styles.ready}`}
+							>
+								{burger.number}
 							</p>
 						);
 					})}
 				</div>
-				<div>
+				<div className={`${styles.listBox}`}>
 					{inProgressBurgers.map((burger) => {
 						return (
-							<p key={burger} className={`text text_type_main-small`}>
-								{burger}
+							<p key={burger._id} className={`text text_type_main-small`}>
+								{burger.number}
 							</p>
 						);
 					})}
@@ -35,9 +53,11 @@ const OrdersTotal: FC<{
 			<p className={`text text_type_main-medium mt-8`}>
 				Выполнено за все время:
 			</p>
-			<p className={`text text_type_digits-large`}>{total}</p>
+			<p className={`text text_type_digits-large ${styles.number}`}>{total}</p>
 			<p className={`text text_type_main-medium mt-8`}>Выполнено за сегодня</p>
-			<p className={`text text_type_digits-large`}>{totalToday}</p>
+			<p className={`text text_type_digits-large ${styles.number}`}>
+				{totalToday}
+			</p>
 		</div>
 	);
 };

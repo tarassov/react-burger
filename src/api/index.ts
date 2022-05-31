@@ -1,8 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-//export const API_URL = "https://norma.nomoreparties.space/api/";
 axios.defaults.baseURL = "https://norma.nomoreparties.space/api/";
-//axios.defaults.headers;
 
 const checkSuccess = (response: AxiosResponse) => {
 	return response.data?.success ? response.data : Promise.reject(response.data);

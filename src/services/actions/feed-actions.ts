@@ -1,17 +1,19 @@
 import { createAction } from "@reduxjs/toolkit";
 import { IFeedOrder } from "../adapters/feed-adapters";
 
-export const startWs = createAction("feed/startWs");
+export const connect = createAction("feed/connect");
 
-export const onError = createAction<Event>("feed/onError");
+export const disconnect = createAction("feed/disconnect");
 
-export const onOpen = createAction("feed/onOpen");
+export const error = createAction("feed/error");
 
-export const onGet = createAction<{
+export const connected = createAction("feed/connected");
+
+export const fetched = createAction<{
 	total: number;
 	totalToday: number;
 	success: boolean;
 	orders: Array<IFeedOrder>;
-}>("feed/onGet");
+}>("feed/fetched");
 
-export const onClose = createAction<Event>("feed/onClose");
+export const close = createAction("feed/close");
