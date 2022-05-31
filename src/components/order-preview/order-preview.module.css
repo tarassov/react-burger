@@ -20,11 +20,22 @@
 
 .ingredients {
 	position: relative;
+	width: 420px;
+	height: 64px;
+	float: left;
 }
+
+.footer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.price {}
 
 .image {
 	object-fit: cover;
-	position: relative;
+	position: absolute;
 	width: 56px;
 	height: 56px;
 	border-radius: 50%;
