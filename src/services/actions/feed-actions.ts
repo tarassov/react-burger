@@ -4,7 +4,7 @@ import { IFeedOrder } from "../adapters/feed-adapters";
 
 import api from "../../api/orders-api";
 
-export const connect = createAction("feed/connect");
+export const connect = createAction<string>("feed/connect");
 
 export const disconnect = createAction("feed/disconnect");
 

@@ -1,17 +1,18 @@
 import type { AnyAction, Middleware, MiddlewareAPI } from "redux";
 import * as feed from "../actions/feed-actions";
 import { AppDispatch, RootState } from "../store/store";
-//TODO: https://redux-toolkit.js.org/api/createListenerMiddleware rewrite
-export const feedMiddleware = (wsUrl: string): Middleware => {
+
+export const feedMiddleware = (): Middleware => {
 	return (store: MiddlewareAPI<AppDispatch, RootState>) => {
 		let socket: WebSocket | null = null;
 
 		return (next) => (action: AnyAction) => {
 			const { dispatch } = store;
-
+			const baseUrl = "wss://norma.nomoreparties.space";
 			if (feed.connect.match(action)) {
 				try {
-					socket = new WebSocket(`${wsUrl}`);
+					const endpoint = action.payload;
+					socket = new WebSocket(`${baseUrl}/${endpoint}`);
 				} catch (e) {
 					dispatch(feed.error());
 				}

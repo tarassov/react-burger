@@ -18,7 +18,7 @@ export default function FeedPage() {
 
 	useEffect(() => {
 		dispatch(fetchIngredients());
-		dispatch(socket.connect());
+		dispatch(socket.connect("orders/all"));
 
 		return function cleanup() {
 			dispatch(socket.close());

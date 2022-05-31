@@ -18,8 +18,6 @@ import feedReducers from "../reducers/feed-reducers";
 const { createReduxHistory, routerMiddleware, routerReducer } =
 	createReduxHistoryContext({ history: createBrowserHistory() });
 
-const wsUrl = "wss://norma.nomoreparties.space/orders/all";
-
 export const store = configureStore({
 	reducer: {
 		router: routerReducer,
@@ -31,7 +29,7 @@ export const store = configureStore({
 		feed: feedReducers,
 	},
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(routerMiddleware, feedMiddleware(wsUrl)),
+		getDefaultMiddleware().concat(routerMiddleware, feedMiddleware()),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
