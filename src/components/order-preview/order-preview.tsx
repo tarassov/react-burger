@@ -31,7 +31,7 @@ const OrderPreview: FC<{
 	}, [order.createdAt]);
 
 	return (
-		<div className={`${styles.card} mt-4`} onClick={onClick}>
+		<div className={`${styles.card} mt-4 mr-2`} onClick={onClick}>
 			<div className={`${styles.header}`}>
 				<p className={`text text_type_digits-default  m-6 ${styles.number}`}>
 					{" "}
@@ -41,7 +41,11 @@ const OrderPreview: FC<{
 					{getDate}
 				</p>
 			</div>
-			<p className="text text_type_main-medium ml-6 mr-6 mb-6">{order.name}</p>
+			<div className={`${styles.name}`}>
+				<p className="text text_type_main-medium ml-6 mr-6 mb-6">
+					{order.name}
+				</p>
+			</div>
 			<div className={`${styles.footer}`}>
 				<div className={`${styles.ingredients} ml-6 pb-6`}>
 					{order.ingredients

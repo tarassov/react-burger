@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import { FC, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocationTyped } from "../../hooks/use-location-typed";
 import { IFeedOrder } from "../../services/adapters/feed-adapters";
@@ -11,18 +11,27 @@ const OrdersList: FC<{ orders: Array<IFeedOrder> }> = ({ orders }) => {
 
 	const onClick = useCallback(
 		(order: IFeedOrder) => {
-			navigate(`/feed/${order.number}`, {
+			navigate(`${location.pathname}/${order.number}`, {
 				state: { background: location },
 			});
 		},
 		[location]
 	);
 
+	const sortedOrders = useMemo(() => {
+		return orders.sort((a, b) => {
+			if (new Date(a.createdAt) > new Date(b.createdAt)) {
+				return -1;
+			} else {
+				return 1;
+			}
+		});
+	}, [orders]);
+
 	return (
 		<div className={`${styles.container} ml-2`}>
-			<p className="text text_type_main-medium mt-6 ml-6">Лента заказов</p>
 			<div className={`${styles.list} mt-4`}>
-				{orders.map((order) => {
+				{sortedOrders.map((order) => {
 					return (
 						<OrderPreview
 							order={order}

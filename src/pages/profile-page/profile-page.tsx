@@ -5,8 +5,8 @@ import styles from "./profile-page.module.css";
 
 export default function ProfilePage() {
 	return (
-		<div className={`${styles.container} ml-20 mt-20`}>
-			<nav className={`${styles.links}`}>
+		<div className={`${styles.container} ml-20 mt-2`}>
+			<nav className={`${styles.links} mt-20`}>
 				<NavigationLink
 					medium
 					matching

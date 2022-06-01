@@ -5,6 +5,8 @@ import {
 	connect,
 	connected,
 	fetchOneOrder,
+	close,
+	closing,
 } from "../actions/feed-actions";
 import { feedAdapter, initialState } from "../adapters/feed-adapters";
 
@@ -35,6 +37,16 @@ export const feedSlice = createSlice({
 		});
 		builder.addCase(error, (state) => {
 			state.error = true;
+		});
+
+		builder.addCase(close, (state) => {
+			feedAdapter.removeAll(state);
+			state = initialState;
+		});
+
+		builder.addCase(closing, (state) => {
+			feedAdapter.removeAll(state);
+			state = initialState;
 		});
 
 		builder.addCase(fetchOneOrder.fulfilled, (state, action) => {

@@ -21,13 +21,16 @@ export default function FeedPage() {
 		dispatch(socket.connect("orders/all"));
 
 		return function cleanup() {
-			dispatch(socket.close());
+			dispatch(socket.disconnect());
 		};
 	}, []);
 
 	return (
 		<div className={styles.layout}>
-			<OrdersList orders={orders} />
+			<div>
+				<p className="text text_type_main-medium mt-6 ml-6">Лента заказов</p>
+				<OrdersList orders={orders} />
+			</div>
 			<OrdersTotal totalToday={totalToday} total={total} orders={orders} />
 			{connecting && <Loader />}
 		</div>

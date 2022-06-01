@@ -19,6 +19,7 @@ export const feedMiddleware = (): Middleware => {
 			}
 
 			if (feed.disconnect.match(action)) {
+				dispatch(feed.closing());
 				socket?.close();
 				socket = null;
 			}

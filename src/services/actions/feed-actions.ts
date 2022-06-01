@@ -21,6 +21,8 @@ export const fetched = createAction<{
 
 export const close = createAction("feed/close");
 
+export const closing = createAction("feed/closing");
+
 export const fetchOneOrder = createAsyncThunk<
 	{ success: boolean; orders: Array<IFeedOrder> },
 	{ number: string } & IRequest

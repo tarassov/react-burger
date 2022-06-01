@@ -1,5 +1,5 @@
 .container {
-	height: 620px;
+	height: 630px;
 	width: 640px;
 	display: flex;
 	flex-direction: column;
@@ -19,7 +19,7 @@
 
 .name {
 	max-height: 60px;
-	width: 550px;
+	width: 624px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
@@ -40,7 +40,7 @@
 
 
 .list {
-	height: 312px;
+	height: 300px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }

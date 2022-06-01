@@ -11,12 +11,12 @@
 
 .headerTitle,
 .listBox {
-	width: 250px;
+	width: 285px;
 }
 
 .listBox {
 	height: 200px;
-	column-count: 4;
+	column-count: 5;
 	overflow: hidden
 }
 

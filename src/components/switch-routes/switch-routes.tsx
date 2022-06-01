@@ -53,6 +53,7 @@ function SwitchRoutes() {
 				<Route path="feed" element={<FeedPage />} />
 				<Route path="/ingredients/:id" element={<IngredientDetails />} />
 				<Route path="/feed/:number" element={<OrderCard />} />
+				<Route path="/profile/orders/:number" element={<OrderCard />} />
 				<Route path="/" element={<HomePage />} />
 				<Route
 					path="/profile"
@@ -81,6 +82,14 @@ function SwitchRoutes() {
 					/>
 					<Route
 						path="/feed/:number"
+						element={
+							<Modal onClose={modalClose}>
+								<OrderCard modal />
+							</Modal>
+						}
+					/>
+					<Route
+						path="profile/orders/:number"
 						element={
 							<Modal onClose={modalClose}>
 								<OrderCard modal />

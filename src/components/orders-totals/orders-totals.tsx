@@ -23,7 +23,9 @@ const OrdersTotal: FC<{
 				<p className={`text text_type_main-default mb-6 ${styles.headerTitle}`}>
 					Готовы:
 				</p>
-				<p className={`text text_type_main-default mb-6 ${styles.headerTitle}`}>
+				<p
+					className={`text text_type_main-default  ml-2 mb-6 ${styles.headerTitle}`}
+				>
 					В работе:
 				</p>
 			</div>
@@ -40,7 +42,7 @@ const OrdersTotal: FC<{
 						);
 					})}
 				</div>
-				<div className={`${styles.listBox}`}>
+				<div className={`${styles.listBox}  ml-2`}>
 					{inProgressBurgers.map((burger) => {
 						return (
 							<p key={burger._id} className={`text text_type_main-small`}>
