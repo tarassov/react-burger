@@ -53,7 +53,14 @@ function SwitchRoutes() {
 				<Route path="feed" element={<FeedPage />} />
 				<Route path="/ingredients/:id" element={<IngredientDetails />} />
 				<Route path="/feed/:number" element={<OrderCard />} />
-				<Route path="/profile/orders/:number" element={<OrderCard />} />
+				<Route
+					path="/profile/orders/:number"
+					element={
+						<ProtectedRoute>
+							<OrderCard />
+						</ProtectedRoute>
+					}
+				/>
 				<Route path="/" element={<HomePage />} />
 				<Route
 					path="/profile"

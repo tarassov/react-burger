@@ -13,6 +13,9 @@ export default function OrderHistory() {
 
 	useEffect(() => {
 		dispatch(fetchIngredients());
+	}, []);
+
+	useEffect(() => {
 		dispatch(
 			socket.connect(`orders?token=${accessToken?.replace("Bearer ", "")}`)
 		);
@@ -20,7 +23,7 @@ export default function OrderHistory() {
 		return function cleanup() {
 			dispatch(socket.disconnect());
 		};
-	}, []);
+	}, [accessToken]);
 	return (
 		<div className={`${styles.layout}`}>
 			<OrdersList orders={orders} />

@@ -8,7 +8,8 @@ import styles from "./order-preview.module.css";
 const OrderPreview: FC<{
 	order: IFeedOrder;
 	onOrderClick: (args: IFeedOrder) => void;
-}> = ({ order, onOrderClick }) => {
+	showStatus?: boolean;
+}> = ({ order, onOrderClick, showStatus }) => {
 	const onClick = () => {
 		onOrderClick(order);
 	};
@@ -30,6 +31,17 @@ const OrderPreview: FC<{
 		return sayDate(order.createdAt);
 	}, [order.createdAt]);
 
+	const statusName = (status: string): string => {
+		switch (status) {
+			case "done":
+				return "Выполнен";
+			case "pending":
+				return "Готовится";
+			default:
+				return "Создан";
+		}
+	};
+
 	return (
 		<div className={`${styles.card} mt-4 mr-2`} onClick={onClick}>
 			<div className={`${styles.header}`}>
@@ -42,11 +54,18 @@ const OrderPreview: FC<{
 				</p>
 			</div>
 			<div className={`${styles.name}`}>
-				<p className="text text_type_main-medium ml-6 mr-6 mb-6">
-					{order.name}
-				</p>
+				<p className="text text_type_main-medium ml-6 mr-6">{order.name}</p>
 			</div>
-			<div className={`${styles.footer}`}>
+			{showStatus && (
+				<p
+					className={`text text_type_main-default ml-6 ${styles.status} ${
+						order.status === "done" && styles.done
+					}`}
+				>
+					{statusName(order.status)}
+				</p>
+			)}
+			<div className={`${styles.footer} mt-6`}>
 				<div className={`${styles.ingredients} ml-6 pb-6`}>
 					{order.ingredients
 						.filter((x, index) => index < 9)

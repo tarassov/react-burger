@@ -14,12 +14,17 @@
 	justify-content: space-between
 }
 
-.name {
+.name,
+.status {
 	text-align: left;
 }
 
 .number {
 	font-size: 28px;
+}
+
+.done {
+	color: #00CCCC;
 }
 
 .ingredients {

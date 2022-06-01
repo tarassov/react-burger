@@ -17,6 +17,9 @@ const OrdersList: FC<{ orders: Array<IFeedOrder> }> = ({ orders }) => {
 		},
 		[location]
 	);
+	const showOrdersStatus = useMemo(() => {
+		return location.pathname === "/profile/orders";
+	}, [location]);
 
 	const sortedOrders = useMemo(() => {
 		return orders.sort((a, b) => {
@@ -37,6 +40,7 @@ const OrdersList: FC<{ orders: Array<IFeedOrder> }> = ({ orders }) => {
 							order={order}
 							onOrderClick={onClick}
 							key={order._id}
+							showStatus={showOrdersStatus}
 						/>
 					);
 				})}

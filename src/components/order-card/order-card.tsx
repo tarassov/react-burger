@@ -13,6 +13,7 @@ import Price from "../price/price";
 
 const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 	const { number } = useParams<{ number: string }>();
+
 	const dispatch = useDispatch();
 	const order = useAppSelector((state: RootState) =>
 		selectOrderById(state, number ?? "")

@@ -100,6 +100,17 @@ export function useAuth() {
 	const checkAuth = async () => {
 		if (savedToken) {
 			dispatch(authenticate(true));
+			if (!user.accessToken) {
+				refreshToken(false).then((result) => {
+					if (result.error) {
+						setSavedToken("");
+						dispatch(authenticate(false));
+						navigate("/login");
+					} else {
+						if (result.refreshToken) setSavedToken(result.refreshToken);
+					}
+				});
+			}
 		} else {
 			dispatch(authenticate(false));
 		}
