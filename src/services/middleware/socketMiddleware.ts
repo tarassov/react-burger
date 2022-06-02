@@ -1,47 +1,63 @@
+import {
+	ActionCreatorWithoutPayload,
+	ActionCreatorWithPayload,
+} from "@reduxjs/toolkit";
 import type { AnyAction, Middleware, MiddlewareAPI } from "redux";
-import * as feed from "../actions/feed-actions";
 import { AppDispatch, RootState } from "../store/store";
 
-export const socketMiddleware = (baseUrl: string): Middleware => {
+export type WsActions = {
+	wsConnect: ActionCreatorWithPayload<string>;
+	wsDisconnect: ActionCreatorWithoutPayload;
+	onWsConnected: ActionCreatorWithoutPayload;
+	onWsClosing: ActionCreatorWithoutPayload;
+	onWsError: ActionCreatorWithoutPayload;
+	onWsMessage: ActionCreatorWithPayload<any>;
+	onWsClose: ActionCreatorWithoutPayload;
+};
+
+export const socketMiddleware = (
+	baseUrl: string,
+	wsActions: WsActions
+): Middleware => {
 	return (store: MiddlewareAPI<AppDispatch, RootState>) => {
 		let socket: WebSocket | null = null;
 
 		return (next) => (action: AnyAction) => {
 			const { dispatch } = store;
 
-			if (feed.connect.match(action)) {
+			if (wsActions.wsConnect.match(action)) {
 				try {
 					const endpoint = action.payload;
 					socket = new WebSocket(`${baseUrl}/${endpoint}`);
 				} catch (e) {
-					dispatch(feed.error());
+					dispatch(wsActions.onWsError());
 				}
 			}
 
-			if (feed.disconnect.match(action)) {
-				dispatch(feed.closing());
+			if (wsActions.wsDisconnect === action.type) {
+				dispatch(wsActions.onWsClosing());
 				socket?.close();
 				socket = null;
 			}
 
 			if (socket) {
 				socket.onopen = () => {
-					dispatch(feed.connected());
+					dispatch(wsActions.onWsConnected);
 				};
 
 				socket.onerror = () => {
-					dispatch(feed.error());
+					dispatch(wsActions.onWsError());
 				};
 
 				socket.onmessage = (event) => {
 					const { data } = event;
 					const parsedData = JSON.parse(data);
 					const { ...restParsedData } = parsedData;
-					dispatch(feed.fetched(restParsedData));
+					dispatch(wsActions.onWsMessage(restParsedData));
 				};
 
 				socket.onclose = (e) => {
-					if (e.target === socket) dispatch(feed.close());
+					if (e.target === socket) dispatch(wsActions.onWsClose());
 				};
 			}
 			next(action);

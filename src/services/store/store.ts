@@ -12,6 +12,7 @@ import {
 	TypedUseSelectorHook,
 	useSelector as selectorHook,
 } from "react-redux";
+import * as feed from "../actions/feed-actions";
 import { socketMiddleware } from "../middleware/socketMiddleware";
 import feedReducers from "../reducers/feed-reducers";
 
@@ -19,6 +20,15 @@ const { createReduxHistory, routerMiddleware, routerReducer } =
 	createReduxHistoryContext({ history: createBrowserHistory() });
 
 const baseSocketUrl = "wss://norma.nomoreparties.space";
+const socketActions = {
+	wsConnect: feed.connect,
+	wsDisconnect: feed.disconnect,
+	onWsConnected: feed.connected,
+	onWsClosing: feed.closing,
+	onWsError: feed.error,
+	onWsMessage: feed.fetched,
+	onWsClose: feed.close,
+};
 
 export const store = configureStore({
 	reducer: {
@@ -33,7 +43,7 @@ export const store = configureStore({
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(
 			routerMiddleware,
-			socketMiddleware(baseSocketUrl)
+			socketMiddleware(baseSocketUrl, socketActions)
 		),
 });
 
