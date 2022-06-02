@@ -91,8 +91,7 @@ const OrderPreview: FC<{
 				<div className={`${styles.ingredients} ml-6 pb-6`}>
 					{groupedIngredients.map((ingredient, index) => {
 						if (ingredient !== undefined) {
-							const row = Math.floor(index / MAX_ROW);
-							const column = index - row * MAX_ROW;
+							const column = index;
 							const left = column + 40 * column;
 							return (
 								<div key={index}>
@@ -102,8 +101,7 @@ const OrderPreview: FC<{
 												className={`text text_type_digits-small ${styles.count}`}
 												style={{
 													left: `${left + 18}px`,
-													top: `${row * 50}px`,
-													zIndex: order.ingredients.length - column + 1 - row,
+													zIndex: order.ingredients.length - column + 1,
 												}}
 											>
 												+{groupedIngredients.length - MAX_ROW}
@@ -119,8 +117,7 @@ const OrderPreview: FC<{
 											}`}
 											style={{
 												left: `${left}px`,
-												top: `${row * 50}px`,
-												zIndex: order.ingredients.length - column - row,
+												zIndex: order.ingredients.length - column,
 											}}
 											key={index}
 										/>
