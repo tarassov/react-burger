@@ -6,7 +6,6 @@ export function useStorage<T extends string | number>(
 		if (typeof initialValue === "number") {
 			return Number(window.localStorage.getItem(key) ?? initialValue) as T;
 		} else {
-			console.log(window.localStorage.getItem(key));
 			return (window.localStorage.getItem(key) ?? initialValue) as T;
 		}
 	};

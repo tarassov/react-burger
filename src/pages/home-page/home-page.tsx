@@ -41,11 +41,13 @@ export default function HomePage() {
 
 	//open OrderDetails as modal
 	const onPerformOrder = useCallback(() => {
+		const bun = elements.find((x) => x.type === "bun");
 		if (elements.length === 0) {
 			dispatch(fireError("Не выбраны ингредиенты"));
-		} else if (elements.find((x) => x.type === "bun") === undefined) {
+		} else if (bun === undefined) {
 			dispatch(fireError("Не выбрана булка"));
 		} else {
+			elements.push(bun);
 			secureDispatch<IPostOrderRequest, IPostOrderResponse>(postOrder, {
 				ingredients: elements.map((ingredient) => ingredient._id),
 			});

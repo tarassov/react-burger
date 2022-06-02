@@ -10,11 +10,17 @@ import { fetchIngredients } from "../../services/actions/ingredients-actions";
 import OrderIngredient from "../order-ingredient/order-ingredient";
 import sayDate from "../../utils/say-date";
 import Price from "../price/price";
+import { IIngredient } from "../../services/model/types";
+
+interface IGroupedIngredient extends IIngredient {
+	count: number;
+}
 
 const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 	const { number } = useParams<{ number: string }>();
 
 	const dispatch = useDispatch();
+
 	const order = useAppSelector((state: RootState) =>
 		selectOrderById(state, number ?? "")
 	);
@@ -31,24 +37,35 @@ const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 		if (ids.length === 0) dispatch(fetchIngredients());
 	}, [ids]);
 
-	const countIngredients = (id: string): number => {
-		return order ? order.ingredients.filter((x) => x === id).length : 0;
-	};
-
 	const getDate = useMemo(() => {
 		return order ? sayDate(order.createdAt) : "";
 	}, [order?.createdAt]);
 
+	const groupedIngredients = useMemo(() => {
+		const grouped: Array<IGroupedIngredient> = [];
+
+		if (order !== undefined) {
+			order.ingredients.map((id) => {
+				const ingredient = ingredients[id];
+				if (ingredient) {
+					const found = grouped.find((x) => x._id === id);
+					if (found) {
+						found.count++;
+					} else {
+						grouped.push({ ...ingredient, count: 1 });
+					}
+				}
+			});
+		}
+		return grouped;
+	}, [order?.ingredients]);
+
 	const orderTotal = useMemo(() => {
 		if (!ingredients || !order) return 0;
-		return order.ingredients.reduce((prev, curr) => {
-			const ingredient = ingredients[curr];
-			//	if (!ingredien//t) return prev;
-			const price = ingredient?.price ?? 0;
-			//	ingredient.type === "bun" ? ingredient.price * 2 : ingredient.price;
-			return prev + price;
+		return groupedIngredients.reduce((prev, curr) => {
+			return prev + curr.price * curr.count;
 		}, 0);
-	}, [order, ingredients]);
+	}, [groupedIngredients]);
 
 	if (!modal && (!order || ids.length === 0)) {
 		return <Loader />;
@@ -73,13 +90,12 @@ const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 			<p className={`mt-10 ml-2 text text_type_main-medium`}>Состав:</p>
 			<div className={`ml-2 mt-6 mr-2 ${styles.list}`}>
 				{order &&
-					order.ingredients.map((id, index) => {
-						const ingredient = ingredients[id];
+					groupedIngredients.map((ingredient, index) => {
 						if (ingredient) {
 							return (
 								<OrderIngredient
 									ingredient={ingredient}
-									count={ingredient.type === "bun" ? 2 : countIngredients(id)}
+									count={ingredient.count}
 									key={index}
 								/>
 							);
