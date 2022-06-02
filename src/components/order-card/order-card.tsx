@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import Loader from "../loader/loader";
 import styles from "./order-card.module.css";
-import { RootState, useAppSelector } from "../../services/store/store";
+import { useAppSelector } from "../../services/store/store";
 import { selectOrderById } from "../../services/adapters/feed-adapters";
 import { fetchOneOrder } from "../../services/actions/feed-actions";
 import { fetchIngredients } from "../../services/actions/ingredients-actions";
@@ -21,9 +21,7 @@ const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 
 	const dispatch = useDispatch();
 
-	const order = useAppSelector((state: RootState) =>
-		selectOrderById(state, number ?? "")
-	);
+	const order = useAppSelector((state) => selectOrderById(state, number ?? ""));
 
 	const { ids, entities: ingredients } = useAppSelector(
 		(store) => store.ingredients
@@ -42,6 +40,7 @@ const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 	}, [order?.createdAt]);
 
 	const groupedIngredients = useMemo(() => {
+		console.log("memo");
 		const grouped: Array<IGroupedIngredient> = [];
 
 		if (order !== undefined) {
@@ -58,7 +57,7 @@ const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 			});
 		}
 		return grouped;
-	}, [order?.ingredients]);
+	}, [order, ingredients]);
 
 	const orderTotal = useMemo(() => {
 		if (!ingredients || !order) return 0;
