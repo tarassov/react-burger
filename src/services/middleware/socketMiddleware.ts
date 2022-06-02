@@ -2,13 +2,13 @@ import type { AnyAction, Middleware, MiddlewareAPI } from "redux";
 import * as feed from "../actions/feed-actions";
 import { AppDispatch, RootState } from "../store/store";
 
-export const feedMiddleware = (): Middleware => {
+export const socketMiddleware = (baseUrl: string): Middleware => {
 	return (store: MiddlewareAPI<AppDispatch, RootState>) => {
 		let socket: WebSocket | null = null;
 
 		return (next) => (action: AnyAction) => {
 			const { dispatch } = store;
-			const baseUrl = "wss://norma.nomoreparties.space";
+
 			if (feed.connect.match(action)) {
 				try {
 					const endpoint = action.payload;
@@ -40,11 +40,10 @@ export const feedMiddleware = (): Middleware => {
 					dispatch(feed.fetched(restParsedData));
 				};
 
-				socket.onclose = () => {
-					dispatch(feed.close());
+				socket.onclose = (e) => {
+					if (e.target === socket) dispatch(feed.close());
 				};
 			}
-
 			next(action);
 		};
 	};

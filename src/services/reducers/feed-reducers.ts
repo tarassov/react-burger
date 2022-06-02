@@ -16,6 +16,7 @@ export const feedSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(connect, (state) => {
+			feedAdapter.removeAll(state);
 			state.connecting = true;
 			state.error = false;
 		});
@@ -25,7 +26,6 @@ export const feedSlice = createSlice({
 		});
 		builder.addCase(fetched, (state, action) => {
 			if (action.payload.success) {
-				feedAdapter.removeAll(state);
 				feedAdapter.upsertMany(state, action.payload.orders);
 				state.total = action.payload.total;
 				state.totalToday = action.payload.totalToday;

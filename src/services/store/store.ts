@@ -12,11 +12,13 @@ import {
 	TypedUseSelectorHook,
 	useSelector as selectorHook,
 } from "react-redux";
-import { feedMiddleware } from "../middleware/feedMiddleware";
+import { socketMiddleware } from "../middleware/socketMiddleware";
 import feedReducers from "../reducers/feed-reducers";
 
 const { createReduxHistory, routerMiddleware, routerReducer } =
 	createReduxHistoryContext({ history: createBrowserHistory() });
+
+const baseSocketUrl = "wss://norma.nomoreparties.space";
 
 export const store = configureStore({
 	reducer: {
@@ -29,7 +31,10 @@ export const store = configureStore({
 		feed: feedReducers,
 	},
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(routerMiddleware, feedMiddleware()),
+		getDefaultMiddleware().concat(
+			routerMiddleware,
+			socketMiddleware(baseSocketUrl)
+		),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
