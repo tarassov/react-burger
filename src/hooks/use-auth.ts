@@ -1,5 +1,5 @@
 import { AsyncThunk, SerializedError, unwrapResult } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 import { IReposnse, ILoginRequest, IRegisterRequest } from "../api/types";
 import {
@@ -10,12 +10,12 @@ import {
 	token,
 	authenticate,
 } from "../services/actions/user-actions";
-import { RootState, useAppDispatch } from "../services/store/store";
+import { useAppDispatch, useAppSelector } from "../services/store/store";
 import { useStorage } from "./use-storage";
 
 export function useAuth() {
 	const dispatch = useAppDispatch();
-	const user = useSelector((store: RootState) => store.user);
+	const user = useAppSelector((store) => store.user);
 	const [savedToken, setSavedToken] = useStorage<string>("refreshToken", "");
 	const [accessToken, setAccessToken] = useStorage<string>("accessToken", "");
 	const [accessTokenExpire, setAccessTokenExpire] = useStorage<number>(

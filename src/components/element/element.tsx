@@ -1,5 +1,4 @@
 import { FC, useCallback, useRef } from "react";
-import { useDispatch } from "react-redux";
 
 import {
 	ConstructorElement,
@@ -12,6 +11,7 @@ import { remove } from "../../services/actions/elements-actions";
 import { useDrag, useDrop } from "react-dnd";
 import { IElement } from "../../services/model/types";
 import { ISubstituteProps } from "../burger-constructor/burger-constructor";
+import { useAppDispatch } from "../../services/store/store";
 
 interface IDropItem {
 	element: IElement;
@@ -22,7 +22,7 @@ const Element: FC<{
 	element: IElement;
 	onSubstitute: (args: ISubstituteProps) => void;
 }> = ({ element, onSubstitute }) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const onRemoveElement = useCallback(
 		(element) => () => {

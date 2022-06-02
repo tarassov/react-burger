@@ -1,5 +1,4 @@
 import { useCallback, useMemo, FC } from "react";
-import { useDispatch } from "react-redux";
 import { DropTargetMonitor, useDrop } from "react-dnd";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
@@ -9,7 +8,7 @@ import { add, update } from "../../services/actions/elements-actions";
 import { selectAllElements } from "../../services/adapters/elements-adapters";
 import BurgerElements from "../burger-elements/burger-elements";
 import Bun from "../bun/bun";
-import { useAppSelector } from "../../services/store/store";
+import { useAppDispatch, useAppSelector } from "../../services/store/store";
 import { IElement, IIngredient } from "../../services/model/types";
 
 export interface ISubstituteProps {
@@ -22,7 +21,7 @@ export interface ISubstituteProps {
 export const BurgerConstructor: FC<{ onPerformOrderClick: () => void }> = ({
 	onPerformOrderClick,
 }) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const elements = useAppSelector(selectAllElements);
 	const totalPrice = useAppSelector((store) => store.elements.totalPrice);

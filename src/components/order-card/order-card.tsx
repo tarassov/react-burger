@@ -1,9 +1,8 @@
 import { FC, useEffect, useMemo } from "react";
-import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import Loader from "../loader/loader";
 import styles from "./order-card.module.css";
-import { useAppSelector } from "../../services/store/store";
+import { useAppDispatch, useAppSelector } from "../../services/store/store";
 import { selectOrderById } from "../../services/adapters/feed-adapters";
 import { fetchOneOrder } from "../../services/actions/feed-actions";
 import { fetchIngredients } from "../../services/actions/ingredients-actions";
@@ -19,7 +18,7 @@ interface IGroupedIngredient extends IIngredient {
 const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 	const { number } = useParams<{ number: string }>();
 
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const order = useAppSelector((state) => selectOrderById(state, number ?? ""));
 
