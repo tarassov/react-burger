@@ -39,7 +39,6 @@ const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 	}, [order?.createdAt]);
 
 	const groupedIngredients = useMemo(() => {
-		console.log("memo");
 		const grouped: Array<IGroupedIngredient> = [];
 
 		if (order !== undefined) {
