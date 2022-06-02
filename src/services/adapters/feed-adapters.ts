@@ -29,4 +29,4 @@ export const initialState = feedAdapter.getInitialState({
 }) as IFeedState;
 
 export const { selectAll: selectAllOrders, selectById: selectOrderById } =
-	feedAdapter.getSelectors((state: RootState) => state.feed);
+	feedAdapter.getSelectors<RootState>((state) => state.feed);
