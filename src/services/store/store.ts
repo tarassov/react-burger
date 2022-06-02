@@ -13,7 +13,7 @@ import {
 	useSelector as selectorHook,
 } from "react-redux";
 import * as feed from "../actions/feed-actions";
-import { socketMiddleware } from "../middleware/socketMiddleware";
+import { socketMiddleware } from "../middleware/socket-middleware";
 import feedReducers from "../reducers/feed-reducers";
 
 const { createReduxHistory, routerMiddleware, routerReducer } =
