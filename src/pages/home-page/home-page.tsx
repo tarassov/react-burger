@@ -8,7 +8,6 @@ import styles from "./home-page.module.css";
 import Modal from "../../components/modal/modal";
 import OrderDetails from "../../components/order-details/order-details";
 
-import { useSelector } from "react-redux";
 import { fetchIngredients } from "../../services/actions/ingredients-actions";
 import { selectAllIngredients } from "../../services/adapters/ingredients-adapters";
 import { selectAllElements } from "../../services/adapters/elements-adapters";
@@ -18,16 +17,16 @@ import Loader from "../../components/loader/loader";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/use-auth";
 import { fireError } from "../../services/actions/system-actions";
-import { RootState, useAppDispatch } from "../../services/store/store";
+import { useAppDispatch, useAppSelector } from "../../services/store/store";
 import { IPostOrderRequest, IPostOrderResponse } from "../../api/types";
 import { useLocationTyped } from "../../hooks/use-location-typed";
 
 export default function HomePage() {
 	//selectors
-	const ingredients = useSelector(selectAllIngredients);
-	const elements = useSelector(selectAllElements);
-	const { orderModal, error, loading } = useSelector(
-		(store: RootState) => store.system
+	const ingredients = useAppSelector(selectAllIngredients);
+	const elements = useAppSelector(selectAllElements);
+	const { orderModal, error, loading } = useAppSelector(
+		(store) => store.system
 	);
 	const { secureDispatch } = useAuth();
 
@@ -41,11 +40,13 @@ export default function HomePage() {
 
 	//open OrderDetails as modal
 	const onPerformOrder = useCallback(() => {
+		const bun = elements.find((x) => x.type === "bun");
 		if (elements.length === 0) {
 			dispatch(fireError("Не выбраны ингредиенты"));
-		} else if (elements.find((x) => x.type === "bun") === undefined) {
+		} else if (bun === undefined) {
 			dispatch(fireError("Не выбрана булка"));
 		} else {
+			elements.push(bun);
 			secureDispatch<IPostOrderRequest, IPostOrderResponse>(postOrder, {
 				ingredients: elements.map((ingredient) => ingredient._id),
 			});
@@ -63,7 +64,7 @@ export default function HomePage() {
 	);
 
 	return (
-		<main className={styles.layout}>
+		<div className={styles.layout}>
 			<DndProvider backend={HTML5Backend}>
 				{ingredients && (
 					<BurgerIngredients onIngredientClick={onIngredientClick} />
@@ -83,6 +84,6 @@ export default function HomePage() {
 				</Modal>
 			)}
 			{loading && <Loader />}
-		</main>
+		</div>
 	);
 }

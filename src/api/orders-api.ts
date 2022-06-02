@@ -1,4 +1,5 @@
-import { post } from ".";
+import { post, get } from ".";
+import { IFeedOrder } from "../services/adapters/feed-adapters";
 import { IPostOrderRequest, IPostOrderResponse } from "./types";
 
 const elementsApi = {
@@ -7,6 +8,12 @@ const elementsApi = {
 			"orders",
 			{ ingredients: data.ingredients },
 			data.token
+		);
+	},
+
+	getOrder: (data: { number: string }) => {
+		return get<{ success: boolean; orders: Array<IFeedOrder> }>(
+			`orders\\${data.number}`
 		);
 	},
 };

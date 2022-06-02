@@ -1,8 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-//export const API_URL = "https://norma.nomoreparties.space/api/";
 axios.defaults.baseURL = "https://norma.nomoreparties.space/api/";
-//axios.defaults.headers;
 
 const checkSuccess = (response: AxiosResponse) => {
 	return response.data?.success ? response.data : Promise.reject(response.data);
@@ -28,7 +26,7 @@ export const get = <ResponseType>(
 		.get<ResponseType>(endpoint, {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: token || "",
+				Authorization: token ? `Bearer ${token}` : "",
 			},
 		})
 		.then(checkSuccess)
@@ -44,7 +42,7 @@ export const post = <RequestType, ResponseType>(
 		.post<ResponseType>(endpoint, JSON.stringify(body), {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: token || "",
+				Authorization: token ? `Bearer ${token}` : "",
 			},
 		})
 		.then(checkSuccess)
@@ -60,7 +58,7 @@ export const patch = <RequestType, ResponseType>(
 		.patch<ResponseType>(endpoint, JSON.stringify(body), {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: token || "",
+				Authorization: token ? `Bearer ${token}` : "",
 			},
 		})
 		.then(checkSuccess)

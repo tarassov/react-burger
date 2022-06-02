@@ -1,16 +1,15 @@
 import { FC, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchIngredients } from "../../services/actions/ingredients-actions";
 import { selectIngredientById } from "../../services/adapters/ingredients-adapters";
 import Loader from "../loader/loader";
 import styles from "./ingredient-details.module.css";
-import { RootState } from "../../services/store/store";
+import { useAppDispatch, useAppSelector } from "../../services/store/store";
 
 const IngredientDetails: FC<{ modal?: boolean }> = ({ modal }) => {
 	const { id } = useParams<{ id: string }>();
-	const dispatch = useDispatch();
-	const ingredient = useSelector((state: RootState) =>
+	const dispatch = useAppDispatch();
+	const ingredient = useAppSelector((state) =>
 		selectIngredientById(state, id ?? "")
 	);
 	useEffect(() => {

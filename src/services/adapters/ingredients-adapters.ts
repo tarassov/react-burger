@@ -19,4 +19,4 @@ export const initialState = ingredientsAdapter.getInitialState({
 export const {
 	selectAll: selectAllIngredients,
 	selectById: selectIngredientById,
-} = ingredientsAdapter.getSelectors((state: RootState) => state.ingredients);
+} = ingredientsAdapter.getSelectors<RootState>((state) => state.ingredients);

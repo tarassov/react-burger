@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientBlock from "../ingredient-block/ingredient-block";
-import { useSelector } from "react-redux";
 import { selectAllIngredients } from "../../services/adapters/ingredients-adapters";
-import { RootState } from "../../services/store/store";
+import { useAppSelector } from "../../services/store/store";
 import { IIngredient } from "../../services/model/types";
 
 const BurgerIngredients: FC<{
@@ -18,11 +17,9 @@ const BurgerIngredients: FC<{
 
 	const [currentTab, setCurrentTab] = React.useState("bun");
 
-	const groupedCart = useSelector(
-		(store: RootState) => store.elements.groupedCart
-	);
+	const groupedCart = useAppSelector((store) => store.elements.groupedCart);
 
-	const ingredients = useSelector(selectAllIngredients);
+	const ingredients = useAppSelector(selectAllIngredients);
 
 	const buns = useMemo(() => {
 		return ingredients.filter((i) => i.type === "bun");

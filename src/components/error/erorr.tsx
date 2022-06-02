@@ -1,8 +1,7 @@
 import styles from "./error.module.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../services/store/store";
+import { useAppSelector } from "../../services/store/store";
 function Error() {
-	const order = useSelector((store: RootState) => store.system);
+	const order = useAppSelector((store) => store.system);
 
 	return (
 		<div className={styles.container}>

@@ -1,0 +1,71 @@
+.card {
+	width: 584px;
+	border-radius: 40px;
+	background-color: #1C1C21;
+}
+
+.card :hover {
+	cursor: pointer;
+}
+
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between
+}
+
+.name,
+.status {
+	text-align: left;
+}
+
+.count {
+	padding-top: 18px;
+	position: absolute;
+	left: 18px;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	border-radius: 50%;
+}
+
+.faded {
+	opacity: 0.5;
+}
+
+.number {
+	font-size: 28px;
+}
+
+.done {
+	color: #00CCCC;
+}
+
+.ingredients {
+	position: relative;
+	width: 400px;
+	height: 64px;
+	float: left;
+	text-align: left;
+	overflow: visible;
+}
+
+.footer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.price {}
+
+.image {
+	object-fit: cover;
+	position: absolute;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	border: 2px solid transparent;
+	background:
+		linear-gradient(black, black) padding-box,
+		linear-gradient(rgb(34, 12, 95), purple) border-box;
+}

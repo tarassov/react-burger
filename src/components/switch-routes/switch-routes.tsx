@@ -18,6 +18,8 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import Loader from "../loader/loader";
 import NotFoundPage from "../../pages/not-found-page/not-found-page";
 import { useLocationTyped } from "../../hooks/use-location-typed";
+import FeedPage from "../../pages/feed-page/feed-page";
+import OrderCard from "../order-card/order-card";
 
 function SwitchRoutes() {
 	const { checkAuth, user } = useAuth();
@@ -48,7 +50,17 @@ function SwitchRoutes() {
 					<Route path="/reset-password" element={<ResetPasswordPage />} />
 				)}
 				<Route path="orders" element={<OrderHistory />} />
+				<Route path="feed" element={<FeedPage />} />
 				<Route path="/ingredients/:id" element={<IngredientDetails />} />
+				<Route path="/feed/:number" element={<OrderCard />} />
+				<Route
+					path="/profile/orders/:number"
+					element={
+						<ProtectedRoute>
+							<OrderCard />
+						</ProtectedRoute>
+					}
+				/>
 				<Route path="/" element={<HomePage />} />
 				<Route
 					path="/profile"
@@ -72,6 +84,22 @@ function SwitchRoutes() {
 						element={
 							<Modal onClose={modalClose}>
 								<IngredientDetails modal />
+							</Modal>
+						}
+					/>
+					<Route
+						path="/feed/:number"
+						element={
+							<Modal onClose={modalClose}>
+								<OrderCard modal />
+							</Modal>
+						}
+					/>
+					<Route
+						path="profile/orders/:number"
+						element={
+							<Modal onClose={modalClose}>
+								<OrderCard modal />
 							</Modal>
 						}
 					/>

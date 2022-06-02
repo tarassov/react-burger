@@ -1,10 +1,9 @@
 import done from "../../images/done.png";
 import styles from "./order-details.module.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../services/store/store";
+import { useAppSelector } from "../../services/store/store";
 
 function OrderDetails() {
-	const order = useSelector((store: RootState) => store.order);
+	const order = useAppSelector((store) => store.order);
 
 	return (
 		<div className={styles.container}>

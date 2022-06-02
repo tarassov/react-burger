@@ -8,11 +8,11 @@ import {
 
 import styles from "./forgot-password-page.module.css";
 import { forgotPassword } from "../../services/actions/user-actions";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../services/store/store";
 
 const ForgotPasswordPage: FC = () => {
 	const [email, setEmail] = useState<string>("");
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const location = useLocation();
 
 	const onChange = (e: SyntheticEvent) => {

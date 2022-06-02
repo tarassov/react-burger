@@ -3,13 +3,13 @@ import ReactDOM from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./modal.module.css";
-import { useDispatch } from "react-redux";
 import { closeModal } from "../../services/actions/system-actions";
+import { useAppDispatch } from "../../services/store/store";
 
 const modalRoot = document.getElementById("modal-root");
 
 const Modal: FC<{ onClose?: () => void }> = ({ children, onClose }) => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	useEffect(() => {
 		window.addEventListener("keydown", keyHandler);
 		return () => {

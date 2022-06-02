@@ -1,25 +1,19 @@
-import { useEffect, useState } from "react";
-
-export function useStorage(
+export function useStorage<T extends string | number>(
 	key: string,
-	initialValue: string
-): [string, (value: string) => void] {
-	const raw = window.localStorage.getItem(key);
+	initialValue: T
+): [() => T, (value: T) => void] {
+	const storedValue = (): T => {
+		if (typeof initialValue === "number") {
+			return Number(window.localStorage.getItem(key) ?? initialValue) as T;
+		} else {
+			return (window.localStorage.getItem(key) ?? initialValue) as T;
+		}
+	};
 
-	const [storedValue, setStoredValue] = useState<string>(
-		raw ? JSON.parse(raw) : initialValue
-	);
-
-	useEffect(() => {
-		const value = window.localStorage.getItem(key);
-		setStoredValue(value ? JSON.parse(value) : initialValue);
-	}, []);
-
-	const setValue = (value: string) => {
+	const setValue = (value: T) => {
 		try {
-			setStoredValue(value);
 			if (typeof window !== "undefined") {
-				window.localStorage.setItem(key, JSON.stringify(value));
+				window.localStorage.setItem(key, value.toString());
 			}
 		} catch (e) {
 			console.log(e);

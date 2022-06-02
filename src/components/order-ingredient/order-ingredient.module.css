@@ -1,0 +1,33 @@
+.container {
+	display: flex;
+	direction: row;
+	justify-content: space-between;
+}
+
+.count {
+	display: inline;
+
+}
+
+.price {
+	vertical-align: 0px;
+	padding-top: 20px;
+	margin-left: 16px;
+	margin-right: 24px;
+}
+
+.name {
+	display: inline;
+	vertical-align: 20px;
+}
+
+.image {
+	object-fit: cover;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	border: 2px solid transparent;
+	background:
+		linear-gradient(black, black) padding-box,
+		linear-gradient(rgb(34, 12, 95), purple) border-box;
+}

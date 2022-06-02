@@ -53,8 +53,8 @@ export default function ProfileEdit() {
 		return <Loader />;
 	}
 	return (
-		<div className={styles.container}>
-			<form className={styles.form} onSubmit={save} onReset={cancel}>
+		<div className={`mt-20`}>
+			<form onSubmit={save} onReset={cancel}>
 				<div className={`mt-6`}>
 					<Input
 						placeholder="Имя"

@@ -28,7 +28,7 @@ export const initialState = elementsAdapter.getInitialState({
 	maxIndex: 0,
 }) as IElementsState;
 
-const selectors = elementsAdapter.getSelectors(
-	(state: RootState) => state.elements
+const selectors = elementsAdapter.getSelectors<RootState>(
+	(state) => state.elements
 );
 export const { selectAll: selectAllElements } = selectors;
