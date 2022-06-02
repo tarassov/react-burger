@@ -19,6 +19,16 @@
 	text-align: left;
 }
 
+.count {
+	padding-top: 18px;
+	position: absolute;
+	left: 18px;
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	border-radius: 50%;
+}
+
 .number {
 	font-size: 28px;
 }
@@ -29,10 +39,10 @@
 
 .ingredients {
 	position: relative;
-	width: 420px;
-	height: 64px;
+	width: 400px;
 	float: left;
 	text-align: left;
+	overflow: visible;
 }
 
 .footer {

@@ -13,7 +13,9 @@ export interface IIngredient {
 	__v: number;
 	bun_type?: "bottom" | "top";
 }
-
+interface IGroupedIngredient extends IIngredient {
+	count: number;
+}
 export interface IElement extends IIngredient {
 	id: string;
 	sortIndex: number;

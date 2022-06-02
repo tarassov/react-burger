@@ -3,6 +3,7 @@ import { IFeedOrder } from "../../services/adapters/feed-adapters";
 import { useAppSelector } from "../../services/store/store";
 import sayDate from "../../utils/say-date";
 import Price from "../price/price";
+import { IGroupedIngredient } from "../../services/model/types";
 import styles from "./order-preview.module.css";
 
 const OrderPreview: FC<{
@@ -25,6 +26,25 @@ const OrderPreview: FC<{
 				ingredient.type === "bun" ? ingredient.price * 2 : ingredient.price;
 			return prev + price;
 		}, 0);
+	}, [order, ingredients]);
+
+	const groupedIngredients = useMemo(() => {
+		const grouped: Array<IGroupedIngredient> = [];
+
+		if (order !== undefined) {
+			order.ingredients.map((id) => {
+				const ingredient = ingredients[id];
+				if (ingredient) {
+					const found = grouped.find((x) => x._id === id);
+					if (found) {
+						found.count++;
+					} else {
+						grouped.push({ ...ingredient, count: 1 });
+					}
+				}
+			});
+		}
+		return grouped;
 	}, [order, ingredients]);
 
 	const getDate = useMemo(() => {
@@ -62,34 +82,50 @@ const OrderPreview: FC<{
 						order.status === "done" && styles.done
 					}`}
 				>
-					{statusName(order.status)} {order.status}
+					{statusName(order.status)}
 				</p>
 			)}
 			<div className={`${styles.footer} mt-6`}>
-				<div className={`${styles.ingredients} ml-6 pb-6`}>
-					{order.ingredients
-						.filter((x, index) => index < 9)
-						.map((id, index) => {
-							const ingredient = ingredients[id];
-							if (ingredient !== undefined) {
-								const left = index + 40 * index;
-								return (
+				<div
+					className={`${styles.ingredients} ml-6 pb-6`}
+					style={{
+						height: (Math.floor(groupedIngredients.length / 9) + 1) * 64,
+					}}
+				>
+					{groupedIngredients.map((ingredient, index) => {
+						if (ingredient !== undefined) {
+							const row = Math.floor(index / 8);
+							if (order.number.toString() === "16532") console.log(index);
+							const column = index - row * 8;
+							const left = column + 40 * column;
+							return (
+								<div key={index}>
+									{ingredient.count > 1 && (
+										<div
+											className={`text text_type_digits-small ${styles.count}`}
+											style={{
+												left: `${left + 18}px`,
+												top: `${row * 50}px`,
+												zIndex: order.ingredients.length - column + 1,
+											}}
+										>
+											+{ingredient.count - 1}
+										</div>
+									)}
 									<img
 										src={ingredient.image}
 										className={styles.image}
-										style={
-											index > 0
-												? {
-														left: `${left}px`,
-														zIndex: order.ingredients.length - index,
-												  }
-												: { zIndex: order.ingredients.length }
-										}
+										style={{
+											left: `${left}px`,
+											top: `${row * 50}px`,
+											zIndex: order.ingredients.length - column,
+										}}
 										key={index}
 									/>
-								);
-							}
-						})}
+								</div>
+							);
+						}
+					})}
 				</div>
 				<div className={`${styles.price} pt-4 mr-6`}>
 					<Price price={orderTotal} />

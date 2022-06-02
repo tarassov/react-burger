@@ -9,11 +9,7 @@ import { fetchIngredients } from "../../services/actions/ingredients-actions";
 import OrderIngredient from "../order-ingredient/order-ingredient";
 import sayDate from "../../utils/say-date";
 import Price from "../price/price";
-import { IIngredient } from "../../services/model/types";
-
-interface IGroupedIngredient extends IIngredient {
-	count: number;
-}
+import { IGroupedIngredient } from "../../services/model/types";
 
 const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 	const { number } = useParams<{ number: string }>();
