@@ -89,13 +89,12 @@ const OrderPreview: FC<{
 				<div
 					className={`${styles.ingredients} ml-6 pb-6`}
 					style={{
-						height: (Math.floor(groupedIngredients.length / 9) + 1) * 64,
+						height: Math.floor(groupedIngredients.length / 9) * 55 + 64,
 					}}
 				>
 					{groupedIngredients.map((ingredient, index) => {
 						if (ingredient !== undefined) {
 							const row = Math.floor(index / 8);
-							if (order.number.toString() === "16532") console.log(index);
 							const column = index - row * 8;
 							const left = column + 40 * column;
 							return (
@@ -106,7 +105,7 @@ const OrderPreview: FC<{
 											style={{
 												left: `${left + 18}px`,
 												top: `${row * 50}px`,
-												zIndex: order.ingredients.length - column + 1,
+												zIndex: order.ingredients.length - column + 1 - row,
 											}}
 										>
 											+{ingredient.count - 1}
@@ -118,7 +117,7 @@ const OrderPreview: FC<{
 										style={{
 											left: `${left}px`,
 											top: `${row * 50}px`,
-											zIndex: order.ingredients.length - column,
+											zIndex: order.ingredients.length - column - row,
 										}}
 										key={index}
 									/>
