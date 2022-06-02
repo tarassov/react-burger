@@ -5,19 +5,19 @@ import {
 import type { AnyAction, Middleware, MiddlewareAPI } from "redux";
 import { AppDispatch, RootState } from "../store/store";
 
-export type WsActions = {
+export type WsActions<T> = {
 	wsConnect: ActionCreatorWithPayload<string>;
 	wsDisconnect: ActionCreatorWithoutPayload;
 	onWsConnected: ActionCreatorWithoutPayload;
 	onWsClosing: ActionCreatorWithoutPayload;
 	onWsError: ActionCreatorWithoutPayload;
-	onWsMessage: ActionCreatorWithPayload<any>;
+	onWsMessage: ActionCreatorWithPayload<T>;
 	onWsClose: ActionCreatorWithoutPayload;
 };
 
-export const socketMiddleware = (
+export const socketMiddleware = <MessageType>(
 	baseUrl: string,
-	wsActions: WsActions
+	wsActions: WsActions<MessageType>
 ): Middleware => {
 	return (store: MiddlewareAPI<AppDispatch, RootState>) => {
 		let socket: WebSocket | null = null;
