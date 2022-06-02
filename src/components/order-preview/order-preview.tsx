@@ -6,6 +6,8 @@ import Price from "../price/price";
 import { IGroupedIngredient } from "../../services/model/types";
 import styles from "./order-preview.module.css";
 
+const MAX_ROW = 8;
+
 const OrderPreview: FC<{
 	order: IFeedOrder;
 	onOrderClick: (args: IFeedOrder) => void;
@@ -86,41 +88,43 @@ const OrderPreview: FC<{
 				</p>
 			)}
 			<div className={`${styles.footer} mt-6`}>
-				<div
-					className={`${styles.ingredients} ml-6 pb-6`}
-					style={{
-						height: Math.floor(groupedIngredients.length / 9) * 55 + 64,
-					}}
-				>
+				<div className={`${styles.ingredients} ml-6 pb-6`}>
 					{groupedIngredients.map((ingredient, index) => {
 						if (ingredient !== undefined) {
-							const row = Math.floor(index / 8);
-							const column = index - row * 8;
+							const row = Math.floor(index / MAX_ROW);
+							const column = index - row * MAX_ROW;
 							const left = column + 40 * column;
 							return (
 								<div key={index}>
-									{ingredient.count > 1 && (
-										<div
-											className={`text text_type_digits-small ${styles.count}`}
+									{index === MAX_ROW - 1 &&
+										groupedIngredients.length > MAX_ROW && (
+											<div
+												className={`text text_type_digits-small ${styles.count}`}
+												style={{
+													left: `${left + 18}px`,
+													top: `${row * 50}px`,
+													zIndex: order.ingredients.length - column + 1 - row,
+												}}
+											>
+												+{groupedIngredients.length - MAX_ROW}
+											</div>
+										)}
+									{index < MAX_ROW && (
+										<img
+											src={ingredient.image}
+											className={`${styles.image} ${
+												index === MAX_ROW - 1 &&
+												groupedIngredients.length > MAX_ROW &&
+												styles.faded
+											}`}
 											style={{
-												left: `${left + 18}px`,
+												left: `${left}px`,
 												top: `${row * 50}px`,
-												zIndex: order.ingredients.length - column + 1 - row,
+												zIndex: order.ingredients.length - column - row,
 											}}
-										>
-											+{ingredient.count - 1}
-										</div>
+											key={index}
+										/>
 									)}
-									<img
-										src={ingredient.image}
-										className={styles.image}
-										style={{
-											left: `${left}px`,
-											top: `${row * 50}px`,
-											zIndex: order.ingredients.length - column - row,
-										}}
-										key={index}
-									/>
 								</div>
 							);
 						}

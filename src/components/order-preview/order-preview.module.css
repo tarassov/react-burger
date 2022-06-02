@@ -29,6 +29,10 @@
 	border-radius: 50%;
 }
 
+.faded {
+	opacity: 0.5;
+}
+
 .number {
 	font-size: 28px;
 }
@@ -40,6 +44,7 @@
 .ingredients {
 	position: relative;
 	width: 400px;
+	height: 64px;
 	float: left;
 	text-align: left;
 	overflow: visible;

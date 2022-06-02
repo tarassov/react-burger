@@ -19,9 +19,8 @@ export const socketMiddleware = <MessageType>(
 	baseUrl: string,
 	wsActions: WsActions<MessageType>
 ): Middleware => {
+	let socket: WebSocket | null = null;
 	return (store: MiddlewareAPI<AppDispatch, RootState>) => {
-		let socket: WebSocket | null = null;
-
 		return (next) => (action: AnyAction) => {
 			const { dispatch } = store;
 
