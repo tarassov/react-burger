@@ -26,7 +26,7 @@ export const get = <ResponseType>(
 		.get<ResponseType>(endpoint, {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: token || "",
+				Authorization: `Bearer ${token}` || "",
 			},
 		})
 		.then(checkSuccess)
@@ -42,7 +42,7 @@ export const post = <RequestType, ResponseType>(
 		.post<ResponseType>(endpoint, JSON.stringify(body), {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: token || "",
+				Authorization: `Bearer ${token}` || "",
 			},
 		})
 		.then(checkSuccess)
@@ -58,7 +58,7 @@ export const patch = <RequestType, ResponseType>(
 		.patch<ResponseType>(endpoint, JSON.stringify(body), {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: token || "",
+				Authorization: `Bearer ${token}` || "",
 			},
 		})
 		.then(checkSuccess)

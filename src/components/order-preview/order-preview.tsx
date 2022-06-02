@@ -62,7 +62,7 @@ const OrderPreview: FC<{
 						order.status === "done" && styles.done
 					}`}
 				>
-					{statusName(order.status)}
+					{statusName(order.status)} {order.status}
 				</p>
 			)}
 			<div className={`${styles.footer} mt-6`}>

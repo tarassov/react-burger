@@ -18,8 +18,8 @@ export interface IUserState {
 	email: string;
 	name: string;
 	errorMessage: string | undefined;
-	accessToken: string | undefined;
-	accessTokenExpire: number;
+	// accessToken: string | undefined;
+	// accessTokenExpire: number;
 }
 
 const initialState: IUserState = {
@@ -31,8 +31,8 @@ const initialState: IUserState = {
 	email: "",
 	name: "",
 	errorMessage: "",
-	accessToken: undefined,
-	accessTokenExpire: Date.now(),
+	// accessToken: undefined,
+	// accessTokenExpire: Date.now(),
 };
 const pending = (state: IUserState) => {
 	state.pending = true;
@@ -57,8 +57,8 @@ const fulfilled = (
 	state.pendingAuthentication = false;
 	state.email = action.payload.user.email;
 	state.name = action.payload.user.name;
-	state.accessToken = action.payload.accessToken;
-	state.accessTokenExpire = Date.now() + 600000;
+	// state.accessToken = action.payload.accessToken;
+	// state.accessTokenExpire = Date.now() + 600000;
 	state.errorMessage = "";
 	state.userLoaded = true;
 };
@@ -106,10 +106,10 @@ export const userSlice = createSlice({
 			state.error = true;
 			state.pending = false;
 		});
-		builder.addCase(token.fulfilled, (state, action) => {
+		builder.addCase(token.fulfilled, (state) => {
 			state.authenticated = true;
-			state.accessToken = action.payload.accessToken;
-			state.accessTokenExpire = Date.now() + 600000;
+			// state.accessToken = action.payload.accessToken;
+			// state.accessTokenExpire = Date.now() + 600000;
 		});
 		builder.addCase(token.rejected, () => {
 			return { ...initialState, pendingAuthentication: false };

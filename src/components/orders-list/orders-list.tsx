@@ -39,7 +39,7 @@ const OrdersList: FC<{ orders: Array<IFeedOrder> }> = ({ orders }) => {
 						<OrderPreview
 							order={order}
 							onOrderClick={onClick}
-							key={order._id}
+							key={order.number}
 							showStatus={showOrdersStatus}
 						/>
 					);

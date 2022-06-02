@@ -16,7 +16,12 @@ import { useStorage } from "./use-storage";
 export function useAuth() {
 	const dispatch = useAppDispatch();
 	const user = useSelector((store: RootState) => store.user);
-	const [savedToken, setSavedToken] = useStorage("refreshToken", "");
+	const [savedToken, setSavedToken] = useStorage<string>("refreshToken", "");
+	const [accessToken, setAccessToken] = useStorage<string>("accessToken", "");
+	const [accessTokenExpire, setAccessTokenExpire] = useStorage<number>(
+		"accessTokenExpire",
+		0
+	);
 	const navigate = useNavigate();
 	const dismissErrors = () => {
 		if (user.error) dispatch(dismissErrorsAction());
@@ -27,13 +32,19 @@ export function useAuth() {
 			.then(unwrapResult)
 			.then((result) => {
 				setSavedToken(result.refreshToken);
+				if (result.accessToken) {
+					setAccessToken(result.accessToken.replace("Bearer ", ""));
+					setAccessTokenExpire(Date.now() + 600000);
+				}
 			})
 			.catch((e: SerializedError) => console.log(e));
 	};
 
 	const signOut = async () => {
+		dispatch(logout(savedToken()));
 		setSavedToken("");
-		dispatch(logout(savedToken));
+		setAccessToken("");
+		setAccessTokenExpire(0);
 	};
 
 	const register = async (credentials: IRegisterRequest) => {
@@ -60,6 +71,10 @@ export function useAuth() {
 					navigate("/login");
 				} else {
 					if (result.refreshToken) setSavedToken(result.refreshToken);
+					if (result.accessToken) {
+						setAccessToken(result.accessToken.replace("Bearer ", ""));
+						setAccessTokenExpire(Date.now() + 600000);
+					}
 					dispatch(
 						action({
 							...payload,
@@ -77,19 +92,16 @@ export function useAuth() {
 			.catch((e) => console.log(e));
 	};
 	const refreshToken = async (forceRefresh: boolean) => {
-		if (!savedToken) return { error: true };
+		if (!savedToken()) return { error: true };
+		const currentToken = accessToken();
 
-		if (
-			user.accessToken &&
-			user.accessTokenExpire > Date.now() &&
-			!forceRefresh
-		) {
+		if (accessToken() && accessTokenExpire() > Date.now() && !forceRefresh) {
 			return {
-				refreshToken: savedToken,
-				accessToken: user.accessToken,
+				refreshToken: savedToken(),
+				accessToken: currentToken,
 			};
 		} else {
-			return dispatch(token(savedToken))
+			return dispatch(token(savedToken()))
 				.then(unwrapResult)
 				.catch(() => {
 					return { error: true };
@@ -98,9 +110,9 @@ export function useAuth() {
 	};
 
 	const checkAuth = async () => {
-		if (savedToken) {
+		if (savedToken()) {
 			dispatch(authenticate(true));
-			if (!user.accessToken) {
+			if (accessToken()) {
 				refreshToken(false).then((result) => {
 					if (result.error) {
 						setSavedToken("");
@@ -108,6 +120,10 @@ export function useAuth() {
 						navigate("/login");
 					} else {
 						if (result.refreshToken) setSavedToken(result.refreshToken);
+						if (result.accessToken) {
+							setAccessToken(result.accessToken.replace("Bearer ", ""));
+							setAccessTokenExpire(Date.now() + 600000);
+						}
 					}
 				});
 			}
@@ -124,5 +140,6 @@ export function useAuth() {
 		register,
 		dismissErrors,
 		secureDispatch,
+		accessToken,
 	};
 }

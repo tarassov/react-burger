@@ -43,9 +43,9 @@ const OrderCard: FC<{ modal?: boolean }> = ({ modal }) => {
 		if (!ingredients || !order) return 0;
 		return order.ingredients.reduce((prev, curr) => {
 			const ingredient = ingredients[curr];
-			if (!ingredient) return prev;
-			const price =
-				ingredient.type === "bun" ? ingredient.price * 2 : ingredient.price;
+			//	if (!ingredien//t) return prev;
+			const price = ingredient?.price ?? 0;
+			//	ingredient.type === "bun" ? ingredient.price * 2 : ingredient.price;
 			return prev + price;
 		}, 0);
 	}, [order, ingredients]);
