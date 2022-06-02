@@ -34,7 +34,7 @@ export const socketMiddleware = (
 				}
 			}
 
-			if (wsActions.wsDisconnect === action.type) {
+			if (wsActions.wsDisconnect.match(action)) {
 				dispatch(wsActions.onWsClosing());
 				socket?.close();
 				socket = null;
@@ -42,7 +42,7 @@ export const socketMiddleware = (
 
 			if (socket) {
 				socket.onopen = () => {
-					dispatch(wsActions.onWsConnected);
+					dispatch(wsActions.onWsConnected());
 				};
 
 				socket.onerror = () => {
