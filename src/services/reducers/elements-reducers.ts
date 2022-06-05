@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { postOrder } from "../actions/orders-actions";
 import {
 	elementsAdapter,
@@ -58,13 +58,13 @@ export const elementsSlice = createSlice({
 	name: "elements",
 	initialState,
 	reducers: {
-		remove: (state, action) => {
+		remove: (state: IElementsState, action: PayloadAction<string>) => {
 			elementsAdapter.removeOne(state, action.payload);
 			state.totalPrice = countTotalPrice(state);
 			state.groupedCart = generateGroupedCart(state);
 			recreateSortIndex(state);
 		},
-		add: (state, action) => {
+		add: (state: IElementsState, action: PayloadAction<IElement>) => {
 			if (action.payload.type == "bun") {
 				if (state.entities["bun"]) {
 					state.entities["bun"] = { ...action.payload, sortIndex: 0 };
@@ -84,7 +84,7 @@ export const elementsSlice = createSlice({
 			state.totalPrice = countTotalPrice(state);
 			state.groupedCart = generateGroupedCart(state);
 		},
-		update: (state, action) => {
+		update: (state: IElementsState, action: PayloadAction<Array<IElement>>) => {
 			elementsAdapter.upsertMany(state, action.payload);
 		},
 	},

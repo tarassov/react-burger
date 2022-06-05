@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ILoginRequest, ILoginResponse } from "../../api/types";
 import {
+	AuthenticateAction,
 	get,
 	login,
 	logout,
@@ -57,8 +58,6 @@ const fulfilled = (
 	state.pendingAuthentication = false;
 	state.email = action.payload.user.email;
 	state.name = action.payload.user.name;
-	// state.accessToken = action.payload.accessToken;
-	// state.accessTokenExpire = Date.now() + 600000;
 	state.errorMessage = "";
 	state.userLoaded = true;
 };
@@ -70,11 +69,11 @@ export const userSlice = createSlice({
 		logout: () => {
 			return { ...initialState, pendingAuthentication: false };
 		},
-		authenticate: (state, action) => {
+		authenticate: (state: IUserState, action: AuthenticateAction) => {
 			state.authenticated = action.payload;
 			state.pendingAuthentication = false;
 		},
-		dismissErrors: (state) => {
+		dismissErrors: (state: IUserState) => {
 			return {
 				...initialState,
 				authenticated: state.authenticated,
@@ -108,8 +107,6 @@ export const userSlice = createSlice({
 		});
 		builder.addCase(token.fulfilled, (state) => {
 			state.authenticated = true;
-			// state.accessToken = action.payload.accessToken;
-			// state.accessTokenExpire = Date.now() + 600000;
 		});
 		builder.addCase(token.rejected, () => {
 			return { ...initialState, pendingAuthentication: false };
