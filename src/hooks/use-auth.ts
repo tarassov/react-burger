@@ -2,6 +2,7 @@ import { AsyncThunk, SerializedError, unwrapResult } from "@reduxjs/toolkit";
 
 import { useNavigate } from "react-router-dom";
 import { IReposnse, ILoginRequest, IRegisterRequest } from "../api/types";
+import { fireError } from "../services/actions/system-actions";
 import {
 	login,
 	logout,
@@ -12,6 +13,8 @@ import {
 } from "../services/actions/user-actions";
 import { useAppDispatch, useAppSelector } from "../services/store/store";
 import { useStorage } from "./use-storage";
+
+const MAX_RETRY_NUMBER = 3;
 
 export function useAuth() {
 	const dispatch = useAppDispatch();
@@ -27,16 +30,21 @@ export function useAuth() {
 		if (user.error) dispatch(dismissErrorsAction());
 	};
 
+	const saveTokens = (result: {
+		refreshToken: string;
+		accessToken: string;
+	}) => {
+		setSavedToken(result.refreshToken);
+		if (result.accessToken) {
+			setAccessToken(result.accessToken.replace("Bearer ", ""));
+			setAccessTokenExpire(Date.now() + 600000);
+		}
+	};
+
 	const signIn = async (credentials: ILoginRequest) => {
 		return dispatch(login(credentials))
 			.then(unwrapResult)
-			.then((result) => {
-				setSavedToken(result.refreshToken);
-				if (result.accessToken) {
-					setAccessToken(result.accessToken.replace("Bearer ", ""));
-					setAccessTokenExpire(Date.now() + 600000);
-				}
-			})
+			.then(saveTokens)
 			.catch((e: SerializedError) => console.log(e));
 	};
 
@@ -50,49 +58,61 @@ export function useAuth() {
 	const register = async (credentials: IRegisterRequest) => {
 		return dispatch(registerAction(credentials))
 			.then(unwrapResult)
-			.then((result) => {
-				() => {
-					setSavedToken(result.refreshToken);
-				};
-			})
+			.then(saveTokens)
 			.catch((e: SerializedError) => console.log(e.message));
 	};
 
 	const secureDispatch = async <PayloadType, T extends IReposnse>(
 		action: AsyncThunk<T, PayloadType, object>,
 		payload: PayloadType,
-		forceRefresh = false
+		forceRefresh = false,
+		retry = 0
 	) => {
 		return refreshToken(forceRefresh)
 			.then((result) => {
 				if (result.error) {
-					setSavedToken("");
+					saveTokens(result);
 					dispatch(authenticate(false));
 					navigate("/login");
 				} else {
-					if (result.refreshToken) setSavedToken(result.refreshToken);
-					if (result.accessToken) {
-						setAccessToken(result.accessToken.replace("Bearer ", ""));
-						setAccessTokenExpire(Date.now() + 600000);
-					}
+					saveTokens(result);
 					dispatch(
 						action({
 							...payload,
-							token: result.accessToken,
+							token: accessToken(),
 						})
 					)
 						.then(unwrapResult)
 						.catch((res: SerializedError) => {
-							if (res?.message === "jwt expired" && !forceRefresh) {
-								secureDispatch(action, payload, true);
+							if (
+								res?.message === "jwt expired" ||
+								res?.message === "invalid token" ||
+								res?.message === "jwt malformed" ||
+								res?.message === "invalid signature"
+							) {
+								if (retry < MAX_RETRY_NUMBER) {
+									retry++;
+									secureDispatch(action, payload, true, retry);
+								} else {
+									dispatch(fireError("Галактический сбой"));
+								}
+							} else {
+								dispatch(fireError("Галактический сбой"));
 							}
 						});
 				}
 			})
 			.catch((e) => console.log(e));
 	};
-	const refreshToken = async (forceRefresh: boolean) => {
-		if (!savedToken()) return { error: true };
+	const refreshToken = async (
+		forceRefresh: boolean
+	): Promise<{
+		error?: boolean;
+		refreshToken: string;
+		accessToken: string;
+	}> => {
+		if (!savedToken())
+			return { error: true, refreshToken: "", accessToken: "" };
 		const currentToken = accessToken();
 
 		if (accessToken() && accessTokenExpire() > Date.now() && !forceRefresh) {
@@ -104,7 +124,7 @@ export function useAuth() {
 			return dispatch(token(savedToken()))
 				.then(unwrapResult)
 				.catch(() => {
-					return { error: true };
+					return { error: true, refreshToken: "", accessToken: "" };
 				});
 		}
 	};
@@ -119,11 +139,7 @@ export function useAuth() {
 						dispatch(authenticate(false));
 						navigate("/login");
 					} else {
-						if (result.refreshToken) setSavedToken(result.refreshToken);
-						if (result.accessToken) {
-							setAccessToken(result.accessToken.replace("Bearer ", ""));
-							setAccessTokenExpire(Date.now() + 600000);
-						}
+						saveTokens(result);
 					}
 				});
 			}

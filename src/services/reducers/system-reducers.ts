@@ -1,9 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../actions/ingredients-actions";
 import { postOrder } from "../actions/orders-actions";
 import { get } from "../actions/user-actions";
 
-const initialState = {
+interface ISystemState {
+	error: boolean;
+	errorMessage: string;
+	orderModal: boolean;
+	ingredientModal: boolean;
+	loading: boolean;
+}
+
+const initialState: ISystemState = {
 	error: false,
 	errorMessage: "",
 	orderModal: false,
@@ -14,11 +22,12 @@ export const systemSlice = createSlice({
 	name: "system",
 	initialState,
 	reducers: {
-		fireError: (state, action) => {
+		fireError: (state: ISystemState, action: PayloadAction<string>) => {
 			state.error = true;
 			state.errorMessage = action.payload;
+			state.loading = false;
 		},
-		closeModal: (state) => {
+		closeModal: (state: ISystemState) => {
 			state.orderModal = false;
 			state.error = false;
 			state.ingredientModal = false;
@@ -39,11 +48,6 @@ export const systemSlice = createSlice({
 		});
 		builder.addCase(get.pending, (state) => {
 			state.loading = true;
-		});
-		builder.addCase(postOrder.rejected, (state) => {
-			state.loading = false;
-			state.error = true;
-			state.errorMessage = "Галактический сбой.";
 		});
 		builder.addCase(postOrder.fulfilled, (state) => {
 			state.orderModal = true;
