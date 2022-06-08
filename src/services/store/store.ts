@@ -40,6 +40,7 @@ export const store = configureStore({
 		user: userReducers,
 		feed: feedReducers,
 	},
+	devTools: process.env.NODE_ENV !== "production",
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(
 			routerMiddleware,

@@ -30,7 +30,8 @@
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"deploy-script": "npm run build && scp -r ./build/* deploy@burger.bonuts.ru:/home/deploy/react-burger"
 	},
 	"eslintConfig": {
 		"extends": [
