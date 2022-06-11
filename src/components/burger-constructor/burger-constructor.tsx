@@ -64,6 +64,7 @@ export const BurgerConstructor: FC<{ onPerformOrderClick: () => void }> = ({
 				<div
 					className={`${styles.elements} ${isHover && styles.onHover}`}
 					ref={dropTargerRef}
+					data-test-id={`drop-target`}
 				>
 					<Bun bun={{ ...bun, bun_type: "top" } as IElement} />
 					<BurgerElements elements={listElements} onSubstitute={onSubstitute} />

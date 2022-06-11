@@ -7,7 +7,7 @@ const Bun: FC<{ bun: IElement }> = ({ bun }) => {
 	return (
 		<>
 			{bun._id ? (
-				<div className={"pl-8"}>
+				<div className={"pl-8"} data-test-id="burger-bun-element">
 					<ConstructorElement
 						type={bun?.bun_type}
 						isLocked={true}

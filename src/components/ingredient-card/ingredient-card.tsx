@@ -28,6 +28,7 @@ const IngredientCard: FC<{
 			onClick={onClick}
 			ref={dragRef}
 			style={{ opacity }}
+			data-test-id={`ingredient`}
 		>
 			{count > 0 && (
 				<div className={styles.counter}>

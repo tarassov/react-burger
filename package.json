@@ -30,7 +30,8 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"deploy-script": "npm run build && scp -r ./build/* deploy@burger.bonuts.ru:/home/deploy/react-burger"
+		"deploy-script": "npm run build && scp -r ./build/* deploy@burger.bonuts.ru:/home/deploy/react-burger",
+		"cypress:open": "./node_modules/.bin/cypress open"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -57,9 +58,11 @@
 		"@types/redux-mock-store": "^1.0.3",
 		"@typescript-eslint/eslint-plugin": "^5.18.0",
 		"axios-mock-adapter": "^1.21.1",
+		"cypress": "^10.1.0",
 		"enzyme": "^3.11.0",
 		"eslint": "^7.32.0",
 		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-cypress": "^2.12.1",
 		"eslint-plugin-prettier": "^4.0.0",
 		"jest": "^28.1.0",
 		"prettier": "^2.6.2",
