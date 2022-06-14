@@ -28,7 +28,7 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
-		"test": "react-scripts test",
+		"test": "react-scripts test  --coverage --watchAll --verbose",
 		"eject": "react-scripts eject",
 		"deploy-script": "npm run build && scp -r ./build/* deploy@burger.bonuts.ru:/home/deploy/react-burger",
 		"cypress:open": "./node_modules/.bin/cypress open"

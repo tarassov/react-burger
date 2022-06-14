@@ -17,7 +17,6 @@ const mockEmail = "test@test.com";
 const mockName = "john smith";
 const mockPassword = "123456789abcdef";
 const loginFail = "email or password are incorrect";
-
 const mockStore = configureMockStore([thunk]);
 
 const initialState = {

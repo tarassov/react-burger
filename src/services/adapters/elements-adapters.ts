@@ -19,6 +19,7 @@ export interface IGroupedCart {
 
 export const elementsAdapter = createEntityAdapter<IElement>({
 	sortComparer: (a, b) => a.sortIndex - b.sortIndex,
+	selectId: (element) => element.id,
 });
 
 export const initialState = elementsAdapter.getInitialState({
