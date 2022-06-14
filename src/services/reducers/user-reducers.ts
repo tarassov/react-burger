@@ -19,8 +19,6 @@ export interface IUserState {
 	email: string;
 	name: string;
 	errorMessage: string | undefined;
-	// accessToken: string | undefined;
-	// accessTokenExpire: number;
 }
 
 const initialState: IUserState = {
@@ -32,8 +30,6 @@ const initialState: IUserState = {
 	email: "",
 	name: "",
 	errorMessage: "",
-	// accessToken: undefined,
-	// accessTokenExpire: Date.now(),
 };
 const pending = (state: IUserState) => {
 	state.pending = true;
@@ -88,10 +84,11 @@ export const userSlice = createSlice({
 		builder.addCase(login.fulfilled, (state, action) =>
 			fulfilled(state, action)
 		);
-		builder.addCase(login.rejected, (state, payload) => {
-			state.errorMessage = payload.error.message;
+		builder.addCase(login.rejected, (state, action) => {
+			state.errorMessage = action.error.message;
 			state.error = true;
 			state.pending = false;
+			state.pendingAuthentication = false;
 		});
 		builder.addCase(logout.fulfilled, () => {
 			return { ...initialState, pendingAuthentication: false };
@@ -100,8 +97,8 @@ export const userSlice = createSlice({
 		builder.addCase(register.fulfilled, (state, action) =>
 			fulfilled(state, action)
 		);
-		builder.addCase(register.rejected, (state, payload) => {
-			state.errorMessage = payload.error.message;
+		builder.addCase(register.rejected, (state, action) => {
+			state.errorMessage = action.error.message;
 			state.error = true;
 			state.pending = false;
 		});
