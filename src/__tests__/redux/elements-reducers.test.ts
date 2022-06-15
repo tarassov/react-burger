@@ -1,30 +1,20 @@
 import { add, remove } from "../../services/actions/elements-actions";
 import { initialState } from "../../services/adapters/elements-adapters";
+import {
+	ingredientBun,
+	ingredientMain,
+} from "../../services/model/mock-data/ingredient-mock";
 import { IIngredient } from "../../services/model/types";
 import elementsReducers from "../../services/reducers/elements-reducers";
 import { store } from "../../services/store/store";
 
 const testElement: IIngredient & { id: string } = {
-	_id: "id0000",
-	name: "test ingredient",
-	price: 1000,
-	type: "main",
-	image: "",
-	proteins: 0,
-	fat: 0,
-	carbohydrates: 0,
-	calories: 0,
-	image_mobile: "",
-	image_large: "",
-	__v: 0,
+	...ingredientMain,
 	id: "elementid", //generated id
 };
 const bunElement = {
-	...testElement,
-	type: "bun",
-	name: "bun name",
-	id: "bun",
-	_id: "elementbunid",
+	...ingredientBun,
+	id: "elementbunid",
 };
 
 const stateWithElements = {
