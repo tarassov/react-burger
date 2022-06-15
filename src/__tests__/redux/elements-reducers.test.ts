@@ -68,5 +68,5 @@ describe("redux: burger elements action and reducers tests", () => {
 		expect(newState.ids.length).toEqual(stateWithElements.ids.length - 1);
 	});
 
-	test("Should replace bun element with other bun", () => {});
+	test.todo("Should replace bun element with other bun");
 });

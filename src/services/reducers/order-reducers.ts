@@ -8,7 +8,7 @@ export interface IOrderState {
 	errorMessage: string | undefined;
 }
 
-const initialState: IOrderState = {
+export const initialState: IOrderState = {
 	orderNumber: undefined,
 	error: false,
 	posting: false,
@@ -28,8 +28,8 @@ export const orderSlice = createSlice({
 			state.posting = false;
 			state.orderNumber = action.payload.order.number;
 		});
-		builder.addCase(postOrder.rejected, (state, payload) => {
-			state.errorMessage = payload.error.message;
+		builder.addCase(postOrder.rejected, (state, action) => {
+			state.errorMessage = action.error.message;
 			state.error = true;
 			state.posting = false;
 		});
