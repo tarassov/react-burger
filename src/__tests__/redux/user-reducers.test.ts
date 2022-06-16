@@ -5,6 +5,8 @@ import {
 	login,
 	logout,
 	authenticate,
+	register,
+	update,
 } from "../../services/actions/user-actions";
 import { store } from "../../services/store/store";
 import MockAdapter from "axios-mock-adapter";
@@ -17,6 +19,7 @@ const mockEmail = "test@test.com";
 const mockName = "john smith";
 const mockPassword = "123456789abcdef";
 const loginFail = "email or password are incorrect";
+const registerFail = "register fail error";
 const mockStore = configureMockStore([thunk]);
 
 const initialState = {
@@ -87,7 +90,7 @@ describe("redux: user action and reducers tests", () => {
 			});
 	});
 
-	test("Should be correct state after login", () => {
+	test("Should have correct state after login", () => {
 		const loginAction = {
 			type: login.fulfilled.type,
 			payload: {
@@ -109,14 +112,14 @@ describe("redux: user action and reducers tests", () => {
 		});
 	});
 
-	test("Should be correct state after logout", () => {
+	test("Should have correct state after logout", () => {
 		expect(userReducers(loggedState, logout.fulfilled)).toEqual({
 			...initialState,
 			pendingAuthentication: false,
 		});
 	});
 
-	test("Should be correct state after successful authenticate", () => {
+	test("Should have correct state after successful authenticate", () => {
 		expect(userReducers(initialState, authenticate(true))).toEqual({
 			...initialState,
 			pendingAuthentication: false,
@@ -155,7 +158,7 @@ describe("redux: user action and reducers tests", () => {
 			});
 	});
 
-	test("Should be correct state after login fails", () => {
+	test("Should have correct state after login fails", () => {
 		const loginFailAction = {
 			type: login.rejected.type,
 			error: {
@@ -168,6 +171,54 @@ describe("redux: user action and reducers tests", () => {
 			pending: false,
 			pendingAuthentication: false,
 			errorMessage: loginFail,
+		});
+	});
+
+	test("Should have correct state after refister fulfileld", () => {
+		const action = {
+			type: register.fulfilled.type,
+			payload: {
+				success: true,
+				user: { name: mockName, email: mockEmail },
+				accessToken: "accessToken",
+				refresToken: "refreshToken",
+			},
+		};
+		expect(userReducers(initialState, action)).toEqual({
+			...initialState,
+			name: mockName,
+			email: mockEmail,
+			userLoaded: true,
+			pendingAuthentication: false,
+			authenticated: true,
+		});
+	});
+
+	test("Should have correct state after register fails", () => {
+		const loginFailAction = {
+			type: register.rejected.type,
+			error: {
+				message: registerFail,
+			},
+		};
+		expect(userReducers(initialState, loginFailAction)).toEqual({
+			...initialState,
+			error: true,
+			pending: false,
+			pendingAuthentication: false,
+			errorMessage: registerFail,
+		});
+	});
+
+	test("Should have correct state after user update fulfilled", () => {
+		const action = {
+			type: update.fulfilled.type,
+			payload: { user: { name: "newname", email: "newemail" } },
+		};
+		expect(userReducers(loggedState, action)).toEqual({
+			...loggedState,
+			name: "newname",
+			email: "newemail",
 		});
 	});
 });

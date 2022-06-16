@@ -26,7 +26,6 @@ export const feedSlice = createSlice({
 		});
 		builder.addCase(fetched, (state, action) => {
 			if (action.payload.success) {
-				//	feedAdapter.removeAll(state);
 				feedAdapter.setMany(state, action.payload.orders);
 				state.total = action.payload.total;
 				state.totalToday = action.payload.totalToday;
@@ -41,13 +40,11 @@ export const feedSlice = createSlice({
 		});
 
 		builder.addCase(close, (state) => {
-			feedAdapter.removeAll(state);
-			state = initialState;
+			Object.assign(state, initialState);
 		});
 
 		builder.addCase(closing, (state) => {
-			feedAdapter.removeAll(state);
-			state = initialState;
+			Object.assign(state, initialState);
 		});
 
 		builder.addCase(fetchOneOrder.fulfilled, (state, action) => {

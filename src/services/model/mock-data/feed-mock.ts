@@ -1,8 +1,8 @@
 import { IFeedOrder } from "../../adapters/feed-adapters";
 
-const orderMock1: IFeedOrder = {
+export const orderMock1: IFeedOrder = {
 	_id: "1",
-	number: 0,
+	number: 112,
 	createdAt: "",
 	ingredients: [],
 	name: "",
@@ -10,9 +10,9 @@ const orderMock1: IFeedOrder = {
 	status: "done",
 };
 
-const orderMock2: IFeedOrder = {
+export const orderMock2: IFeedOrder = {
 	_id: "2",
-	number: 0,
+	number: 113,
 	createdAt: "",
 	ingredients: [],
 	name: "",

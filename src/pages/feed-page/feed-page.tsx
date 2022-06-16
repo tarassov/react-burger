@@ -27,11 +27,18 @@ export default function FeedPage() {
 
 	return (
 		<div className={styles.layout}>
-			<div>
-				<p className="text text_type_main-medium mt-6 ml-6">Лента заказов</p>
-				<OrdersList orders={orders} />
-			</div>
-			<OrdersTotal totalToday={totalToday} total={total} orders={orders} />
+			{!connecting && (
+				<>
+					<div>
+						<p className="text text_type_main-medium mt-6 ml-6">
+							Лента заказов
+						</p>
+						<OrdersList orders={orders} />
+					</div>
+
+					<OrdersTotal totalToday={totalToday} total={total} orders={orders} />
+				</>
+			)}
 			{connecting && <Loader />}
 		</div>
 	);

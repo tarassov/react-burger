@@ -101,6 +101,7 @@ export const userSlice = createSlice({
 			state.errorMessage = action.error.message;
 			state.error = true;
 			state.pending = false;
+			state.pendingAuthentication = false;
 		});
 		builder.addCase(token.fulfilled, (state) => {
 			state.authenticated = true;

@@ -26,6 +26,8 @@ export const feedAdapter = createEntityAdapter<IFeedOrder>({
 export const initialState = feedAdapter.getInitialState({
 	total: 0,
 	totalToday: 0,
+	error: false,
+	connecting: false,
 }) as IFeedState;
 
 export const { selectAll: selectAllOrders, selectById: selectOrderById } =

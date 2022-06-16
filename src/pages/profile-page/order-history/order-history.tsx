@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Loader from "../../../components/loader/loader";
 import OrdersList from "../../../components/orders-list/orders-list";
 import { useAuth } from "../../../hooks/use-auth";
 import * as socket from "../../../services/actions/feed-actions";
@@ -11,6 +12,7 @@ export default function OrderHistory() {
 	const dispatch = useAppDispatch();
 	const { accessToken } = useAuth();
 	const orders = useAppSelector(selectAllOrders);
+	const { connecting } = useAppSelector((store) => store.feed);
 
 	useEffect(() => {
 		dispatch(fetchIngredients());
@@ -23,6 +25,7 @@ export default function OrderHistory() {
 			dispatch(socket.disconnect());
 		};
 	}, []);
+	if (connecting) return <Loader />;
 	return (
 		<div className={`${styles.layout}`}>
 			<OrdersList orders={orders} />
