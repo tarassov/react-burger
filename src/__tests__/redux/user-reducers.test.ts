@@ -7,6 +7,8 @@ import {
 	authenticate,
 	register,
 	update,
+	token,
+	get,
 } from "../../services/actions/user-actions";
 import { store } from "../../services/store/store";
 import MockAdapter from "axios-mock-adapter";
@@ -219,6 +221,32 @@ describe("redux: user action and reducers tests", () => {
 			...loggedState,
 			name: "newname",
 			email: "newemail",
+		});
+	});
+
+	test("Should have correct state after user get fulfilled", () => {
+		const action = {
+			type: get.fulfilled.type,
+			payload: { user: { name: mockName, email: mockEmail } },
+		};
+		expect(userReducers(loggedState, action)).toEqual({
+			...loggedState,
+			name: mockName,
+			email: mockEmail,
+		});
+	});
+
+	test("Should have authenticated state after token fullfiled", () => {
+		expect(userReducers(initialState, { type: token.fulfilled.type })).toEqual({
+			...initialState,
+			authenticated: true,
+		});
+	});
+
+	test("Should have authenticated state after token rejected", () => {
+		expect(userReducers(initialState, { type: token.rejected.type })).toEqual({
+			...initialState,
+			pendingAuthentication: false,
 		});
 	});
 });

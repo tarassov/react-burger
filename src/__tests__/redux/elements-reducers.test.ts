@@ -1,4 +1,4 @@
-import { add, remove } from "../../services/actions/elements-actions";
+import { add, remove, update } from "../../services/actions/elements-actions";
 import { initialState } from "../../services/adapters/elements-adapters";
 import {
 	ingredientBun,
@@ -12,17 +12,27 @@ const testElement: IIngredient & { id: string } = {
 	...ingredientMain,
 	id: "elementid", //generated id
 };
+const testElement2: IIngredient & { id: string } = {
+	...ingredientMain,
+	id: "elementid2", //generated id
+};
 const bunElement = {
 	...ingredientBun,
-	id: "elementbunid",
+	id: "bun",
+};
+
+const bunElement2 = {
+	...ingredientBun,
+	id: "bun",
 };
 
 const stateWithElements = {
 	...initialState,
-	ids: [testElement.id, "bun"],
+	ids: [testElement.id, bunElement.id],
 	entities: {
+		[bunElement.id]: { ...bunElement, sortIndex: 0 },
 		[testElement.id]: { ...testElement, sortIndex: 1 },
-		bun: { ...testElement, id: "bun", sortIndex: 0 },
+		[testElement2.id]: { ...testElement2, sortIndex: 2 },
 	},
 };
 const addAction = { type: add.type, payload: testElement };
@@ -58,5 +68,27 @@ describe("redux: burger elements action and reducers tests", () => {
 		expect(newState.ids.length).toEqual(stateWithElements.ids.length - 1);
 	});
 
-	test.todo("Should replace bun element with other bun");
+	test("Should replace bunElement1 with bunElement2", () => {
+		const addBunAction = {
+			type: add.type,
+			payload: bunElement2,
+		};
+		const newState = elementsReducers(stateWithElements, addBunAction);
+		expect(newState.ids.length).toEqual(stateWithElements.ids.length);
+		expect(newState.entities["bun"]).toEqual({ ...bunElement2, sortIndex: 0 });
+	});
+
+	test("Should update sortIndex", () => {
+		const action = {
+			type: update.type,
+			payload: [
+				{ ...testElement, sortIndex: 2 },
+				{ ...testElement2, sortIndex: 1 },
+			],
+		};
+
+		const newState = elementsReducers(stateWithElements, action);
+		expect(newState.entities[testElement.id]?.sortIndex).toEqual(2);
+		expect(newState.entities[testElement2.id]?.sortIndex).toEqual(1);
+	});
 });
