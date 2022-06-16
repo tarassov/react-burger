@@ -7,7 +7,7 @@ _Stellar burger is a nice and cozy place somewhere in the deep deep space. Here 
 
 ## DEMO: https://burger.bonuts.ru
 
-# This project uses folowwing techonology stack:
+# This project uses folowwing technology stack:
 
 ### Main stack:
 
