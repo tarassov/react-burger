@@ -28,6 +28,8 @@ const IngredientCard: FC<{
 			onClick={onClick}
 			ref={dragRef}
 			style={{ opacity }}
+			data-test-id={`ingredient`}
+			data-test-key={ingredient._id}
 		>
 			{count > 0 && (
 				<div className={styles.counter}>
@@ -40,7 +42,10 @@ const IngredientCard: FC<{
 			<div className={`mt-1 mb-1 ${styles.price}`}>
 				<Price price={ingredient.price} />
 			</div>
-			<p className={`text text_type_main-small ${styles.name}`}>
+			<p
+				className={`text text_type_main-small ${styles.name}`}
+				data-test-id={`ingredient-name`}
+			>
 				{ingredient.name}
 			</p>
 		</div>

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ILoginRequest, ILoginResponse } from "../../api/types";
 import {
+	AuthenticateAction,
 	get,
 	login,
 	logout,
@@ -18,8 +19,6 @@ export interface IUserState {
 	email: string;
 	name: string;
 	errorMessage: string | undefined;
-	// accessToken: string | undefined;
-	// accessTokenExpire: number;
 }
 
 const initialState: IUserState = {
@@ -31,8 +30,6 @@ const initialState: IUserState = {
 	email: "",
 	name: "",
 	errorMessage: "",
-	// accessToken: undefined,
-	// accessTokenExpire: Date.now(),
 };
 const pending = (state: IUserState) => {
 	state.pending = true;
@@ -57,8 +54,6 @@ const fulfilled = (
 	state.pendingAuthentication = false;
 	state.email = action.payload.user.email;
 	state.name = action.payload.user.name;
-	// state.accessToken = action.payload.accessToken;
-	// state.accessTokenExpire = Date.now() + 600000;
 	state.errorMessage = "";
 	state.userLoaded = true;
 };
@@ -70,11 +65,11 @@ export const userSlice = createSlice({
 		logout: () => {
 			return { ...initialState, pendingAuthentication: false };
 		},
-		authenticate: (state, action) => {
+		authenticate: (state: IUserState, action: AuthenticateAction) => {
 			state.authenticated = action.payload;
 			state.pendingAuthentication = false;
 		},
-		dismissErrors: (state) => {
+		dismissErrors: (state: IUserState) => {
 			return {
 				...initialState,
 				authenticated: state.authenticated,
@@ -89,10 +84,11 @@ export const userSlice = createSlice({
 		builder.addCase(login.fulfilled, (state, action) =>
 			fulfilled(state, action)
 		);
-		builder.addCase(login.rejected, (state, payload) => {
-			state.errorMessage = payload.error.message;
+		builder.addCase(login.rejected, (state, action) => {
+			state.errorMessage = action.error.message;
 			state.error = true;
 			state.pending = false;
+			state.pendingAuthentication = false;
 		});
 		builder.addCase(logout.fulfilled, () => {
 			return { ...initialState, pendingAuthentication: false };
@@ -101,15 +97,14 @@ export const userSlice = createSlice({
 		builder.addCase(register.fulfilled, (state, action) =>
 			fulfilled(state, action)
 		);
-		builder.addCase(register.rejected, (state, payload) => {
-			state.errorMessage = payload.error.message;
+		builder.addCase(register.rejected, (state, action) => {
+			state.errorMessage = action.error.message;
 			state.error = true;
 			state.pending = false;
+			state.pendingAuthentication = false;
 		});
 		builder.addCase(token.fulfilled, (state) => {
 			state.authenticated = true;
-			// state.accessToken = action.payload.accessToken;
-			// state.accessTokenExpire = Date.now() + 600000;
 		});
 		builder.addCase(token.rejected, () => {
 			return { ...initialState, pendingAuthentication: false };
@@ -137,5 +132,7 @@ export const userSlice = createSlice({
 });
 
 const userReducers = userSlice.reducer;
+
+export const userActions = userSlice.actions;
 
 export default userReducers;

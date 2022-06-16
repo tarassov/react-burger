@@ -1,9 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchIngredients } from "../actions/ingredients-actions";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { postOrder } from "../actions/orders-actions";
-import { get } from "../actions/user-actions";
 
-const initialState = {
+export interface ISystemState {
+	error: boolean;
+	errorMessage: string;
+	orderModal: boolean;
+	ingredientModal: boolean;
+	loading: boolean;
+}
+
+export const initialState: ISystemState = {
 	error: false,
 	errorMessage: "",
 	orderModal: false,
@@ -14,43 +20,26 @@ export const systemSlice = createSlice({
 	name: "system",
 	initialState,
 	reducers: {
-		fireError: (state, action) => {
+		fireError: (state: ISystemState, action: PayloadAction<string>) => {
 			state.error = true;
 			state.errorMessage = action.payload;
+			state.loading = false;
 		},
-		closeModal: (state) => {
+		closeModal: (state: ISystemState) => {
 			state.orderModal = false;
 			state.error = false;
 			state.ingredientModal = false;
 		},
+		loading: (state: ISystemState) => {
+			state.loading = true;
+		},
+		loaded: (state: ISystemState) => {
+			state.loading = false;
+		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(fetchIngredients.pending, (state) => {
-			state.loading = true;
-		});
-		builder.addCase(fetchIngredients.rejected, (state) => {
-			state.loading = false;
-		});
-		builder.addCase(fetchIngredients.fulfilled, (state) => {
-			state.loading = false;
-		});
-		builder.addCase(postOrder.pending, (state) => {
-			state.loading = true;
-		});
-		builder.addCase(get.pending, (state) => {
-			state.loading = true;
-		});
-		builder.addCase(postOrder.rejected, (state) => {
-			state.loading = false;
-			state.error = true;
-			state.errorMessage = "Галактический сбой.";
-		});
 		builder.addCase(postOrder.fulfilled, (state) => {
 			state.orderModal = true;
-			state.loading = false;
-		});
-		builder.addCase("ingredients/select", (state) => {
-			state.ingredientModal = true;
 		});
 	},
 });

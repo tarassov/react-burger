@@ -33,8 +33,12 @@ const Modal: FC<{ onClose?: () => void }> = ({ children, onClose }) => {
 		? ReactDOM.createPortal(
 				<>
 					<ModalOverlay onClick={close} />
-					<div className={styles.modal}>
-						<div className={styles.closeButton} onClick={close}>
+					<div className={styles.modal} data-test-id="modal">
+						<div
+							className={styles.closeButton}
+							onClick={close}
+							data-test-id="modal-close-button"
+						>
 							<CloseIcon type="primary" />
 						</div>
 						<div>{children}</div>

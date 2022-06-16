@@ -15,6 +15,8 @@ import {
 import userApi from "../../api/user-api";
 import { IUser } from "../model/types";
 
+export type AuthenticateAction = ReturnType<typeof authenticate>;
+
 export const login = createAsyncThunk<ILoginResponse, ILoginRequest>(
 	"user/login",
 	async (credentials) => {

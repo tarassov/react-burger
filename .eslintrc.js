@@ -10,6 +10,7 @@ module.exports = {
 		"plugin:react/recommended",
 		"plugin:prettier/recommended",
 		"plugin:@typescript-eslint/recommended",
+		"plugin:cypress/recommended",
 	],
 	parserOptions: {
 		ecmaFeatures: {
@@ -18,7 +19,7 @@ module.exports = {
 		ecmaVersion: "latest",
 		sourceType: "module",
 	},
-	plugins: ["react", "@typescript-eslint", "prettier"],
+	plugins: ["react", "@typescript-eslint", "prettier", "cypress"],
 	rules: {
 		"no-unused-vars": "off",
 		"@typescript-eslint/no-unused-vars": ["error"],

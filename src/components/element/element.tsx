@@ -78,8 +78,8 @@ const Element: FC<{
 	dragRef(dropRef(ref));
 
 	return (
-		<div style={{ opacity }} ref={ref}>
-			<div className={styles.draggable}>
+		<div style={{ opacity }} ref={ref} data-test-id="burger-element">
+			<div className={styles.draggable} data-test-id="burger-element-drag">
 				<DragIcon type="primary" />
 			</div>
 			<div className={`pl-1 ${styles.ingredient}`}>

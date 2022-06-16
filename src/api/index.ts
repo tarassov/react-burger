@@ -1,6 +1,10 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+export const BASE_URL = "https://norma.nomoreparties.space/api/";
+axios.defaults.baseURL = BASE_URL;
 
-axios.defaults.baseURL = "https://norma.nomoreparties.space/api/";
+const instance = axios.create({
+	baseURL: BASE_URL,
+});
 
 const checkSuccess = (response: AxiosResponse) => {
 	return response.data?.success ? response.data : Promise.reject(response.data);
@@ -22,7 +26,7 @@ export const get = <ResponseType>(
 	endpoint: string,
 	token?: string
 ): Promise<ResponseType> => {
-	return axios
+	return instance
 		.get<ResponseType>(endpoint, {
 			headers: {
 				"Content-Type": "application/json",
@@ -38,7 +42,7 @@ export const post = <RequestType, ResponseType>(
 	body: RequestType,
 	token?: string
 ): Promise<ResponseType> => {
-	return axios
+	return instance
 		.post<ResponseType>(endpoint, JSON.stringify(body), {
 			headers: {
 				"Content-Type": "application/json",
@@ -54,7 +58,7 @@ export const patch = <RequestType, ResponseType>(
 	body: RequestType,
 	token?: string
 ): Promise<ResponseType> => {
-	return axios
+	return instance
 		.patch<ResponseType>(endpoint, JSON.stringify(body), {
 			headers: {
 				"Content-Type": "application/json",
@@ -64,3 +68,5 @@ export const patch = <RequestType, ResponseType>(
 		.then(checkSuccess)
 		.catch(handleErrors);
 };
+
+export default instance;

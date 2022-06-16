@@ -24,8 +24,7 @@ const OrderPreview: FC<{
 		return order.ingredients.reduce((prev, curr) => {
 			const ingredient = ingredients[curr];
 			if (!ingredient) return prev;
-			const price =
-				ingredient.type === "bun" ? ingredient.price * 2 : ingredient.price;
+			const price = ingredient.price;
 			return prev + price;
 		}, 0);
 	}, [order, ingredients]);
@@ -101,7 +100,7 @@ const OrderPreview: FC<{
 												className={`text text_type_digits-small ${styles.count}`}
 												style={{
 													left: `${left + 18}px`,
-													zIndex: order.ingredients.length - column + 1,
+													zIndex: MAX_ROW - column + 1,
 												}}
 											>
 												+{groupedIngredients.length - MAX_ROW}
@@ -117,7 +116,7 @@ const OrderPreview: FC<{
 											}`}
 											style={{
 												left: `${left}px`,
-												zIndex: order.ingredients.length - column,
+												zIndex: MAX_ROW - column,
 											}}
 											key={index}
 										/>
