@@ -2,24 +2,27 @@
 
 This project was created as a part of React developer course by Yandex prakticum.
 
+The legend:
+_Stellar burger is a nice and cozy place somewhere in the deep deep space. Here you can find the most peculiar burgers ever seen_.
+
 ## DEMO: https://burger.bonuts.ru
 
-# This project tech stack:
+# This project uses folowwing techonology stack:
 
-## Mains stack:
+### Main stack:
 
-- React 17(create-react-app)
+- React 17(using create-react-app)
 - Typescript
 - Redux with @reduxjs/toolkit
 - Axios
 - React-dnd package for dragging elements [react-dnd](https://react-dnd.github.io/react-dnd/about)
 - React-router v6 [react-router](https://github.com/reactjs/react-router.git)
 
-  ### Linters:
+### Linters:
 
 - Eslint with prettier plugin
 
-  ###S Testing:
+### Testing:
 
 - Jest
 - Cypress
