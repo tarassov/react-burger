@@ -4,9 +4,9 @@ This project was created as a part of React developer course by Yandex prakticum
 
 ## DEMO: https://burger.bonuts.ru
 
-## This project tech stack:
+# This project tech stack:
 
-# Mains stack:
+## Mains stack:
 
 - React 17(create-react-app)
 - Typescript
@@ -15,11 +15,11 @@ This project was created as a part of React developer course by Yandex prakticum
 - React-dnd package for dragging elements [react-dnd](https://react-dnd.github.io/react-dnd/about)
 - React-router v6 [react-router](https://github.com/reactjs/react-router.git)
 
-  # Linters:
+  ### Linters:
 
 - Eslint with prettier plugin
 
-  # Testing:
+  ###S Testing:
 
 - Jest
 - Cypress
