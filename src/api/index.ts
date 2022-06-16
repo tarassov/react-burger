@@ -1,9 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-
-axios.defaults.baseURL = "https://norma.nomoreparties.space/api/";
+export const BASE_URL = "https://norma.nomoreparties.space/api/";
+axios.defaults.baseURL = BASE_URL;
 
 const instance = axios.create({
-	baseURL: "https://norma.nomoreparties.space/api/",
+	baseURL: BASE_URL,
 });
 
 const checkSuccess = (response: AxiosResponse) => {

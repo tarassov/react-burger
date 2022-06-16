@@ -1,3 +1,5 @@
+import { BASE_URL } from "../../src/api";
+
 const INGREDIENT_ID = "60d3b41abdacab0026a733d0";
 describe("drags ingredients", function () {
 	it("should open ingredient without modal", function () {
@@ -97,5 +99,25 @@ describe("drags ingredients", function () {
 					.should("contain.text", elText);
 			});
 	});
+
+	it("redirects to login when posting", function () {
+		cy.contains("Оформить заказ").click();
+		cy.location().should((loc) => {
+			expect(loc.pathname).to.equal(`/login`);
+		});
+	});
+	it("logins", function () {
+		cy.get("input").first().type("cap@avengers.ru");
+		cy.get("input").eq(1).type("123");
+		cy.contains("Войти").click();
+	});
+
+	// it("opens modal after successful order post", function () {
+	// 	cy.intercept("POST", `${BASE_URL}/orders`).as("postOrder");
+	// 	cy.contains("Оформить заказ").click();
+	// 	cy.wait("@postOrder");
+	// 	cy.get('[data-test-id="modal"]').should("exist");
+	// 	cy.get('[data-test-id="order-response"]').should("exist");
+	// });
 });
 export {};

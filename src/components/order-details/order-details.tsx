@@ -6,7 +6,7 @@ function OrderDetails() {
 	const order = useAppSelector((store) => store.order);
 
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} data-test-id="order-response">
 			{order.posting ? (
 				<p
 					className={`text text_type_digits-large mt-30  ${styles.title} ${styles.blink}`}
