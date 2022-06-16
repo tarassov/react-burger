@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { postOrder } from "../actions/orders-actions";
-import { get } from "../actions/user-actions";
 
-interface ISystemState {
+export interface ISystemState {
 	error: boolean;
 	errorMessage: string;
 	orderModal: boolean;
@@ -31,17 +30,14 @@ export const systemSlice = createSlice({
 			state.error = false;
 			state.ingredientModal = false;
 		},
-		loading: (state) => {
+		loading: (state: ISystemState) => {
 			state.loading = true;
 		},
-		loaded: (state) => {
+		loaded: (state: ISystemState) => {
 			state.loading = false;
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(get.pending, (state) => {
-			state.loading = true;
-		});
 		builder.addCase(postOrder.fulfilled, (state) => {
 			state.orderModal = true;
 		});

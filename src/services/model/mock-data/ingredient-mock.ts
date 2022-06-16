@@ -44,3 +44,9 @@ export const ingredientMain: IIngredient = {
 	image_large: "",
 	__v: 0,
 };
+
+export const ingredientsMockList = [
+	ingredientBun,
+	ingredientMain,
+	ingredientSauce,
+];
