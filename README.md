@@ -5,7 +5,8 @@ This project was created as a part of React developer course by Yandex prakticum
 The legend:
 _Stellar burger is a nice and cozy place somewhere in the deep deep space. Here you can find the most peculiar burgers ever seen_.
 
-## DEMO: https://burger.bonuts.ru
+## DEMO: 
+[you can find it here](https://burger.bonuts.ru){:target="_blank"} 
 
 # This project uses folowwing technology stack:
 
