@@ -29,6 +29,7 @@ const IngredientCard: FC<{
 			ref={dragRef}
 			style={{ opacity }}
 			data-test-id={`ingredient`}
+			data-test-key={ingredient._id}
 		>
 			{count > 0 && (
 				<div className={styles.counter}>
@@ -43,7 +44,7 @@ const IngredientCard: FC<{
 			</div>
 			<p
 				className={`text text_type_main-small ${styles.name}`}
-				data-test-id={`ingredientName`}
+				data-test-id={`ingredient-name`}
 			>
 				{ingredient.name}
 			</p>
