@@ -112,12 +112,12 @@ describe("drags ingredients", function () {
 		cy.contains("Войти").click();
 	});
 
-	// it("opens modal after successful order post", function () {
-	// 	cy.intercept("POST", `${BASE_URL}/orders`).as("postOrder");
-	// 	cy.contains("Оформить заказ").click();
-	// 	cy.wait("@postOrder");
-	// 	cy.get('[data-test-id="modal"]').should("exist");
-	// 	cy.get('[data-test-id="order-response"]').should("exist");
-	// });
+	it("opens modal after successful order post", function () {
+		cy.intercept("POST", `${BASE_URL}/orders`).as("postOrder");
+		cy.contains("Оформить заказ").click();
+		cy.wait("@postOrder");
+		cy.get('[data-test-id="modal"]').should("exist");
+		cy.get('[data-test-id="order-response"]').should("exist");
+	});
 });
 export {};

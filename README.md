@@ -1,30 +1,45 @@
-# Getting Started
+# What is this all about
 
 This project was created as a part of React developer course by Yandex prakticum.
-DEMO: https://burger.bonuts.ru
+
+## DEMO: https://burger.bonuts.ru
 
 ## This project tech stack:
 
-- React 17(create-react-app)
-- typescript
-- Redux with @reduxjs/toolkit
-- axios
-- react-dnd package for dragging elements
-- react-router v6
-  Linters
-- Eslint with Prettier
-  For testing
-- jest
-- cypress
+# Mains stack:
 
-# To start the project locally, run the following command
+- React 17(create-react-app)
+- Typescript
+- Redux with @reduxjs/toolkit
+- Axios
+- React-dnd package for dragging elements [react-dnd](https://react-dnd.github.io/react-dnd/about)
+- React-router v6 [react-router](https://github.com/reactjs/react-router.git)
+
+  # Linters:
+
+- Eslint with prettier plugin
+
+  # Testing:
+
+- Jest
+- Cypress
+
+# Install and run
 
 ### `npm install`
 
 ### `npm start`
 
-Available scripts for testing
+# Available scripts for testing
 
-### `npm run test`
+to run jest tests
 
-### `npm cypress:open`
+### `npm test`
+
+to run end to end tests using cypress
+
+### `npm run cypress`
+
+# Deployment
+
+### `npm run deploy`
