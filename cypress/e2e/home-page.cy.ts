@@ -1,6 +1,5 @@
 describe("drags ingredients", function () {
 	beforeEach(() => {
-		// reset and seed the database prior to every test
 		cy.exec("npm start");
 	});
 
@@ -19,19 +18,47 @@ describe("drags ingredients", function () {
 	});
 
 	it("drags ingredients to constructor area", function () {
-		cy.get('[data-test-id="ingredient"]').first().trigger("dragstart");
-		cy.get('[data-test-id="drop-target"]').trigger("drop");
-		cy.get('[data-test-id="drop-target"]').trigger("dragend");
+		cy.get('[data-test-id="ingredient"]')
+			.contains("Краторная булка")
+			.trigger("dragstart");
+		cy.get('[data-test-id="drop-target"]').trigger("drop").trigger("dragend");
 
-		cy.get('[data-test-id="ingredient"]').eq(2).trigger("dragstart");
-		cy.get('[data-test-id="drop-target"]').trigger("drop");
-		cy.get('[data-test-id="drop-target"]').trigger("dragend");
+		cy.get('[data-test-id="ingredient"]')
+			.contains("Соус Spicy-X")
+			.trigger("dragstart");
+		cy.get('[data-test-id="drop-target"]').trigger("drop").trigger("dragend");
 
-		cy.get('[data-test-id="ingredient"]').last().trigger("dragstart");
-		cy.get('[data-test-id="drop-target"]').trigger("drop");
-		cy.get('[data-test-id="drop-target"]').trigger("dragend");
+		cy.get('[data-test-id="ingredient"]')
+			.contains("Сыр с астероидной плесенью")
+			.trigger("dragstart");
+		cy.get('[data-test-id="drop-target"]').trigger("drop").trigger("dragend");
 
+		cy.get('[data-test-id="burger-element"]')
+			.contains("Соус Spicy-X")
+			.should("exist");
+		cy.get('[data-test-id="burger-element"]')
+			.contains("Сыр с астероидной плесенью")
+			.should("exist");
 		cy.get('[data-test-id="burger-element"]').should("have.length", 2);
 		cy.get('[data-test-id="burger-bun-element"]').should("have.length", 2);
 	});
+
+	it("reorders burger elements by drgaging the last one up", function () {
+		cy.get('[data-test-id="burger-element"]')
+			.contains("Сыр с астероидной плесенью")
+			.within((list) => {
+				const elText = list.text;
+			});
+		// 	cy.get('[data-test-id="burger-element-drag"]')
+		// 	.trigger("dragstart");)
+		// cy.get('[data-test-id="burger-element"]')
+		// 	.contains("Соус Spicy-X90")
+		// 	.trigger("drop")
+		// 	.trigger("dragend");
+
+		// cy.get('[data-test-id="burger-element"]')
+		// 	.last()
+		// 	.should("contain.text", "Соус Spicy-X90");
+	});
 });
+export {};

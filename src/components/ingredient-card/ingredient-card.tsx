@@ -41,7 +41,10 @@ const IngredientCard: FC<{
 			<div className={`mt-1 mb-1 ${styles.price}`}>
 				<Price price={ingredient.price} />
 			</div>
-			<p className={`text text_type_main-small ${styles.name}`}>
+			<p
+				className={`text text_type_main-small ${styles.name}`}
+				data-test-id={`ingredientName`}
+			>
 				{ingredient.name}
 			</p>
 		</div>

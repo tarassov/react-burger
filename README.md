@@ -23,6 +23,8 @@ DEMO: https://burger.bonuts.ru
 
 ### `npm start`
 
-To run tests
+Available scripts for testing
 
 ### `npm run test`
+
+### `npm cypress:open`
