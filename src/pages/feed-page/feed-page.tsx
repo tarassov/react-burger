@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 import Loader from "../../components/loader/loader";
 import OrdersList from "../../components/orders-list/orders-list";
 import OrdersTotal from "../../components/orders-totals/orders-totals";
@@ -26,7 +27,13 @@ export default function FeedPage() {
 	}, []);
 
 	return (
-		<div className={styles.layout}>
+		<motion.div
+			className={styles.layout}
+			animate={{
+				opacity: [0, 1],
+			}}
+			transition={{ duration: 2, repeat: 1 }}
+		>
 			{!connecting && (
 				<>
 					<div>
@@ -40,6 +47,6 @@ export default function FeedPage() {
 				</>
 			)}
 			{connecting && <Loader />}
-		</div>
+		</motion.div>
 	);
 }

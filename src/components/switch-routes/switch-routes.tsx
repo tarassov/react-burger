@@ -1,4 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import {
 	LoginPage,
 	ProfilePage,
@@ -42,40 +43,42 @@ function SwitchRoutes() {
 	}
 	return (
 		<>
-			<Routes location={background || location}>
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/register" element={<RegisterPage />} />
-				<Route path="/forgot-password" element={<ForgotPasswordPage />} />
-				{from === "/forgot-password" && (
-					<Route path="/reset-password" element={<ResetPasswordPage />} />
-				)}
-				<Route path="orders" element={<OrderHistory />} />
-				<Route path="feed" element={<FeedPage />} />
-				<Route path="/ingredients/:id" element={<IngredientDetails />} />
-				<Route path="/feed/:number" element={<OrderCard />} />
-				<Route
-					path="/profile/orders/:number"
-					element={
-						<ProtectedRoute>
-							<OrderCard />
-						</ProtectedRoute>
-					}
-				/>
-				<Route path="/" element={<HomePage />} />
-				<Route
-					path="/profile"
-					element={
-						<ProtectedRoute>
-							<ProfilePage />
-						</ProtectedRoute>
-					}
-				>
-					<Route path="" element={<ProfileEdit />} />
+			<AnimatePresence exitBeforeEnter initial={true}>
+				<Routes location={background || location}>
+					<Route path="/login" element={<LoginPage />} />
+					<Route path="/register" element={<RegisterPage />} />
+					<Route path="/forgot-password" element={<ForgotPasswordPage />} />
+					{from === "/forgot-password" && (
+						<Route path="/reset-password" element={<ResetPasswordPage />} />
+					)}
 					<Route path="orders" element={<OrderHistory />} />
-					<Route path="logout" element={<Logout />} />
-				</Route>
-				<Route path="*" element={<NotFoundPage />} />
-			</Routes>
+					<Route path="feed" element={<FeedPage />} />
+					<Route path="/ingredients/:id" element={<IngredientDetails />} />
+					<Route path="/feed/:number" element={<OrderCard />} />
+					<Route
+						path="/profile/orders/:number"
+						element={
+							<ProtectedRoute>
+								<OrderCard />
+							</ProtectedRoute>
+						}
+					/>
+					<Route path="/" element={<HomePage />} />
+					<Route
+						path="/profile"
+						element={
+							<ProtectedRoute>
+								<ProfilePage />
+							</ProtectedRoute>
+						}
+					>
+						<Route path="" element={<ProfileEdit />} />
+						<Route path="orders" element={<OrderHistory />} />
+						<Route path="logout" element={<Logout />} />
+					</Route>
+					<Route path="*" element={<NotFoundPage />} />
+				</Routes>
+			</AnimatePresence>
 			{/* Show the modal when a `backgroundLocation` is set */}
 			{background && (
 				<Routes>
