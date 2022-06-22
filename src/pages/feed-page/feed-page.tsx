@@ -32,7 +32,7 @@ export default function FeedPage() {
 			animate={{
 				opacity: [0, 1],
 			}}
-			transition={{ duration: 2, repeat: 1 }}
+			transition={{ duration: 2 }}
 		>
 			{!connecting && (
 				<>
