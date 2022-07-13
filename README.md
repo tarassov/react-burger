@@ -22,6 +22,10 @@ _Stellar burger is a nice and cozy place somewhere in the deep deep space. Here 
 - React-dnd package for dragging elements [react-dnd](https://react-dnd.github.io/react-dnd/about)
 - React-router v6 [react-router](https://github.com/reactjs/react-router.git)
 
+### What's next:
+    - make it adaptive to mobile devices
+    - add some fancy animation
+
 ### Linters:
 
 - Eslint with prettier plugin
